@@ -1,35 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Header from './components/Header';
+import './css/App.css';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <p>
-          Welcome to Gala.
-        </p>
-        <br /> <br /> <br />
-        <div>
-          <button>
-            Login
-          </button>
-        </div>
-        <div>
-          <button>
-            Create Account
-          </button>
-        </div>
-        {/* <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-      </header>
-    </div>
+    <React.Fragment>
+      <Header />
+    </React.Fragment>
+    
   );
 }
 
