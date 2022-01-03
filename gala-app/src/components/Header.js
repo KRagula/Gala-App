@@ -6,8 +6,17 @@ function Header() {
     <React.Fragment>
       <div className="Header-Area">
         <div className="Header-Left-Area">
-        <div className="Gala-Logo">
+          <div className="Gala-Logo">
             Gala
+          </div>
+          <div className="Header-Left-Widget">
+            Safety
+          </div>
+          <div className="Header-Left-Widget">
+            About
+          </div>
+          <div className="Header-Left-Widget">
+            Contact
           </div>
         </div>
         <div className="Header-Right-Area">
