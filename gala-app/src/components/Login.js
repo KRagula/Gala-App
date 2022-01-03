@@ -7,26 +7,26 @@ function Login() {
   return (
     <React.Fragment>
       <Header />
-      <div class="Login-Form-Area">
+      <div class="LoginFormArea">
         <div>
-          <div class="Login-Title-Area">
-            <div class="Login-Title">
+          <div class="LoginTitleArea">
+            <div class="LoginTitle">
               Welcome back.
             </div>
           </div>
-          <div class="Input-Area">
-            <div class="Input-Title">
+          <div class="LoginInputArea">
+            <div class="LoginInputTitle">
               Email Address
             </div>
-            <input type="text" class="Input" required placeholder="robin@gmail.com" />
+            <input type="text" class="LoginInput" required placeholder="robin@gmail.com" />
           </div>
-          <div class="Input-Area">
-            <div class="Input-Title">
+          <div class="LoginInputArea">
+            <div class="LoginInputTitle">
               Password
             </div>
-            <input type="text" class="Input" required placeholder="Password" />
+            <input type="text" class="LoginInput" required placeholder="Password" />
           </div>
-          <div class="Submit-Login-Button">
+          <div class="LoginSubmitButton">
             Log In
           </div>
         </div>

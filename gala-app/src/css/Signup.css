@@ -1,33 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
 
-.Signup-Form-Area {
+.SignupFormArea {
   margin: 3% 30% 0 30%;
   padding-bottom: 3%;
   border-radius: 5%;
   background-color: rgb(245, 245, 245);
 }
 
-.Signup-Title-Area {
+.SignupTitleArea {
   display: flex;
   justify-content: center;
 }
 
-.Signup-Title {
+.SignupTitle {
   margin-top: 3%;
   font-family: 'Caveat', cursive;
   font-size: 3em;
   color: maroon;
 }
 
-.Input-Area {
-  margin: 8% 15% 0 15%;
+.SignupInputArea {
+  margin: 5% 15% 0 15%;
 }
 
-.Input-Title {
+.SignupInputTitle {
   font-size: 1.3em;
 }
 
-.Input {
+.SignupInput {
   margin-top: 3%;
   padding: 10px;
   border-radius: 5px;
@@ -37,7 +37,7 @@
   background-color: white;
 }
 
-.Submit-Signup-Button {
+.SignupSubmitButton {
   margin: auto;
   margin-top: 8%;
   font-family: 'Roboto', sans-serif;
@@ -50,7 +50,7 @@
   background-color: rgb(0, 129, 112);
 }
 
-.Submit-Signup-Button:hover {
+.SignupSubmitButton:hover {
   transition-duration: 0.4s;
   background-color: rgb(0, 94, 81);
 }

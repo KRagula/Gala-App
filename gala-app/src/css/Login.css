@@ -1,33 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
 
-.Login-Form-Area {
+.LoginFormArea {
   margin: 3% 30% 0 30%;
   padding-bottom: 3%;
   border-radius: 5%;
   background-color: rgb(245, 245, 245);
 }
 
-.Login-Title-Area {
+.LoginTitleArea {
   display: flex;
   justify-content: center;
 }
 
-.Login-Title {
+.LoginTitle {
   margin-top: 3%;
   font-family: 'Caveat', cursive;
   font-size: 3em;
   color: maroon;
 }
 
-.Input-Area {
+.LoginInputArea {
   margin: 8% 15% 0 15%;
 }
 
-.Input-Title {
+.LoginInputTitle {
   font-size: 1.3em;
 }
 
-.Input {
+.LoginInput {
   margin-top: 3%;
   padding: 10px;
   border-radius: 5px;
@@ -37,7 +37,7 @@
   background-color: white;
 }
 
-.Submit-Login-Button {
+.LoginSubmitButton {
   margin: auto;
   margin-top: 8%;
   font-family: 'Roboto', sans-serif;
@@ -50,7 +50,7 @@
   background-color: rgb(110, 0, 153);
 }
 
-.Submit-Login-Button:hover {
+.LoginSubmitButton:hover {
   transition-duration: 0.4s;
   background-color: rgb(84, 0, 117);
 }

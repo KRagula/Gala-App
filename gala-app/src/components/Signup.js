@@ -7,26 +7,38 @@ function Signup() {
   return (
     <React.Fragment>
       <Header />
-      <div class="Signup-Form-Area">
+      <div class="SignupFormArea">
         <div>
-          <div class="Signup-Title-Area">
-            <div class="Signup-Title">
+          <div class="SignupTitleArea">
+            <div class="SignupTitle">
               Enter Gala.
             </div>
           </div>
-          <div class="Input-Area">
-            <div class="Input-Title">
+          <div class="SignupInputArea">
+            <div class="SignupInputTitle">
+              First Name
+            </div>
+            <input type="text" class="SignupInput" required placeholder="Robin" />
+          </div>
+          <div class="SignupInputArea">
+            <div class="SignupInputTitle">
+              Last Name
+            </div>
+            <input type="text" class="SignupInput" required placeholder="Tan" />
+          </div>
+          <div class="SignupInputArea">
+            <div class="SignupInputTitle">
               Email Address
             </div>
-            <input type="text" class="Input" required placeholder="robin@gmail.com" />
+            <input type="text" class="SignupInput" required placeholder="robin@gmail.com" />
           </div>
-          <div class="Input-Area">
-            <div class="Input-Title">
+          <div class="SignupInputArea">
+            <div class="SignupInputTitle">
               Password
             </div>
-            <input type="text" class="Input" required placeholder="Password" />
+            <input type="text" class="SignupInput" required placeholder="Password" />
           </div>
-          <div class="Submit-Signup-Button">
+          <div class="SignupSubmitButton">
             Sign Up
           </div>
         </div>

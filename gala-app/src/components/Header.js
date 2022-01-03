@@ -5,31 +5,31 @@ import '../css/Header.css';
 function Header() {
   return (
     <React.Fragment>
-      <div className="Header-Area">
-        <div className="Header-Left-Area">
+      <div className="HeaderArea">
+        <div className="HeaderLeftArea">
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <div className="Gala-Logo">
+            <div className="GalaLogo">
               Gala
             </div>
           </Link>
-          <div className="Header-Left-Widget">
+          <div className="HeaderLeftWidget">
             Safety
           </div>
-          <div className="Header-Left-Widget">
+          <div className="HeaderLeftWidget">
             About
           </div>
-          <div className="Header-Left-Widget">
+          <div className="HeaderLeftWidget">
             Contact
           </div>
         </div>
-        <div className="Header-Right-Area">
+        <div className="HeaderRightArea">
           <Link to="/signup" style={{ textDecoration: 'none' }}>
-            <div className="Signup-Button">
+            <div className="SignupButton">
               Sign Up
             </div>
           </Link>
           <Link to="/login" style={{ textDecoration: 'none' }}>
-            <div className="Login-Button">
+            <div className="LoginButton">
               Login
             </div>
           </Link>

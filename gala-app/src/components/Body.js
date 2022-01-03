@@ -21,7 +21,7 @@ function Body() {
   var timeline = [];
   timeline.push(
       {
-          targets: "#Body-Main-Text",
+          targets: "#BodyMainText",
           delay: 0,
           duration: 2000,
           opacity: 100,
@@ -29,7 +29,7 @@ function Body() {
       })
   timeline.push(
       {
-          targets: "#Create-Account-Button",
+          targets: "#CreateAccountButton",
           delay: 0,
           duration: 2000,
           opacity: 100,
@@ -42,7 +42,7 @@ function Body() {
     for (var j = 1; j <= NUM_SUBTEXTS; j++) {
       timeline.push(
         {
-            targets: "#Body-Subtext-" + j,
+            targets: "#BodySubtext-" + j,
             delay: 0,
             duration: 2000,
             opacity: 100,
@@ -51,7 +51,7 @@ function Body() {
         })
       timeline.push(
         {
-            targets: "#Body-Subtext-" + j,
+            targets: "#BodySubtext-" + j,
             delay: 0,
             duration: 1000,
             opacity: 0,
@@ -64,20 +64,20 @@ function Body() {
 
   return (
     <React.Fragment>
-      <div className="Body-Main-Text" id="Body-Main-Text">
-        Dive In
+      <div className="BodyMainText" id="BodyMainText">
+        Your invitation is here
       </div>
-      <div className="Body-Subtext" id="Body-Subtext-1">
+      <div className="BodySubtext" id="BodySubtext-1">
         Meet a celebrity
       </div>
-      <div className="Body-Subtext" id="Body-Subtext-2">
+      <div className="BodySubtext" id="BodySubtext-2">
         Skydive with a new friend
       </div>
-      <div className="Body-Subtext" id="Body-Subtext-3">
+      <div className="BodySubtext" id="BodySubtext-3">
         Attend a concert
       </div>
       <Link to="/signup" style={{ textDecoration: 'none' }}>
-        <div className="Create-Account-Button" id="Create-Account-Button">
+        <div className="CreateAccountButton" id="CreateAccountButton">
           Create Account
         </div>
       </Link>
