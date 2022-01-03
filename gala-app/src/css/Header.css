@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+.Header-Area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(211, 211, 211);
+}
+
+.Header-Left-Area {
+    margin: auto;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.Header-Right-Area {
+    margin: auto;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Gala-Logo {
+    font-family: 'Caveat', cursive;
+    font-size: 4em;
+    color: #61165d;
+}
+
+.Signup-Button {
+    margin-right: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 1% 1% 1% 1%;
+    padding: 10px;
+    background-color: rgb(141, 115, 212);
+}
+
+.Signup-Button:hover {
+    transition-duration: 0.4s;
+    background-color: rgb(109, 89, 165);
+}
+
+.Login-Button {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    color: #7a7a7a;
+    border-radius: 8px;
+    width: 60px;
+    padding: 10px;
+    text-align: center;
+    background-color: rgb(230, 230, 230);
+}
+
+.Login-Button:hover {
+    transition-duration: 0.4s;
+    background-color: #D1D1D1;
+}
+
+.Header-Left-Widget {
+    margin: auto;
+    margin-left: 40px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    color: #380058;
+}
+
+.Header-Left-Widget:hover {
+    transition-duration: 0.2s;
+    font-weight: bold;
+}
