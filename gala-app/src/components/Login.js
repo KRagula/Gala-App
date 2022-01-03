@@ -1,17 +1,17 @@
 import React from 'react';
-import Header from '../components/Header';
-import '../css/Signup.css';
+import Header from './Header';
+import '../css/Login.css';
 
 
-function Signup() {
+function Login() {
   return (
     <React.Fragment>
       <Header />
-      <div class="Signup-Form-Area">
+      <div class="Login-Form-Area">
         <div>
-          <div class="Signup-Title-Area">
-            <div class="Signup-Title">
-              Enter Gala.
+          <div class="Login-Title-Area">
+            <div class="Login-Title">
+              Welcome back.
             </div>
           </div>
           <div class="Input-Area">
@@ -26,8 +26,8 @@ function Signup() {
             </div>
             <input type="text" class="Input" required placeholder="Password" />
           </div>
-          <div class="Submit-Signup-Button">
-            Sign Up
+          <div class="Submit-Login-Button">
+            Log In
           </div>
         </div>
       </div>
@@ -35,4 +35,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;
