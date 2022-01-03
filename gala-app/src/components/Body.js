@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
-import '../css/Body.css';
+import { Link } from 'react-router-dom';
 import ReactAnime from 'react-animejs'
-import anime from 'animejs/lib/anime.es.js'
+import '../css/Body.css';
 
 const { Anime } = ReactAnime;
 
@@ -76,9 +76,11 @@ function Body() {
       <div className="Body-Subtext" id="Body-Subtext-3">
         Attend a concert
       </div>
-      <div className="Create-Account-Button" id="Create-Account-Button">
-        Create Account
-      </div>
+      <Link to="/signup" style={{ textDecoration: 'none' }}>
+        <div className="Create-Account-Button" id="Create-Account-Button">
+          Create Account
+        </div>
+      </Link>
       <Anime initial={timeline}
              control={control}
              setMeta={setMeta}

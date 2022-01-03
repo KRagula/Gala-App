@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../css/Header.css';
 
 function Header() {
@@ -6,9 +7,11 @@ function Header() {
     <React.Fragment>
       <div className="Header-Area">
         <div className="Header-Left-Area">
-          <div className="Gala-Logo">
-            Gala
-          </div>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <div className="Gala-Logo">
+              Gala
+            </div>
+          </Link>
           <div className="Header-Left-Widget">
             Safety
           </div>
@@ -20,12 +23,16 @@ function Header() {
           </div>
         </div>
         <div className="Header-Right-Area">
-          <div className="Signup-Button">
-            Sign Up
-          </div>
-          <div className="Login-Button">
-            Login
-          </div>
+          <Link to="/signup" style={{ textDecoration: 'none' }}>
+            <div className="Signup-Button">
+              Sign Up
+            </div>
+          </Link>
+          <Link to="/login" style={{ textDecoration: 'none' }}>
+            <div className="Login-Button">
+              Login
+            </div>
+          </Link>
         </div>
       </div>
     </React.Fragment>
