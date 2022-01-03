@@ -23,7 +23,7 @@ function Body() {
       {
           targets: "#Body-Main-Text",
           delay: 0,
-          duration: 1000,
+          duration: 2000,
           opacity: 100,
           easing: 'easeInOutExpo',
       })
@@ -31,9 +31,9 @@ function Body() {
       {
           targets: "#Create-Account-Button",
           delay: 0,
-          duration: 3000,
+          duration: 2000,
           opacity: 100,
-          easing: 'easeInOutSine',
+          easing: 'easeInOutExpo',
       })
 
   const LOOP_ITERATIONS = 10;
