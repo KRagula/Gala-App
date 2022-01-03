@@ -20,6 +20,22 @@ function Body() {
   // timeline
   var timeline = [];
   timeline.push(
+    {
+        targets: "#InvitationRectangle",
+        delay: 0,
+        duration: 100,
+        opacity: 100,
+        height: 10,
+    })
+  timeline.push(
+    {
+        targets: "#InvitationTriangle",
+        delay: 0,
+        duration: 1000,
+        opacity: 100,
+        height: 300,
+    })
+  timeline.push(
       {
           targets: "#BodyMainText",
           delay: 0,
@@ -64,32 +80,39 @@ function Body() {
 
   return (
     <React.Fragment>
-      <div className="BodyMainText" id="BodyMainText">
-        Your invitation is here
-      </div>
-      <div className="BodySubtext" id="BodySubtext-1">
-        Meet a celebrity
-      </div>
-      <div className="BodySubtext" id="BodySubtext-2">
-        Skydive with a new friend
-      </div>
-      <div className="BodySubtext" id="BodySubtext-3">
-        Attend a concert
-      </div>
-      <Link to="/signup" style={{ textDecoration: 'none' }}>
-        <div className="CreateAccountButton" id="CreateAccountButton">
-          Create Account
+      <div className="BodyArea">
+      <div className="InvitationRectangle" id="InvitationRectangle"></div>
+        <div className="InvitationTriangle" id="InvitationTriangle"></div>
+        <div className="BodyMainText" id="BodyMainText">
+          Your invitation is here
         </div>
-      </Link>
-      <Anime initial={timeline}
-             control={control}
-             setMeta={setMeta}
-             animeConfig={{
-                autoplay: true,
-                duration: 1500,
-                easing: "easeInOutSine"
-             }}>
+        <div className="BodySubtext" id="BodySubtext-1">
+          Meet a celebrity
+        </div>
+        <div className="BodySubtext" id="BodySubtext-2">
+          Skydive with a new friend
+        </div>
+        <div className="BodySubtext" id="BodySubtext-3">
+          Attend a concert
+        </div>
+        <div className="CreateAccountButton" id="CreateAccountButton">
+          <Link to="/signup" style={{ textDecoration: 'none' }}>
+            <div className="CreateAccountButtonArea">
+              Create Account
+            </div>
+          </Link>
+        </div>
+        
+        <Anime initial={timeline}
+              control={control}
+              setMeta={setMeta}
+              animeConfig={{
+                  autoplay: true,
+                  duration: 1500,
+                  easing: "easeInOutSine"
+              }}>
         </Anime>
+      </div>
     </React.Fragment>
     
   );

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from "react";
 import Header from '../components/Header';
 import '../css/Signup.css';
 
 
 function Signup() {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   return (
     <React.Fragment>
       <Header />
@@ -37,6 +39,20 @@ function Signup() {
               Password
             </div>
             <input type="text" class="SignupInput" required placeholder="Password" />
+          </div>
+          <div class="SignupInputArea">
+            <div class="SignupInputTitle">
+              Profile Picture
+            </div>
+            <input type="file" class="SignupInput" required onChange={(event) => {
+              setSelectedImage(event.target.files[0]);
+            }} />
+            {selectedImage && (
+              <img className="SignupProfilePicture"
+                alt="No Image Found"
+                src={URL.createObjectURL(selectedImage)}
+              />
+            )}
           </div>
           <div class="SignupSubmitButton">
             Sign Up

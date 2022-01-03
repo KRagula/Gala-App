@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap');
 
+.BodyArea {
+    background-color: rgba(255, 225, 187, 0.527);
+    height: 750px;
+}
+
 .BodyMainText {
-    margin-top: 15%;
+    margin-top: 5%;
     text-align: center;
     font-family: 'Nanum Gothic', sans-serif;
     font-size: 3em;
@@ -14,10 +19,8 @@
     margin-top: 50px;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2em;
-    color: #ffffff;
     border-radius: 8px;
     width: 180px;
-    padding: 10px;
     text-align: center;
     background-color: rgb(0, 129, 112);
     opacity: 0; /* for animation */
@@ -26,6 +29,11 @@
 .CreateAccountButton:hover {
     transition-duration: 0.4s;
     background-color: rgb(0, 94, 81);
+}
+
+.CreateAccountButtonArea {
+    padding: 10px;
+    color: #ffffff;
 }
 
 .BodySubtext {
@@ -40,4 +48,21 @@
     font-size: 1.2em;
     color: rgb(151, 151, 151);
     opacity: 0;
+}
+
+.InvitationRectangle {
+    width: 100%;
+    height: 0; /* for animation */
+    background-color: rgba(255, 205, 164, 0.527);
+}
+
+.InvitationTriangle {
+    width: 100%;
+    height: 0; /* for animation */
+    background-image:
+        linear-gradient(to top left, transparent 50%, rgba(255, 205, 164, 0.527) 0),
+        linear-gradient(to bottom left, rgba(255, 205, 164, 0.527) 50%, transparent 0);
+    background-size: 50% 100%;
+    background-repeat: no-repeat;
+    background-position: right, left;
 }
