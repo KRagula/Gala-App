@@ -1,15 +1,39 @@
 import React, { useState } from "react";
+import ReactAnime from 'react-animejs'
 import Header from '../components/Header';
 import '../css/Signup.css';
 
+const { Anime } = ReactAnime;
 
 function Signup() {
   const [selectedImage, setSelectedImage] = useState(null);
 
+  // controller state
+  const [control, setControl] = useState(null);
+
+  // meta state
+  const [meta, setMeta] = useState({
+      control: control,
+      progress: 100,
+      currentTime: 0,
+      duration: 0
+  });
+
+  // timeline
+  var timeline = [];
+  timeline.push(
+    {
+        targets: "#SignupFormArea",
+        delay: 10,
+        duration: 3000,
+        opacity: 100,
+        easing: 'easeInOutSine',
+    })
+
   return (
     <React.Fragment>
       <Header />
-      <div class="SignupFormArea">
+      <div class="SignupFormArea" id="SignupFormArea">
         <div>
           <div class="SignupTitleArea">
             <div class="SignupTitle">
@@ -59,6 +83,15 @@ function Signup() {
           </div>
         </div>
       </div>
+      <Anime initial={timeline}
+              control={control}
+              setMeta={setMeta}
+              animeConfig={{
+                  autoplay: true,
+                  duration: 4000,
+                  easing: "easeInOutSine"
+              }}>
+        </Anime>
     </React.Fragment>
   );
 }
