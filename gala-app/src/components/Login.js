@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ReactAnime from 'react-animejs'
+import { Link } from 'react-router-dom';
 import Header from './Header';
 import '../css/Login.css';
 
@@ -50,9 +51,11 @@ function Login() {
             </div>
             <input type="text" class="LoginInput" required placeholder="Password" />
           </div>
-          <div class="LoginSubmitButton">
-            Log In
-          </div>
+          <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+            <div class="LoginSubmitButton">
+              Log In
+            </div>
+          </Link>
         </div>
       </div>
       <Anime initial={timeline}

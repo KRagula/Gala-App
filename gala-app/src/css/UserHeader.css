@@ -1,0 +1,31 @@
+.ProfileButton {
+  margin-right: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2em;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 1% 1% 1% 1%;
+  padding: 10px;
+  background-color: rgb(108, 199, 143);
+}
+
+.ProfileButton:hover {
+  transition-duration: 0.4s;
+  background-color: rgb(80, 148, 116);
+}
+
+.SignoutButton {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2em;
+  color: #7a7a7a;
+  border-radius: 8px;
+  width: 80px;
+  padding: 10px;
+  text-align: center;
+  background-color: rgb(230, 230, 230);
+}
+
+.SignoutButton:hover {
+  transition-duration: 0.4s;
+  background-color: #D1D1D1;
+}
