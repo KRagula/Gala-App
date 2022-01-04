@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReactAnime from 'react-animejs'
 import '../css/Body.css';
@@ -18,8 +18,8 @@ function Body() {
   });
 
   // timeline
-  var timeline = [];
-  timeline.push(
+  var timeline1 = [];
+  timeline1.push(
     {
         targets: "#InvitationRectangle",
         delay: 0,
@@ -27,7 +27,7 @@ function Body() {
         opacity: 100,
         height: 10,
     })
-  timeline.push(
+  timeline1.push(
     {
         targets: "#InvitationTriangle",
         delay: 0,
@@ -35,7 +35,7 @@ function Body() {
         opacity: 100,
         height: 300,
     })
-  timeline.push(
+  timeline1.push(
       {
           targets: "#BodyMainText",
           delay: 0,
@@ -43,10 +43,12 @@ function Body() {
           opacity: 100,
           easing: 'easeInOutExpo',
       })
-  timeline.push(
+
+  var timeline2 = [];
+  timeline2.push(
       {
           targets: "#CreateAccountButton",
-          delay: 0,
+          delay: 2000,
           duration: 2000,
           opacity: 100,
           easing: 'easeInOutExpo',
@@ -56,7 +58,7 @@ function Body() {
   const NUM_SUBTEXTS = 3;
   for (var i = 0; i < LOOP_ITERATIONS; i++) {
     for (var j = 1; j <= NUM_SUBTEXTS; j++) {
-      timeline.push(
+      timeline2.push(
         {
             targets: "#BodySubtext-" + j,
             delay: 0,
@@ -65,7 +67,7 @@ function Body() {
             easing: 'easeInOutSine',
             loop: true,
         })
-      timeline.push(
+      timeline2.push(
         {
             targets: "#BodySubtext-" + j,
             delay: 0,
@@ -103,12 +105,21 @@ function Body() {
           </Link>
         </div>
         
-        <Anime initial={timeline}
+        <Anime initial={timeline1}
               control={control}
               setMeta={setMeta}
               animeConfig={{
                   autoplay: true,
-                  duration: 1500,
+                  duration: 4000,
+                  easing: "easeInOutSine"
+              }}>
+        </Anime>
+        <Anime initial={timeline2}
+              control={control}
+              setMeta={setMeta}
+              animeConfig={{
+                  autoplay: true,
+                  duration: 4000,
                   easing: "easeInOutSine"
               }}>
         </Anime>
