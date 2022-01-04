@@ -74,3 +74,7 @@
     transition-duration: 0.2s;
     font-weight: bold;
 }
+
+a:active { /* for disabling default red during active link */
+    color: #380058;
+}

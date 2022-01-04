@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import '../css/Header.css';
 
 function Header() {
@@ -11,15 +11,21 @@ function Header() {
             <div className="GalaLogo">
               Gala
             </div>
-          </Link>
+          </Link> 
           <div className="HeaderLeftWidget">
-            Safety
+            <Link to="/safety" style={{ textDecoration: 'none' }}>
+              Safety
+            </Link>
           </div>
           <div className="HeaderLeftWidget">
-            About
+            <Link to="/about" style={{ textDecoration: 'none' }}>
+              About
+            </Link>
           </div>
           <div className="HeaderLeftWidget">
-            Contact
+            <Link to="/contact" style={{ textDecoration: 'none' }}>
+              Contact
+            </Link>
           </div>
         </div>
         <div className="HeaderRightArea">
