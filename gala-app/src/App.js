@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Homepage from './components/Homepage';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 import './css/App.css';
 
 
@@ -14,10 +15,10 @@ function App() {
           <Route exact path="" element={<Homepage />} />
           <Route exact path="/signup" element={<Signup/>} />
           <Route exact path="/login" element={<Login/>} />
+          <Route exact path="/dashboard" element={<Dashboard/>} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>
-    
   );
 }
 
