@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+
 .ProfileButton {
   margin-right: 15px;
   font-family: 'Roboto', sans-serif;
@@ -28,4 +30,12 @@
 .SignoutButton:hover {
   transition-duration: 0.4s;
   background-color: #D1D1D1;
+}
+
+.WelcomeArea {
+  margin: auto;
+  margin-left: 4%;
+  width: 500px;
+  font-size: 1.5em;
+  font-family: 'Raleway', sans-serif;
 }
