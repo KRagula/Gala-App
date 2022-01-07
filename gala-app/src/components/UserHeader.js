@@ -11,7 +11,10 @@ function UserHeader() {
             <div className="GalaLogo">
               Gala
             </div>
-          </Link> 
+          </Link>
+          <div className="WelcomeArea">
+            Welcome back, Robin
+          </div>
         </div>
         <div className="HeaderRightArea">
           <Link to="/profile" style={{ textDecoration: 'none' }}>
