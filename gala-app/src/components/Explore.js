@@ -5,7 +5,7 @@ function Explore() {
   return (
     <React.Fragment>
       <div className="ExploreArea">
-        explore
+        {/* explore */}
       </div>
     </React.Fragment>
     
