@@ -51,7 +51,7 @@ function Login() {
             </div>
             <input type="text" class="LoginInput" required placeholder="Password" />
           </div>
-          <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+          <Link to="/explore" style={{ textDecoration: 'none' }}>
             <div class="LoginSubmitButton">
               Log In
             </div>

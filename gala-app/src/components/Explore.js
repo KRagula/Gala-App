@@ -49,7 +49,21 @@ function Explore() {
             </div>
           </div>
           <div className="ExploreToolbarArea">
-            hi
+            <input className="ExploreToolbarSearch" placeholder="Search by keyword">
+            </input>
+            <select name="dog-names" id="dog-names" className="ExploreToolbarSelect">
+              <option value="none" selected disabled hidden>Location</option>
+              <option value="one_mile">1 mile</option>
+              <option value="five_miles">5 miles</option>
+              <option value="ten_miles">10 miles</option>
+              <option value="fifty_miles">50 miles</option>
+            </select>
+            <select name="dog-names" id="dog-names" className="ExploreToolbarSelect">
+              <option value="none" selected disabled hidden>Sort by</option>
+              <option value="most_recent">Most recent</option>
+              <option value="least_recent">Least recent</option>
+              <option value="most_relevant">Most relevant</option>
+            </select>
           </div>
         </div>
       </div>

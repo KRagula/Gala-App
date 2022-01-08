@@ -2,12 +2,22 @@
   width: 100%;
 }
 .ExploreToolbarArea {
-  margin: 5% 10% 0 10%;
-  border: 1px red solid;
+  margin: 3% 15% 0 8%;
+  /* border: 1px red solid; */
   display: flex;
   justify-content: space-between;
 }
 
 .ExploreToolbarSearch {
-  
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #b1b1b1;
+  width: 40%;
+}
+
+.ExploreToolbarSelect {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #b1b1b1;
+  width: 20%;
 }
