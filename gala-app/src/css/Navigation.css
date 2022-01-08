@@ -44,3 +44,41 @@
   background-color: rgba(255, 255, 255, 0.317);
   transition-duration: 0.2s;
 }
+
+.OptionsArea {
+  margin-top: 35%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Option {
+  margin: 0 5% 0 5%;
+  padding: 15% 0 15% 0;
+  border-bottom: 1px solid;
+  text-align: center;
+}
+
+.Option:hover {
+  background-color: rgba(255, 255, 255, 0.317);
+  font-weight: bold;
+  transition-duration: 0.2s;
+}
+
+.OptionSelected {
+  margin: 0 5% 0 5%;
+  padding: 15% 0 15% 0;
+  border-bottom: 1px solid;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: rgb(50, 0, 50);
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.OptionSelectedSide {
+  width: 10%;
+  padding-left: 10px;
+}
