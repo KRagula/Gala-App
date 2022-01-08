@@ -1,54 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
-
-.DashboardAreaWrapper {
-  display: flex;
-  justify-content: center;
-}
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
 
 .DashboardArea {
-  display:flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 75%;
+  height: 100vh;
+  display: flex;
 }
 
-.DashboardRow {
-  margin-top: 5%;
+.DashboardTitleDescriptionAreaWrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.DashboardPanel {
-  border: 2px solid rgb(232, 232, 232);
-  border-radius: 10px;
-  background-image: linear-gradient(to top left, rgb(240, 240, 240), rgb(240, 240, 240));
-  height: 250px;
-  width: 45%;
+.DashboardTitleDescriptionArea {
+  margin-top: 15px;
+  margin-left: 15px;
+  padding: 0 15px 0 15px;
+  border-right: 1px solid rgb(179, 179, 179);
+  border-left: 1px solid rgb(179, 179, 179);
+  font-family: 'Lato', sans-serif;
+  color: rgb(65, 65, 65);
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  opacity: 0; /* for animation */
 }
 
-.DashboardPanel:hover {
-  transition-duration: 0.2s;
-  background-image: linear-gradient(to top left, rgba(230, 230, 230), rgba(235, 235, 235));
-  box-shadow: 2px 2px #c2c2c2;
-}
-
-.DashboardPanelTextArea {
+.DashboardTitleText {
   margin: auto;
-  text-align: center;
-  font-family: 'Open Sans', sans-serif;
-}
-
-.DashboardPanelMainText {
   font-size: 2em;
   font-weight: bold;
-  color: rgb(60, 60, 60);
+  color: rgb(50, 0, 50);
 }
 
-.DashboardPanelSubText {
-  margin-top: 5%;
-  font-size: 1.2em;
+.DashboardTitleDot:after {
+  margin: auto;
+  margin-left: 10px;
+  font-size: 2em;
+  content: " \B7 ";
 }
 
+.DashboardDescriptionText {
+  margin: auto;
+  margin-left: 10px;
+  font-size: 1.5em;
+}

@@ -1,4 +1,13 @@
 .ExploreArea {
-  /* border: 4px solid green; */
-  flex-grow: 8;
+  width: 100%;
+}
+.ExploreToolbarArea {
+  margin: 5% 10% 0 10%;
+  border: 1px red solid;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ExploreToolbarSearch {
+  
 }

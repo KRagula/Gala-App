@@ -7,14 +7,19 @@ function UserHeader() {
     <React.Fragment>
       <div className="HeaderArea">
         <div className="HeaderLeftArea">
-          <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-            <div className="GalaLogo">
-              Gala
-            </div>
-          </Link>
-          <div className="WelcomeArea">
-            Welcome back, Robin
+          <div className="GalaLogoArea">
+            <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+              <div className="GalaLogo">
+                Gala
+              </div>
+            </Link>
           </div>
+          <div className="WelcomeAreaWrapper">
+            <div className="WelcomeArea">
+              Welcome back, Robin
+            </div>
+          </div>
+          
         </div>
         <div className="HeaderRightArea">
           <Link to="/profile" style={{ textDecoration: 'none' }}>

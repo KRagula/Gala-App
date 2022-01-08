@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../css/Header.css';
 
 function Header() {
@@ -7,25 +7,29 @@ function Header() {
     <React.Fragment>
       <div className="HeaderArea">
         <div className="HeaderLeftArea">
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <div className="GalaLogo">
-              Gala
+          <div className="GalaLogoArea">
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              <div className="GalaLogo">
+                Gala
+              </div>
+            </Link> 
+          </div>
+          <div className="HeaderLeftWidgetArea">
+            <div className="HeaderLeftWidget">
+              <Link to="/safety" style={{ textDecoration: 'none' }}>
+                Safety
+              </Link>
             </div>
-          </Link> 
-          <div className="HeaderLeftWidget">
-            <Link to="/safety" style={{ textDecoration: 'none' }}>
-              Safety
-            </Link>
-          </div>
-          <div className="HeaderLeftWidget">
-            <Link to="/about" style={{ textDecoration: 'none' }}>
-              About
-            </Link>
-          </div>
-          <div className="HeaderLeftWidget">
-            <Link to="/contact" style={{ textDecoration: 'none' }}>
-              Contact
-            </Link>
+            <div className="HeaderLeftWidget">
+              <Link to="/about" style={{ textDecoration: 'none' }}>
+                About
+              </Link>
+            </div>
+            <div className="HeaderLeftWidget">
+              <Link to="/contact" style={{ textDecoration: 'none' }}>
+                Contact
+              </Link>
+            </div>
           </div>
         </div>
         <div className="HeaderRightArea">

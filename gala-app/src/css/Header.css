@@ -11,10 +11,9 @@
 
 .HeaderLeftArea {
     margin: auto;
-    margin-left: 5%;
+    margin-left: 0%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    width: 60%;
 }
 .HeaderRightArea {
     margin: auto;
@@ -22,6 +21,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.GalaLogoArea {
+    width: 25%;
+    text-align: center;
 }
 
 .GalaLogo {
@@ -62,9 +66,14 @@
     background-color: #D1D1D1;
 }
 
+.HeaderLeftWidgetArea {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .HeaderLeftWidget {
-    margin: auto;
-    margin-left: 40px;
+    margin: auto 0px;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2em;
     color: #380058;
