@@ -1,6 +1,6 @@
 .NavigationArea {
   background-image: linear-gradient(to top left, rgba(50, 0, 50, 0.85), rgb(50, 0, 50));
-  flex-grow: 1;
+  width: 18%;
 }
 
 .NavigationAreaCollapsed {
@@ -46,7 +46,7 @@
 }
 
 .OptionsArea {
-  margin-top: 35%;
+  margin-top: 40%;
   color: white;
   display: flex;
   flex-direction: column;

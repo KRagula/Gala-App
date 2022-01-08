@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ReactAnime from 'react-animejs'
+import ReactAnime from 'react-animejs';
 import '../css/Body.css';
 
 const { Anime } = ReactAnime;

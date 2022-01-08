@@ -8,12 +8,12 @@
   border-radius: 8px;
   padding: 1% 1% 1% 1%;
   padding: 10px;
-  background-color: rgb(108, 199, 143);
+  background-color: rgb(110, 0, 110);
 }
 
 .ProfileButton:hover {
   transition-duration: 0.4s;
-  background-color: rgb(80, 148, 116);
+  background-color: rgb(90, 0, 90);
 }
 
 .SignoutButton {
@@ -34,7 +34,7 @@
 
 .WelcomeArea {
   margin: auto;
-  margin-left: 4%;
+  margin-left: 10%;
   width: 500px;
   font-size: 1.5em;
   font-family: 'Raleway', sans-serif;
