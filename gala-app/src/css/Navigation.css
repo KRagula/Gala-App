@@ -1,6 +1,7 @@
 .NavigationArea {
   background-image: linear-gradient(to top left, rgba(50, 0, 50, 0.85), rgb(50, 0, 50));
-  width: 18%;
+  min-width: 15% !important;
+  width: 15%;
 }
 
 .NavigationAreaCollapsed {
