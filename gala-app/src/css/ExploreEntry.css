@@ -2,7 +2,7 @@
 
 .ExploreEntryPaper {
   padding: 10px;
-  width: 100%;
+  /* width: 97%; */
   min-height: 180px;
   height: 180px;
   background-color: rgb(245, 245, 245);
@@ -52,6 +52,13 @@
   justify-content: center;
 }
 
+.ExploreEntryRightArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .ExploreEntryDescriptionArea {
   margin-left: 2%;
   width: 100%;
@@ -60,8 +67,8 @@
 }
 
 .ExploreEntryDescriptionTitle {
-  height: 30%;
-  margin-right: 2%;
+  height: 40%;
+  margin-right: 4%;
   border-bottom: 1px rgb(218, 217, 217) solid;
 }
 
@@ -101,9 +108,8 @@
 
 .ExploreEntryDescriptionBottomArea {
   margin-top: 2%;
-  /* border: 1px red solid; */
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 }
 
@@ -122,7 +128,7 @@
 
 .ExploreEntryDescriptionTagArea {
   margin-left: 2%;
-  max-width: 30%;
+  max-width: 750px;
   overflow-x: scroll;
   display: flex;
   justify-content: flex-start;
@@ -136,5 +142,11 @@
 }
 
 .ExploreEntrySeeMoreArea {
+  display: flex;
+  flex-direction: row-reverse;
+}
 
+.ExploreEntrySeeMore {
+  margin: 0 2% 1% 0;
+  color: rgb(0, 0, 169);
 }

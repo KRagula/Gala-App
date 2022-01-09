@@ -63,7 +63,11 @@ function Explore() {
               <option value="none" selected disabled hidden>Sort by</option>
               <option value="most_recent">Most recent</option>
               <option value="least_recent">Least recent</option>
-              <option value="most_relevant">Most relevant</option>
+              <option value="most_recent">Earliest</option>
+              <option value="least_recent">Latest</option>
+              <option value="most_recent">Highest $$$</option>
+              <option value="least_recent">Lowest $</option>
+              <option value="most_relevant">Optimized for you</option>
             </select>
           </div>
           <div className="ExploreEntryArea">
