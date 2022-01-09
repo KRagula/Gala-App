@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+.ExploreEntryPaper {
+  width: 100%;
+  background-color: rgb(245, 245, 245);
+  margin-bottom: 5%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.ExploreEntryPaper:hover {
+  box-shadow: 2px 2px #c9c9c9;
+  transition-duration: 0.2s;
+}
+
+.ExploreEntryProfileAreaWrapper {
+  margin: 10px;
+  width: 15%;
+  height: 180px;
+  border-right: 1px rgb(206, 206, 206) solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ExploreEntryProfileArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ExploreEntryProfileImage {
+  margin: auto;
+  height: 90px;
+  width: 90px;
+  border-radius: 50%;
+  border: 1px rgb(218, 217, 217) solid;
+}
+
+.ExploreEntryProfileText {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 1em;
+}
+
+.ExploreEntryProfileStars {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

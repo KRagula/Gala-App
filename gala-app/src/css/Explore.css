@@ -1,9 +1,9 @@
 .ExploreArea {
   width: 100%;
 }
+
 .ExploreToolbarArea {
-  margin: 3% 15% 0 8%;
-  /* border: 1px red solid; */
+  margin: 3% 14% 0 8%;
   display: flex;
   justify-content: space-between;
 }
@@ -20,4 +20,14 @@
   border-radius: 5px;
   border: 1px solid #b1b1b1;
   width: 20%;
+}
+
+.ExploreEntryArea {
+  margin-top: 3%;
+  padding: 0 14% 0 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 70%;
+    overflow-y: scroll;
 }
