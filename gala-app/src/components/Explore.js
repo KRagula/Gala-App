@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
+import ExploreEntry from './ExploreEntry';
 import ReactAnime from 'react-animejs';
 import '../css/Dashboard.css';
 import '../css/Explore.css';
@@ -49,7 +50,26 @@ function Explore() {
             </div>
           </div>
           <div className="ExploreToolbarArea">
-            hi
+            <input className="ExploreToolbarSearch" placeholder="Search by keyword">
+            </input>
+            <select name="explore-distance" id="explore-distance" className="ExploreToolbarSelect">
+              <option value="none" selected disabled hidden>Location</option>
+              <option value="one_mile">1 mile</option>
+              <option value="five_miles">5 miles</option>
+              <option value="ten_miles">10 miles</option>
+              <option value="fifty_miles">50 miles</option>
+            </select>
+            <select name="explore-sort" id="explore-sort" className="ExploreToolbarSelect">
+              <option value="none" selected disabled hidden>Sort by</option>
+              <option value="most_recent">Most recent</option>
+              <option value="least_recent">Least recent</option>
+              <option value="most_relevant">Most relevant</option>
+            </select>
+          </div>
+          <div className="ExploreEntryArea">
+            <ExploreEntry />
+            <ExploreEntry />
+            <ExploreEntry />
           </div>
         </div>
       </div>
