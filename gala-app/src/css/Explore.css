@@ -9,18 +9,31 @@
   justify-content: space-between;
 }
 
+.ExploreToolbarLeftArea {
+  width: 100%;
+  display: flex;
+  border: 1px solid red;
+  justify-content: space-between;
+}
+
+.ExploreToolbarRightArea {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .ExploreToolbarSearch {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #b1b1b1;
-  width: 40%;
+  width: 50%;
 }
 
 .ExploreToolbarSelect {
+  margin-left: 10%;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #b1b1b1;
-  width: 20%;
+  width: 12%;
 }
 
 .ExploreEntryArea {
@@ -32,4 +45,25 @@
   height: 65%;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.DatePickerArea {
+  display: flex;
+  justify-content: space-between;
+  width: 20%;
+}
+
+.DatePickerBetweenText {
+  margin: auto; 
+  margin-left: 7%;
+  margin-right: 7%;
+  width: 50%;
+}
+
+.react-datepicker__input-container input {
+  margin: 0;
+  width: 80px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #b1b1b1;
 }
