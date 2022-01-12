@@ -83,7 +83,7 @@ function Explore() {
                 <option value="least_recent">Latest</option>
                 <option value="most_recent">Highest $$</option>
                 <option value="least_recent">Lowest $$</option>
-                <option value="optimized">Optimized</option>
+                <option value="for_you">For you</option>
               </select>
             </div>
           </div>

@@ -10,13 +10,12 @@
 }
 
 .ExploreToolbarLeftArea {
-  width: 100%;
+  width: 50%;
   display: flex;
-  border: 1px solid red;
-  justify-content: space-between;
 }
 
 .ExploreToolbarRightArea {
+  width: 50%;
   display: flex;
   justify-content: flex-end;
 }
@@ -29,11 +28,11 @@
 }
 
 .ExploreToolbarSelect {
-  margin-left: 10%;
+  margin-left: 8%;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #b1b1b1;
-  width: 12%;
+  width: 30%;
 }
 
 .ExploreEntryArea {
@@ -48,15 +47,16 @@
 }
 
 .DatePickerArea {
+  margin-left: 8%;
   display: flex;
   justify-content: space-between;
-  width: 20%;
+  width: 45%;
 }
 
 .DatePickerBetweenText {
   margin: auto; 
-  margin-left: 7%;
-  margin-right: 7%;
+  margin-left: 6%;
+  margin-right: 6%;
   width: 50%;
 }
 
