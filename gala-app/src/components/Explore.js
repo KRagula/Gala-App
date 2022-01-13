@@ -7,6 +7,7 @@ import '../css/Dashboard.css';
 import '../css/Explore.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Pagination from '@material-ui/lab/Pagination';
 
 
 const { Anime } = ReactAnime;
@@ -91,6 +92,9 @@ function Explore() {
             <ExploreEntry />
             <ExploreEntry />
             <ExploreEntry />
+          </div>
+          <div className="ExplorePaginationArea">
+            <Pagination count={10} />
           </div>
         </div>
       </div>

@@ -67,3 +67,9 @@
   border-radius: 5px;
   border: 1px solid #b1b1b1;
 }
+
+.ExplorePaginationArea {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+}
