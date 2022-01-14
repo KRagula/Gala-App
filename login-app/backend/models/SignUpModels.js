@@ -20,6 +20,10 @@ const signUpTemplate = new mongoose.Schema({
     date:{
         type:Date,
         default:Date.now
+    },
+    salt:{
+        type:String,
+        required:true
     }
 })
 
