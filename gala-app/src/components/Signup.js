@@ -1,11 +1,49 @@
 import React, { useState } from "react";
 import ReactAnime from 'react-animejs'
 import Header from '../components/Header';
+import axios from 'axios'
 import '../css/Signup.css';
 
 const { Anime } = ReactAnime;
 
 function Signup() {
+  var state = {
+      firstName:'',
+      lastName:'',
+      email:'',
+      password:''
+  }
+  function onSubmit(event){
+    event.preventDefault()
+    const registered = {
+        firstName: state.firstName,
+        lastName: state.lastName,
+        email: state.email,
+        password: state.password
+    }
+  
+    axios.post('http://localhost:4000/app/signup', registered)
+        .then(response => console.log(response.data))
+    window.location = '/explore'
+  }
+
+  function changeFirstName(event){
+      state.firstName = event.target.value
+  }
+
+  function changeLastName(event){
+      state.lastName=event.target.value
+
+  }
+
+  function changeEmail(event){
+    state.email=event.target.value
+  }
+
+  function changePassword(event){
+    state.password=event.target.value
+  }
+
   const [selectedImage, setSelectedImage] = useState(null);
 
   // controller state
@@ -44,25 +82,25 @@ function Signup() {
             <div class="SignupInputTitle">
               First Name
             </div>
-            <input type="text" class="SignupInput" required placeholder="Robin" />
+            <input type="text" class="SignupInput" required placeholder="First Name" id="firstNameInput" onChange={changeFirstName}/>
           </div>
           <div class="SignupInputArea">
             <div class="SignupInputTitle">
               Last Name
             </div>
-            <input type="text" class="SignupInput" required placeholder="Tan" />
+            <input type="text" class="SignupInput" required placeholder="Last Name" id="lastNameInput" onChange={changeLastName}/>
           </div>
           <div class="SignupInputArea">
             <div class="SignupInputTitle">
               Email Address
             </div>
-            <input type="text" class="SignupInput" required placeholder="robin@gmail.com" />
+            <input type="text" class="SignupInput" required placeholder="email@email.com" id="emailInput" onChange={changeEmail}/>
           </div>
           <div class="SignupInputArea">
             <div class="SignupInputTitle">
               Password
             </div>
-            <input type="text" class="SignupInput" required placeholder="Password" />
+            <input type="password" class="SignupInput" required placeholder="Password" id="passwordInput" onChange={changePassword}/>
           </div>
           <div class="SignupInputArea">
             <div class="SignupInputTitle">
@@ -78,7 +116,7 @@ function Signup() {
               />
             )}
           </div>
-          <div class="SignupSubmitButton">
+          <div class="SignupSubmitButton" onClick={onSubmit} >
             Sign Up
           </div>
         </div>
@@ -95,5 +133,7 @@ function Signup() {
     </React.Fragment>
   );
 }
+
+
 
 export default Signup;
