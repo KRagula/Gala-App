@@ -16,12 +16,25 @@ router.post('/signup', async (request, response) => {
         password:securePassword,
         salt:saltPassword
     })
-    signedUpUser.save()
-    .then(data =>{
-        response.json(data)
-    })
-    .catch(error=>{
-        response.json(error)
+
+    signUpTemplateCopy.findOne({"email" : request.body.email}, function(err, res){
+        //console.log(res)
+        //console.log(err)
+        if (!res) {
+            signedUpUser.save()
+            .then(data =>{
+                response.json(data)
+            })
+            .catch(error=>{
+                response.json(error)
+                //console.log(error)
+            })
+
+            //console.log("Logged file\n")
+        } else {
+            //console.log("error found file\n")
+            response.sendStatus(409)
+        }
     })
 })
 

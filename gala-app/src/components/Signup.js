@@ -24,7 +24,12 @@ function Signup() {
   
     axios.post('http://localhost:4000/app/signup', registered)
         .then(response => console.log(response.data))
-    window.location = '/explore'
+        .catch(function (error) {
+          document.getElementById("errorArea").innerHTML = "Error User Exists or Server Unavailable";
+          
+          console.log(error.response.status);
+        })
+    //window.location = '/explore'
   }
 
   function changeFirstName(event){
@@ -74,8 +79,13 @@ function Signup() {
       <div class="SignupFormArea" id="SignupFormArea">
         <div>
           <div class="SignupTitleArea">
-            <div class="SignupTitle">
+            <div class="SignupTitle" id="titleHeader">
               Enter Gala.
+            </div>
+          </div>
+          <div class="SignupInputArea">
+            <div class="SignupInputTitle" style={{color: "red", align:"center"}} id="errorArea">
+              
             </div>
           </div>
           <div class="SignupInputArea">
