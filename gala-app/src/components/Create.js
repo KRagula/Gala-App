@@ -53,6 +53,55 @@ function Create() {
               <div className="CreateFormRowTitle">
                 Title:
               </div>
+              <input className="CreateFormRowInput" placeholder='Pitbull Concert'>
+              </input>
+            </div>
+            <div className="CreateFormRow">
+              <div className="CreateFormRowTitle">
+                Description:
+              </div>
+              <input className="CreateFormRowInput"
+                    placeholder='Come to the Pitbull concert with me this Saturday at the Moda Center!'>
+              </input>
+            </div>
+            <div className="CreateFormRow">
+              <div className="CreateFormRowTitle">
+                Address:
+              </div>
+              <div className="CreateFormInputAreaAddress">
+                <div className="CreateFormInputAreaRowAddress AddressFirst">
+                  <input className="CreateFormRowInputAddress"
+                      placeholder='Street Name'>
+                  </input>
+                </div>
+                <div className="CreateFormInputAreaRowAddress">
+                  <input className="CreateFormRowInputAddress"
+                      placeholder='City'>
+                  </input>
+                  <input className="CreateFormRowInputAddress"
+                      placeholder='State'>
+                  </input>
+                  <input className="CreateFormRowInputAddress"
+                      placeholder='ZIP Code'>
+                  </input>
+                </div>
+              </div>
+            </div>
+            <div className="CreateFormRow">
+              <div className="CreateFormRowTitle">
+                Time:
+              </div>
+              <div className="CreateFormInputAreaTime">
+                <div className="CreateFormColumnTime">
+                  hi
+                </div>
+                <div className="CreateFormColumnTime">
+                  hi
+                </div>
+                <div className="CreateFormColumnTime">
+                  hi
+                </div>
+              </div>
             </div>
           </div>
         </div>

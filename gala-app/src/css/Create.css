@@ -6,7 +6,7 @@
 }
 
 .CreateFormArea {
-  margin: 5% 0 0 10%;
+  margin: 5% 5% 0 10%;
   background-color: rgb(245, 245, 245);
   border-radius: 10px;
   display: flex;
@@ -14,13 +14,56 @@
 }
 
 .CreateFormRow {
-  padding: 2% 2% 2% 2%;
+  padding: 2% 2% 1% 2%;
   display: flex;
+  border: 1px solid red;
 }
 
 .CreateFormRowTitle {
-  width: 100px;
-  font-size: 1.2em;
+  padding-top: 5px;
+  width: 150px;
+  font-size: 1.3em;
   font-family: 'Quicksand', sans-serif;
+}
+
+.CreateFormRowInput {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #b1b1b1;
+  width: 65%;
+}
+
+.CreateFormInputAreaAddress {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%;
+}
+
+.CreateFormInputAreaRowAddress {
+  display: flex;
+  justify-content: space-between;
+}
+
+.CreateFormInputAreaRowAddress.AddressFirst {
+  margin-bottom: 1.5%;
+}
+
+.CreateFormRowInputAddress {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #b1b1b1;
+  width: 100%;
+  margin-right: 20px;
+}
+
+.CreateFormInputAreaTime {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
   border: 1px solid red;
+}
+
+.CreateFormColumnTime {
+
 }
