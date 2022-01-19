@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+.CreateArea {
+  width: 100%;
+  padding-right: 9%;
+}
+
+.CreateFormArea {
+  margin: 5% 0 0 10%;
+  background-color: rgb(245, 245, 245);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.CreateFormRow {
+  padding: 2% 2% 2% 2%;
+  display: flex;
+}
+
+.CreateFormRowTitle {
+  width: 100px;
+  font-size: 1.2em;
+  font-family: 'Quicksand', sans-serif;
+  border: 1px solid red;
+}

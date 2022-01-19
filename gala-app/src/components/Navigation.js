@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight, faChevronRight} from '@fortawesome/free-solid-svg-icons'
 import '../css/Navigation.css';
@@ -43,9 +44,11 @@ function Navigation(props) {
               </div>
             </div>
             :
-            <div className = "Option">
-              EXPLORE
-          </div>
+            <Link to="/explore" style={{ textDecoration: 'none' }}>
+              <div className = "OptionFirst">
+                EXPLORE
+              </div>
+            </Link>
           }
           {props.selectedOption == "create" ?
             <div className = "OptionSelected">
@@ -58,9 +61,11 @@ function Navigation(props) {
               </div>
             </div>
             :
-            <div className = "Option">
-              CREATE
-          </div>
+            <Link to="/create" style={{ textDecoration: 'none' }}>
+              <div className = "Option">
+                CREATE
+              </div>
+            </Link>
           }
           {props.selectedOption == "messages" ?
             <div className = "OptionSelected">
@@ -75,6 +80,21 @@ function Navigation(props) {
             :
             <div className = "Option">
               MESSAGES
+          </div>
+          }
+          {props.selectedOption == "bids" ?
+            <div className = "OptionSelected">
+              <div className="OptionSelectedSide" />
+                <div>
+                  BIDS
+                </div>
+                <div className="OptionSelectedSide">
+                <FontAwesomeIcon icon={faChevronRight}/>
+              </div>
+            </div>
+            :
+            <div className = "Option">
+              BIDS
           </div>
           }
           {props.selectedOption == "archive" ?
