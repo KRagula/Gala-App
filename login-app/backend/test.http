@@ -2,8 +2,8 @@ POST http://localhost:4000/app/signup
 Content-Type: application/json
 
 {
-    "firstName":"Kanishka",
+    "firstName":"Vikrant",
     "lastName":"Ragula",
-    "email":"kragula@seas.upenn.edu",
+    "email":"vragula@seas.upenn.edu",
     "password":"testPass"
 }

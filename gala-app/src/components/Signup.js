@@ -21,15 +21,28 @@ function Signup() {
         email: state.email,
         password: state.password
     }
-  
+    var isError = false;
     axios.post('http://localhost:4000/app/signup', registered)
-        .then(response => console.log(response.data))
+        .then(function(response) {
+          if (response.data=="valid") {
+            window.location = '/explore'
+          }
+        })
         .catch(function (error) {
-          document.getElementById("errorArea").innerHTML = "Error User Exists or Server Unavailable";
+          isError=true;
+          if (error.response.status == "409") {
+            document.getElementById("errorArea").innerHTML = "Error User Exists";
+          } else {
+            document.getElementById("errorArea").innerHTML = "Service Unavailable, please try again later";
+          }
+          
           
           console.log(error.response.status);
         })
-    //window.location = '/explore'
+    if (!isError) {
+      //window.location = '/explore'
+    }
+    
   }
 
   function changeFirstName(event){
