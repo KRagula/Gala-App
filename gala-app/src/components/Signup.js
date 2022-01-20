@@ -21,7 +21,6 @@ function Signup() {
         email: state.email,
         password: state.password
     }
-    var isError = false;
     axios.post('http://localhost:4000/app/signup', registered)
         .then(function(response) {
           if (response.data=="valid") {
@@ -29,7 +28,6 @@ function Signup() {
           }
         })
         .catch(function (error) {
-          isError=true;
           if (error.response.status == "409") {
             document.getElementById("errorArea").innerHTML = "Error User Exists";
           } else {
@@ -39,9 +37,6 @@ function Signup() {
           
           console.log(error.response.status);
         })
-    if (!isError) {
-      //window.location = '/explore'
-    }
     
   }
 
