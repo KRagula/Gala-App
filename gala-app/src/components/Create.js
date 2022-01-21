@@ -4,10 +4,17 @@ import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
 import '../css/Dashboard.css';
 import '../css/Create.css';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDateTimePicker from '@mui/lab/DesktopDateTimePicker';
+import TextField from '@mui/material/TextField';
 
 const { Anime } = ReactAnime;
 
 function Create() {
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
   // controller state
   const [control, setControl] = useState(null);
 
@@ -87,19 +94,37 @@ function Create() {
                 </div>
               </div>
             </div>
-            <div className="CreateFormRow">
-              <div className="CreateFormRowTitle">
+            <div className="CreateFormRow Time">
+              <div className="CreateFormRowTitle Time">
                 Time:
               </div>
               <div className="CreateFormInputAreaTime">
-                <div className="CreateFormColumnTime">
-                  hi
+                <div className="CreateFormDateTime">
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDateTimePicker
+                      value={startDate}
+                      onChange={(newStartDate) => {
+                        setStartDate(newStartDate);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                      minDate={new Date()}
+                    />
+                  </LocalizationProvider>
                 </div>
-                <div className="CreateFormColumnTime">
-                  hi
+                <div className="CreatFormTimeBetweenText">
+                  <div>to</div>
                 </div>
-                <div className="CreateFormColumnTime">
-                  hi
+                <div className="CreateFormDateTime">
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDateTimePicker
+                      value={endDate}
+                      onChange={(newEndDate) => {
+                        setEndDate(newEndDate);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                      minDate={startDate}
+                    />
+                  </LocalizationProvider>
                 </div>
               </div>
             </div>
