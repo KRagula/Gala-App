@@ -34,6 +34,16 @@ function Create() {
     ...defaultMaskOptions,
   })
 
+  const [tagsList, setTagsList] = useState([]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      const newTagVal = document.getElementById('TagInputField').value;
+      setTagsList(tagsList => [...tagsList, newTagVal]);
+      document.getElementById('TagInputField').value = '';
+    }
+  }
+
   // controller state
   const [control, setControl] = useState(null);
 
@@ -162,6 +172,20 @@ function Create() {
               </div>
               <input type="file" className="CreateFormInputProof" required></input>
             </div>
+            <div className="CreateFormRow">
+              <div className="CreateFormRowTitle Tags">
+                Tags:
+              </div>
+              <input className="CreateFormRowInput Tag"
+                    placeholder='Clubbing'
+                    onKeyDown={handleKeyDown}
+                    id="TagInputField">
+              </input>
+            </div>
+            {tagsList.length > 0 ?
+              tagsList.map((tag) => (<div>{tag}</div>))
+              :
+              <div />}
           </div>
         </div>
       </div>
