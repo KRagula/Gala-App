@@ -10,6 +10,8 @@ import DesktopDateTimePicker from '@mui/lab/DesktopDateTimePicker';
 import TextField from '@mui/material/TextField';
 import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const { Anime } = ReactAnime;
 
@@ -26,6 +28,8 @@ const defaultMaskOptions = {
   allowLeadingZeroes: false,
 }
 
+const MAX_NUM_TAGS = 10;
+
 function Create() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -35,12 +39,35 @@ function Create() {
   })
 
   const [tagsList, setTagsList] = useState([]);
+  const [showTagInsn, setShowTagInsn] = useState(false);
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      const newTagVal = document.getElementById('TagInputField').value;
-      setTagsList(tagsList => [...tagsList, newTagVal]);
-      document.getElementById('TagInputField').value = '';
+      var newTagVal = document.getElementById('TagInputField').value;
+      newTagVal = newTagVal.toLowerCase();
+      if (newTagVal.length > 0
+          && !tagsList.includes(newTagVal)
+          && tagsList.length <= MAX_NUM_TAGS) {
+        setTagsList(tagsList => [...tagsList, newTagVal]);
+        document.getElementById('TagInputField').value = '';
+        setShowTagInsn(false);
+      }
+    }
+  }
+
+  const handleChange = () => {
+    const tagLength = document.getElementById('TagInputField').value.trim().length;
+    if (showTagInsn && tagLength == 0) {
+      setShowTagInsn(false);
+    } else if (!showTagInsn && tagLength > 0) {
+      setShowTagInsn(true);
+    }
+  }
+
+  const handleDeleteTag = (tagVal) => {
+    const index = tagsList.indexOf(tagVal);
+    if (index > -1) {
+      setTagsList(tagsList.filter(val => val !== tagVal));
     }
   }
 
@@ -166,7 +193,7 @@ function Create() {
                 placeholder="$50.00"
               />
             </div>
-            <div className="CreateFormRow">
+            <div className="CreateFormRow Proof">
               <div className="CreateFormRowTitle">
                 Proof of Experience:
               </div>
@@ -176,16 +203,37 @@ function Create() {
               <div className="CreateFormRowTitle Tags">
                 Tags:
               </div>
-              <input className="CreateFormRowInput Tag"
-                    placeholder='Clubbing'
-                    onKeyDown={handleKeyDown}
-                    id="TagInputField">
-              </input>
+              <div className="CreateFormRowInputAreaTags">
+                <input className="CreateFormRowInput Tag"
+                      placeholder='Clubbing'
+                      maxlength="15"
+                      onChange={handleChange}
+                      onKeyDown={handleKeyDown}
+                      id="TagInputField">
+                </input>
+                {showTagInsn ?
+                  <div className="CreateFormInputTagInsn">
+                    Click Enter to write tag
+                  </div> 
+                  :
+                  <div />}
+              </div>
             </div>
-            {tagsList.length > 0 ?
-              tagsList.map((tag) => (<div>{tag}</div>))
-              :
-              <div />}
+            <div className="CreateFormRow Tags">
+              <div className="CreateFormRowTitle"></div>
+                <div className="CreateFormTagsArea">
+                  {tagsList.length > 0 ?
+                    tagsList.map((tag) => (
+                      <div className="CreateFormTagEntry" key={tag}>
+                        <div className="CreateFormTagEntryX" id={tag} onClick={() => handleDeleteTag(tag)}>
+                          <FontAwesomeIcon icon={faTimes}/>
+                        </div>
+                        {tag}
+                      </div>))
+                    :
+                    <div />}
+                </div>
+            </div>
           </div>
         </div>
       </div>

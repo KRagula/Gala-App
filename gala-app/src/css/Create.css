@@ -6,7 +6,7 @@
 }
 
 .CreateFormArea {
-  margin: 5% 5% 0 11%;
+  margin: 3% 5% 0 11%;
   background-color: rgb(245, 245, 245);
   border-radius: 10px;
   display: flex;
@@ -16,11 +16,19 @@
 .CreateFormRow {
   padding: 2% 2% 1% 2%;
   display: flex;
-  /* border: 1px solid red; */
+  border: 1px solid red;
 }
 
 .CreateFormRow.Time {
   padding-top: 1.5%;
+}
+
+.CreateFormRow.Proof {
+  padding-top: 1%;
+}
+
+.CreateFormRow.Tags {
+  padding-top: 0;
 }
 
 .CreateFormRowTitle {
@@ -51,7 +59,7 @@
 }
 
 .CreateFormRowInput.Tag {
-  width: 10%;
+  width: 80px;
   height: 12px;
 }
 
@@ -103,4 +111,39 @@
 
 .CreateFormInputProof {
   margin-top: 20px;
+}
+
+.CreateFormRowInputAreaTags {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.9em;
+}
+
+.CreateFormInputTagInsn {
+  margin: auto;
+  margin-left: 10px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.CreateFormTagsArea {
+  display: flex;
+  flex-direction: flex-start;
+  width: 70%;
+  max-width: 70%;
+  overflow-x: scroll;
+}
+
+.CreateFormTagEntry {
+  margin-right: 10px;
+  background-color: rgb(215, 215, 215);
+  padding: 4px 6px 4px 6px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  font-size: 0.9em;
+}
+
+.CreateFormTagEntryX {
+  margin: auto;
+  padding-right: 7px;
 }
