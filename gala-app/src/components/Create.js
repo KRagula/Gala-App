@@ -8,12 +8,31 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDateTimePicker from '@mui/lab/DesktopDateTimePicker';
 import TextField from '@mui/material/TextField';
+import MaskedInput from 'react-text-mask';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 const { Anime } = ReactAnime;
+
+const defaultMaskOptions = {
+  prefix: '$',
+  suffix: '',
+  includeThousandsSeparator: true,
+  thousandsSeparatorSymbol: ',',
+  allowDecimal: true,
+  decimalSymbol: '.',
+  decimalLimit: 2, // how many digits allowed after the decimal
+  integerLimit: 7, // limit length of integer numbers
+  allowNegative: false,
+  allowLeadingZeroes: false,
+}
 
 function Create() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+
+  const currencyMask = createNumberMask({
+    ...defaultMaskOptions,
+  })
 
   // controller state
   const [control, setControl] = useState(null);
@@ -111,7 +130,7 @@ function Create() {
                     />
                   </LocalizationProvider>
                 </div>
-                <div className="CreatFormTimeBetweenText">
+                <div className="CreateFormTimeBetweenText">
                   <div>to</div>
                 </div>
                 <div className="CreateFormDateTime">
@@ -127,6 +146,21 @@ function Create() {
                   </LocalizationProvider>
                 </div>
               </div>
+            </div>
+            <div className="CreateFormRow">
+              <div className="CreateFormRowTitle">
+                Auction Price:
+              </div>
+              <MaskedInput className="CreateFormRowInput Price"
+                mask={currencyMask}
+                placeholder="$50.00"
+              />
+            </div>
+            <div className="CreateFormRow">
+              <div className="CreateFormRowTitle">
+                Proof of Experience:
+              </div>
+              <input type="file" className="CreateFormInputProof" required></input>
             </div>
           </div>
         </div>

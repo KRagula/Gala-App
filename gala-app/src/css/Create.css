@@ -24,7 +24,7 @@
 }
 
 .CreateFormRowTitle {
-  padding-top: 5px;
+  padding-top: 7px;
   width: 150px;
   font-size: 1.3em;
   font-family: 'Quicksand', sans-serif;
@@ -39,6 +39,11 @@
   border-radius: 5px;
   border: 1px solid #b1b1b1;
   width: 65%;
+  height: 18px;
+}
+
+.CreateFormRowInput.Price {
+  width: 10%;
 }
 
 .CreateFormInputAreaAddress {
@@ -62,6 +67,7 @@
   border-radius: 5px;
   border: 1px solid #b1b1b1;
   width: 100%;
+  height: 18px;
   margin-right: 20px;
 }
 
@@ -76,11 +82,15 @@
   border-radius: 5px;
 }
 
-.CreatFormTimeBetweenText {
+.CreateFormTimeBetweenText {
   margin: 0 16px 0 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   font-size: 1em;
   font-family: 'Quicksand', sans-serif;
+}
+
+.CreateFormInputProof {
+  margin-top: 20px;
 }
