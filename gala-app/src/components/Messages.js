@@ -65,9 +65,9 @@ function Messages() {
             </div>
           </div>
           <div className="MessagesEntryArea">
-            <MessagesEntry />
-            <MessagesEntry />
-            <MessagesEntry />
+            <MessagesEntry isNewMessage={true} newMessage="come over baby girl"/>
+            <MessagesEntry isNewMessage={false}/>
+            <MessagesEntry isNewMessage={false}/>
           </div>
         </div>
       </div>
