@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard';
 import Explore from './components/Explore';
 import Create from './components/Create';
 import Messages from './components/Messages';
+import Payment from './components/Payment';
 import './css/App.css';
 
 
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/explore" element={<Explore/>} />
           <Route exact path="/create" element={<Create/>} />
           <Route exact path="/messages" element={<Messages/>} />
+          <Route exact path="/payment" element={<Payment/>} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>
