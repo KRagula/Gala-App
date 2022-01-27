@@ -19,7 +19,7 @@ router.post('/signup', async (request, response) => {
 
     signUpTemplateCopy.findOne({"email" : request.body.email}, function(err, res){
         //console.log(res)
-        //console.log(err)
+        //console.log(err) I HAVE NEVER FUCKINGD ONE THIS BEFORE AND YOU MAKE FUN OF ME
         if (!res) {
             signedUpUser.save()
             .then(data =>{

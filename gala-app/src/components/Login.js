@@ -20,11 +20,11 @@ function Login() {
           email: state.email,
           password: state.password
       }
-      axios.post('http://localhost:4000/app/login', credentials)
+      axios.post('http://localhost:4000/app/login', {withCredentials: true})
           .then(function(response) {
             if ((response.data.data=='data')) {
-              document.cookie='firstname='+response.data.firstname+';max-age=3600'
-              document.cookie='lastname='+response.data.lastname+';max-age=3600'
+              //document.cookie='firstname='+response.data.firstname+';max-age=3600'
+              //document.cookie='lastname='+response.data.lastname+';max-age=3600'
               // document.cookie('firstname', response.data.firstname)
               // document.cookie('lastname', response.data.lastname)
               //console.log(response.getResponseHeader('Set-Cookie'))
