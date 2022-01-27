@@ -116,7 +116,10 @@ function Create() {
               <div className="CreateFormRowTitle">
                 Title:
               </div>
-              <input className="CreateFormRowInput" placeholder='Pitbull Concert'>
+              <input
+                className="CreateFormRowInput"
+                placeholder='Pitbull Concert'
+                id="TitleInputField">
               </input>
             </div>
             <div className="CreateFormRow">
@@ -124,7 +127,8 @@ function Create() {
                 Description:
               </div>
               <input className="CreateFormRowInput"
-                    placeholder='Come to the Pitbull concert with me this Saturday at the Moda Center!'>
+                    placeholder='Come to the Pitbull concert with me this Saturday at the Moda Center!'
+                    id="DescriptionInputField">
               </input>
             </div>
             <div className="CreateFormRow">
@@ -134,18 +138,22 @@ function Create() {
               <div className="CreateFormInputAreaAddress">
                 <div className="CreateFormInputAreaRowAddress AddressFirst">
                   <input className="CreateFormRowInputAddress"
-                      placeholder='Street Name'>
+                      placeholder='Street Name'
+                      id="StreetInputField">
                   </input>
                 </div>
                 <div className="CreateFormInputAreaRowAddress">
                   <input className="CreateFormRowInputAddress"
-                      placeholder='City'>
+                      placeholder='City'
+                      id="CityInputField">
                   </input>
                   <input className="CreateFormRowInputAddress"
-                      placeholder='State'>
+                      placeholder='State'
+                      id="StateInputField">
                   </input>
                   <input className="CreateFormRowInputAddress"
-                      placeholder='ZIP Code'>
+                      placeholder='ZIP Code'
+                      id="ZipInputField">
                   </input>
                 </div>
               </div>
@@ -233,6 +241,14 @@ function Create() {
                     :
                     <div />}
                 </div>
+            </div>
+            <div className="CreateFormButtonArea">
+              <div className="CreateFormButton Submit">
+                Submit
+              </div>
+              <div className="CreateFormButton Clear">
+                Clear
+              </div>
             </div>
           </div>
         </div>

@@ -16,17 +16,17 @@ function Header() {
           </div>
           <div className="HeaderLeftWidgetArea">
             <div className="HeaderLeftWidget">
-              <Link to="/safety" style={{ textDecoration: 'none' }}>
+              <Link class="header" to="/safety" style={{ textDecoration: 'none' }}>
                 Safety
               </Link>
             </div>
             <div className="HeaderLeftWidget">
-              <Link to="/about" style={{ textDecoration: 'none' }}>
+              <Link class="header" to="/about" style={{ textDecoration: 'none' }}>
                 About
               </Link>
             </div>
             <div className="HeaderLeftWidget">
-              <Link to="/contact" style={{ textDecoration: 'none' }}>
+              <Link class="header" to="/contact" style={{ textDecoration: 'none' }}>
                 Contact
               </Link>
             </div>

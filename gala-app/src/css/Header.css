@@ -84,6 +84,10 @@
     font-weight: bold;
 }
 
-a:active { /* for disabling default red during active link */
+a.header { /* for disabling default white during active link */
+    color: #380058;
+}
+
+a.header:active { /* for disabling default red during active link */
     color: #380058;
 }
