@@ -1,16 +1,12 @@
 const express = require('express');
-const mongoose = require('mongoose')
-const credentialroutes = require('./routes/credential-routes.js');
+const routes = require('./routes/routes.js');
 const app = express();
-const dotenv = require('dotenv')
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 const paypal = require('paypal-rest-sdk');
 
 app.use(cors());
-app.use(express.json())
-app.use('/app', credentialroutes)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
@@ -22,13 +18,8 @@ paypal.configure({
   'client_secret': process.env.CLIENT_SECRET
 });
 
-dotenv.config()
-
-mongoose.connect(process.env.DATABASE_ACCESS, () =>console.log("Database connected"))
-
-
 /** ENDPOINTS **/
-//app.get('/', credentialroutes.defaultHandler);
+app.get('/', routes.defaultHandler);
 
 // app.post('/pay', routes.handlePay);
 
@@ -189,4 +180,3 @@ app.listen(port, () => {
 		'Server running on port ' + port + '. Now open http://localhost:' + port + '/ in your browser!'
 	);
 });
-
