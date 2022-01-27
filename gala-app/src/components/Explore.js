@@ -9,7 +9,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Pagination from '@material-ui/lab/Pagination';
 
-
 const { Anime } = ReactAnime;
 
 function Explore() {

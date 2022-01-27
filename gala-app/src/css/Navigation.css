@@ -61,12 +61,12 @@
   text-align: center;
 }
 
-.OptionFirst {
-  margin: 0 5% 0 5%;
-  padding: 15% 0 15% 0;
-  border-bottom: 1px solid;
+.Option.First {
   border-top: 1px solid;
-  text-align: center;
+}
+
+.Option.Last {
+  margin-bottom: 100%;
 }
 
 .Option:hover {

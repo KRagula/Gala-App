@@ -9,6 +9,7 @@ import Contact from './components/Contact';
 import Dashboard from './components/Dashboard';
 import Explore from './components/Explore';
 import Create from './components/Create';
+import Messages from './components/Messages';
 import './css/App.css';
 
 
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/dashboard" element={<Dashboard/>} />
           <Route exact path="/explore" element={<Explore/>} />
           <Route exact path="/create" element={<Create/>} />
+          <Route exact path="/messages" element={<Messages/>} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>

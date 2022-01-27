@@ -45,7 +45,7 @@ function Navigation(props) {
             </div>
             :
             <Link to="/explore" style={{ textDecoration: 'none' }}>
-              <div className = "OptionFirst">
+              <div className = "Option First">
                 EXPLORE
               </div>
             </Link>
@@ -78,9 +78,11 @@ function Navigation(props) {
               </div>
             </div>
             :
-            <div className = "Option">
-              MESSAGES
-          </div>
+            <Link to="/messages" style={{ textDecoration: 'none' }}>
+              <div className = "Option">
+                MESSAGES
+              </div>
+            </Link>
           }
           {props.selectedOption == "bids" ?
             <div className = "OptionSelected">
@@ -108,7 +110,7 @@ function Navigation(props) {
               </div>
             </div>
             :
-            <div className = "Option">
+            <div className = "Option Last">
               ARCHIVE
           </div>
           }
