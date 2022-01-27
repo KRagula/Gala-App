@@ -23,7 +23,13 @@ function Signup() {
     }
     axios.post('http://localhost:4000/app/signup', registered)
         .then(function(response) {
-          if (response.data=="valid") {
+          if ((response.data.data=='data')) {
+            document.cookie='firstname='+response.data.firstname+';max-age=3600'
+            document.cookie='lastname='+response.data.lastname+';max-age=3600'
+            // document.cookie('firstname', response.data.firstname)
+            // document.cookie('lastname', response.data.lastname)
+            //console.log(response.getResponseHeader('Set-Cookie'))
+            //console.log(response.headers.cookie)
             window.location = '/explore'
           }
         })

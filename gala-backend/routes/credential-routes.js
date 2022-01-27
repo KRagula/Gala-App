@@ -19,11 +19,11 @@ router.post('/signup', async (request, response) => {
 
     signUpTemplateCopy.findOne({"email" : request.body.email}, function(err, res){
         //console.log(res)
-        //console.log(err)
+        //console.log(err) I HAVE NEVER FUCKINGD ONE THIS BEFORE AND YOU MAKE FUN OF ME
         if (!res) {
             signedUpUser.save()
             .then(data =>{
-                response.json("valid")
+                response.json({ 'firstname': signedUpUser.firstName , 'lastname': signedUpUser.lastName, 'data':'data'})
             })
             .catch(error=>{
                 response.json(error)
@@ -45,17 +45,27 @@ router.post('/login', async (request, response) => {
 
         response.sendStatus(409)
         return;
-            //console.log("Logged file\n")
+            //Account does not exist
     }
     //console.log(response2.password)
 
     bcrypt.compare(request.body.password, response2.password, function(err, res) {
         if (err){
-          response.sendStatus(409)
+          response.sendStatus(410)
+          //Invalid password
         }
         if (res) {
           // Send JWT
-          response.json("valid")
+          let options = {
+            maxAge: 1000 * 60 * 60, // would expire after 15 minutes
+          }
+    
+          var nameCookie = 'firstname=' + response2.firstName + ' HttpOnly'
+          var lastNameCookie = 'lastname=' + response2.lastName
+
+          response.cookie('first-name',response2.firstName, options)
+          response.cookie('last-name',response2.lastName, options)
+          response.json({ 'firstname': response2.firstName , 'lastname': response2.lastName, 'data':'data'})
         } else {
           // response is OutgoingMessage object that server response http request
           response.sendStatus(401)
