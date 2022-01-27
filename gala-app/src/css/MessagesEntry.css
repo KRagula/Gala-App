@@ -1,0 +1,67 @@
+.MessagesEntryPaper {
+  padding: 10px;
+  min-height: 140px;
+  height: 140px;
+  background-color: rgb(245, 245, 245);
+  margin-bottom: 2%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.MessagesNewMessageNotifArea {
+  width: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.MessagesNewMessageNotif {
+  display: flex;
+  justify-content: center;
+}
+
+.MessagesNewMessageDot {
+  height: 12px;
+  width: 12px;
+  background-color: rgb(126, 188, 255);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.MessagesEntryProfileAreaWrapper {
+  width: 14%;
+  border-right: 1px rgb(206, 206, 206) solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.MessagesEntryDescriptionBottomArea {
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+}
+
+.MessagesNewMessageArea {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+}
+
+.MessagesNewMessageTitle {
+  font-weight: bold;
+}
+
+.MessagesNewMessageText {
+  font-style: italic;
+  margin-left: 5px;
+  overflow: hidden;
+}
+
+.MessagesEntrySeeMore {
+  padding-top: 1%;
+  padding-right: 4%;
+  color: rgb(0, 0, 169);
+}
