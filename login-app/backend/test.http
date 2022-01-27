@@ -1,9 +1,0 @@
-POST http://localhost:4000/app/signup
-Content-Type: application/json
-
-{
-    "firstName":"John",
-    "lastName":"Doe",
-    "email":"djoe2@seas.upenn.edu",
-    "password":"testPass"
-}
