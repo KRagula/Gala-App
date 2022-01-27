@@ -14,8 +14,8 @@ app.use(morgan('tiny'));
 require('dotenv').config()
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
-  'client_id': 'AWX8X8R4EBM7gqgJkEpvd4f4UZGldJZuZ8WNQ-zG8kEe08dJpr_VLTR922mxq5MV6aR_nzu9oNer-7Qg',
-  'client_secret': 'EGPBtH1YeNv31-EPFjnjOKPtsxHqumPW6DG3gyMq_0BQqv9Tb6w-VL_3z7SlZWyetsSyBQnPqYBu13Bi'
+  'client_id': process.env.CLIENT_ID,
+  'client_secret': process.env.CLIENT_SECRET
 });
 
 /** ENDPOINTS **/
