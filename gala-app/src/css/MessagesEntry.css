@@ -37,9 +37,15 @@
   justify-content: center;
 }
 
+.MessagesEntryDescriptionBottomArea {
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+}
+
 .MessagesNewMessageArea {
-  max-width: 500px;
-  overflow-x: scroll;
+  width: 600px;
   display: flex;
   flex-direction: row;
 }
@@ -51,9 +57,11 @@
 .MessagesNewMessageText {
   font-style: italic;
   margin-left: 5px;
+  overflow: hidden;
 }
 
 .MessagesEntrySeeMore {
-  margin: 0 2% 100% 0;
+  padding-top: 1%;
+  padding-right: 4%;
   color: rgb(0, 0, 169);
 }

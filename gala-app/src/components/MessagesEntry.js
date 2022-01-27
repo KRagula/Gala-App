@@ -49,7 +49,7 @@ function ExploreEntry(props) {
               <div className="ExploreEntryDot" />
               <div>01/20/2022</div>
             </div>
-            <div className="ExploreEntryDescriptionBottomArea"> 
+            <div className="MessagesEntryDescriptionBottomArea"> 
               <div className="MessagesNewMessageArea">
                 {props.isNewMessage ?
                   <div className="MessagesNewMessageTitle">
