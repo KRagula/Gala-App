@@ -30,7 +30,7 @@ app.post('/pay', (req, res) => {
       "payment_method": "paypal"
     },
     "redirect_urls": {
-      "return_url": "http://localhost:8080/cancel",
+      "return_url": "http://localhost:8080/success",
       "cancel_url": "http://localhost:8080/cancel"
     },
     "transactions": [{
@@ -66,6 +66,35 @@ app.post('/pay', (req, res) => {
       }
     }
   });
+});
+
+app.get('/success', (req, res) => {
+  //to get parameters from URL in node you do req.query
+  const payerId = req.query.PayerID;
+  const paymentId = req.query.paymentId;
+  const execute_payment_json = {
+      "payer_id": payerId,
+      "transactions": [{
+          "amount": {
+              "currency": "USD",
+              "total": "25.00"
+          }
+      }]
+
+  };
+
+  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+      if (error) {
+          console.log(error.response);
+          throw error;
+      } else {
+          console.log("Get Payment Response");
+          console.log(JSON.stringify(payment));
+          res.send('Success');
+      }
+  });
+
+  //execute object with payerID
 });
 
 app.get('/cancel', (req, res) => res.send('Cancelled'));

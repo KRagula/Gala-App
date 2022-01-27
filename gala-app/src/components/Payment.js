@@ -49,7 +49,7 @@ function Payment() {
           </div>
           Date: Pitbull concert
           <br />
-          Price: $50
+          Price: 50
           <br />
           <form action="http://localhost:8080/pay" method="post">
             <input type="submit" value="Purchase" />
