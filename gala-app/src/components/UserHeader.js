@@ -3,20 +3,25 @@ import { Link } from 'react-router-dom';
 import '../css/UserHeader.css';
 
 function UserHeader() {
+  function setHeaderValue(){
+    const firstname = document.cookie.split('; ').find(row => row.startsWith('firstname=')).split('=')[1];
+    console.log("Test if Runs")
+    document.getElementById("nameWelcome").innerHTML = ('Welcome back, ' + firstname)
+  }
   return (
     <React.Fragment>
-      <div className="HeaderArea">
+      <div className="HeaderArea" >
         <div className="HeaderLeftArea">
           <div className="GalaLogoArea">
             <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-              <div className="GalaLogo">
+              <div className="GalaLogo" onLoad={setHeaderValue}>
                 Gala
               </div>
             </Link>
           </div>
           <div className="WelcomeAreaWrapper">
-            <div className="WelcomeArea">
-              Welcome back, Robin
+            <div className="WelcomeArea" id="nameWelcome">
+              Welcome back, Robin2
             </div>
           </div>
           
