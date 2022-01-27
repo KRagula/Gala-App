@@ -24,12 +24,12 @@ mongoose.connect(process.env.DATABASE_ACCESS, () =>console.log("Database connect
 //app.get('/', credentialroutes.defaultHandler);
 
 console.log(
-  'Authors: Edward Kim (kime022), Claire Wang (waclaire), Robin Tan (robintan), Kanishka Ragula (kragula)'
+	'Authors: Edward Kim (kime022), Claire Wang (waclaire), Robin Tan (robintan), Kanishka Ragula (kragula)'
 );
 
 const port = process.env.PORT || '8080';
 app.listen(port, () => {
-  console.log(
-    'Server running on port ' + port + '. Now open http://localhost:' + port + '/ in your browser!'
-  );
+	console.log(
+		'Server running on port ' + port + '. Now open http://localhost:' + port + '/ in your browser!'
+	);
 });
