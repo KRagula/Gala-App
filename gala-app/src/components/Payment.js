@@ -12,21 +12,21 @@ function Payment() {
 
   // meta state
   const [meta, setMeta] = useState({
-      control: control,
-      progress: 100,
-      currentTime: 0,
-      duration: 0
+    control: control,
+    progress: 100,
+    currentTime: 0,
+    duration: 0
   });
 
   // timeline
   var timeline = [];
   timeline.push(
     {
-        targets: "#DashboardTitleDescriptionArea",
-        delay: 0,
-        duration: 800,
-        opacity: 100,
-        easing: "easeInOutExpo",
+      targets: "#DashboardTitleDescriptionArea",
+      delay: 0,
+      duration: 800,
+      opacity: 100,
+      easing: "easeInOutExpo",
     })
 
   return (
@@ -37,11 +37,11 @@ function Payment() {
         <div className="MessagesArea">
           <div className="DashboardTitleDescriptionAreaWrapper">
             <div className="DashboardTitleDescriptionArea"
-                 id="DashboardTitleDescriptionArea">
+              id="DashboardTitleDescriptionArea">
               <div className="DashboardTitleText">
                 Payment
               </div>
-              <div className="DashboardTitleDot"/>
+              <div className="DashboardTitleDot" />
               <div className="DashboardDescriptionText">
                 Purchase and Finalize your date
               </div>
@@ -51,17 +51,19 @@ function Payment() {
           <br />
           Price: $50
           <br />
-          <button> Secure Pay using PayPal </button>
+          <form action="http://localhost:8080/pay" method="post">
+            <input type="submit" value="Purchase" />
+          </form>
         </div>
       </div>
       <Anime initial={timeline}
-              control={control}
-              setMeta={setMeta}
-              animeConfig={{
-                  autoplay: true,
-                  duration: 4000,
-                  easing: "easeInOutSine"
-              }}>
+        control={control}
+        setMeta={setMeta}
+        animeConfig={{
+          autoplay: true,
+          duration: 4000,
+          easing: "easeInOutSine"
+        }}>
       </Anime>
     </React.Fragment>
   );

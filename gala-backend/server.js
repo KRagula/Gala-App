@@ -4,14 +4,71 @@ const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
+const paypal = require('paypal-rest-sdk');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
+require('dotenv').config()
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AWX8X8R4EBM7gqgJkEpvd4f4UZGldJZuZ8WNQ-zG8kEe08dJpr_VLTR922mxq5MV6aR_nzu9oNer-7Qg',
+  'client_secret': 'EGPBtH1YeNv31-EPFjnjOKPtsxHqumPW6DG3gyMq_0BQqv9Tb6w-VL_3z7SlZWyetsSyBQnPqYBu13Bi'
+});
+
 /** ENDPOINTS **/
 app.get('/', routes.defaultHandler);
+
+// app.post('/pay', routes.handlePay);
+
+app.post('/pay', (req, res) => {
+  const create_payment_json = {
+    "intent": "sale",
+    "payer": {
+      "payment_method": "paypal"
+    },
+    "redirect_urls": {
+      "return_url": "http://localhost:8080/cancel",
+      "cancel_url": "http://localhost:8080/cancel"
+    },
+    "transactions": [{
+      "item_list": {
+        "items": [{
+          "name": "Claire test",
+          "sku": "0001",
+          "price": "25.00",
+          "currency": "USD",
+          "quantity": 1
+        }]
+      },
+      "amount": {
+        "currency": "USD",
+        "total": "25.00"
+      },
+      "description": "paypal test for Claire"
+    }]
+  };
+
+  console.log("this is the object" + create_payment_json);
+
+  //pass in create_payment_json and returns payment object
+  paypal.payment.create(create_payment_json, function (error, payment) {
+    if (error) {
+      throw error;
+    } else {
+      for (let i = 0; i < payment.links.length; i++) {
+        if (payment.links[i].rel == 'approval_url') {
+          //hfref is where the actual link is
+          res.redirect(payment.links[i].href);
+        }
+      }
+    }
+  });
+});
+
+app.get('/cancel', (req, res) => res.send('Cancelled'));
 
 console.log(
   'Authors: Edward Kim (kime022), Claire Wang (waclaire), Robin Tan (robintan), Kanishka Ragula (kragula)'
@@ -23,3 +80,4 @@ app.listen(port, () => {
     'Server running on port ' + port + '. Now open http://localhost:' + port + '/ in your browser!'
   );
 });
+
