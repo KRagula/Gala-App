@@ -1,23 +1,13 @@
 import React from 'react';
-import '../css/MessagesEntry.css';
+import '../css/BidsEntry.css';
 import testImage from '../assets/kanishka.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt} from 'react-icons/fa'
 
-function MessagesEntry(props) {
-  // Note: re-using a lot of components from Explore to improve reusability
+function BidsEntry() {
   return (
     <React.Fragment>
-      <div className="MessagesEntryPaper">
-        <div className="MessagesNewMessageNotifArea">
-          <div className="MessagesNewMessageNotif">
-            {/* Notify users if there is a new mesesage */}
-            {props.isNewMessage ? 
-              <span class="MessagesNewMessageDot"></span> 
-              :
-              <div />}
-          </div>
-        </div>
-        <div className="MessagesEntryProfileAreaWrapper">
+      <div className="ExploreEntryPaper">
+        <div className="ExploreEntryProfileAreaWrapper">
           <div className="ExploreEntryProfileArea">
             <img src={testImage} className="ExploreEntryProfileImage"/>
             <div className="ExploreEntryProfileText">
@@ -49,25 +39,25 @@ function MessagesEntry(props) {
               <div className="ExploreEntryDot" />
               <div>01/20/2022</div>
             </div>
-            <div className="MessagesEntryDescriptionBottomArea"> 
-              <div className="MessagesNewMessageArea">
-                {props.isNewMessage ?
-                  <div className="MessagesNewMessageTitle">
-                    New message from Kanishka: 
-                  </div>
-                  :
-                  <div>No new messages.</div>
-                }
-                {props.isNewMessage ?
-                  <div className="MessagesNewMessageText">
-                    {'"'.concat(props.newMessage, '"')}
-                  </div>
-                  : <div className="MessagesNewMessageText" />
-                }
+            <div className="ExploreEntryDescriptionBottomArea">
+              <div className="ExploreEntryDescriptionTagWrapper">
+                <div className="ExploreEntryDescriptionTagTitle">
+                  Tags:
+                </div>
+                <div className="ExploreEntryDescriptionTagArea">
+                  <div className="ExploreEntryTag">concert</div>
+                  <div className="ExploreEntryTag">fun</div>
+                  <div className="ExploreEntryTag">music</div> 
+                  <div className="ExploreEntryTag">food</div>
+                  <div className="ExploreEntryTag">dancing</div>
+                  <div className="ExploreEntryTag">disco</div> 
+                </div>
               </div>
-              <div className="MessagesEntrySeeMore">
-                Click to message
-              </div>
+            </div>
+          </div>
+          <div className="ExploreEntrySeeMoreArea">
+            <div className="ExploreEntrySeeMore">
+              Click to see more
             </div>
           </div>
         </div>
@@ -76,4 +66,4 @@ function MessagesEntry(props) {
   );
 }
 
-export default MessagesEntry;
+export default BidsEntry;

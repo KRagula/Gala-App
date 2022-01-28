@@ -10,6 +10,11 @@
   font-family: 'Quicksand', sans-serif;
 }
 
+.MessagesEntryPaper:hover {
+  box-shadow: 2px 2px #c9c9c9;
+  transition-duration: 0.2s;
+}
+
 .MessagesNewMessageNotifArea {
   width: 12px;
   display: flex;
