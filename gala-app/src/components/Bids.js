@@ -2,12 +2,25 @@ import React, { useState } from 'react';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import BidsEntry from './BidsEntry';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import ReactAnime from 'react-animejs';
 import '../css/Bids.css';
 
 const { Anime } = ReactAnime;
 
 function Bids() {
+  const [collapseFirst, setCollapseFirst] = useState(false);
+  const [collapseSecond, setCollapseSecond] = useState(false);
+
+  const handleCollapseFirst = () => {
+    setCollapseFirst(!collapseFirst);
+  }
+
+  const handleCollapseSecond = () => {
+    setCollapseSecond(!collapseSecond);
+  }
+
   // controller state
   const [control, setControl] = useState(null);
 
@@ -35,7 +48,7 @@ function Bids() {
       <UserHeader />
       <div className="DashboardArea">
         <Navigation selectedOption="bids"/>
-        <div className="MessagesArea">
+        <div className="BidsArea">
           <div className="DashboardTitleDescriptionAreaWrapper">
             <div className="DashboardTitleDescriptionArea"
                  id="DashboardTitleDescriptionArea">
@@ -48,26 +61,24 @@ function Bids() {
               </div>
             </div>
           </div>
-          {/* Re-using explore's toolbar */}
-          <div className="ExploreToolbarArea">
-            <div className="ExploreToolbarLeftArea">
-              <input className="ExploreToolbarSearch" placeholder="Search by keyword">
-              </input>
-              <select name="explore-sort" id="explore-sort" className="ExploreToolbarSelect">
-                <option value="none" selected disabled hidden>Sort by</option>
-                <option value="most_recent">Unread first</option>
-                <option value="least_recent">Read first</option>
-                <option value="most_recent">Earliest message</option>
-                <option value="least_recent">Latest message</option>
-                <option value="most_recent">Earliest date</option>
-                <option value="least_recent">Latest date</option>
-              </select>
+          <div className="BidsCollapsableArea">
+            <div className="BidsCollapseBar">
+              <div className="BidsCollapseText">
+                Bids Received
+              </div>
+              {collapseFirst ? 
+                <div className="BidsCollapseArrow" onClick={handleCollapseFirst}>
+                  <FontAwesomeIcon icon={faChevronDown}/>
+                </div>
+                :
+                <div className="BidsCollapseArrow" onClick={handleCollapseFirst}>
+                  <FontAwesomeIcon icon={faChevronUp}/>
+                </div>
+              }
             </div>
-          </div>
-          <div className="MessagesEntryArea">
-            <BidsEntry />
-            <BidsEntry />
-            <BidsEntry />
+            <div className="BidsEntryArea">
+              <BidsEntry />
+            </div>
           </div>
         </div>
       </div>
