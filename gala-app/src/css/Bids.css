@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+
+.BidsArea {
+  width: 100%;
+  padding-right: 9%;
+  padding-bottom: 2%;
+  height: 100%;
+}
+
+.BidsCollapsableArea {
+  margin: 2.5% 0 0 8%;
+  display: flex;
+  flex-direction: column;
+}
+
+.BidsCollapseBar {
+  display: flex;
+  flex-direction: row;
+}
+
+.BidsCollapseText {
+  font-size: 1.4em;
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
+}
+
+.BidsCollapseArrow {
+  margin: auto;
+  margin-left: 1%;
+  padding-top: 2px;
+  font-size: 1em;
+}
+
+.BidsCollapseArrow:hover {
+  font-size: 1.1em;
+  transition-duration: 0.05s;
+}
+
+.BidsEntryArea {
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 65%;
+  /* overflow-y: scroll;
+  overflow-x: hidden; */
+}

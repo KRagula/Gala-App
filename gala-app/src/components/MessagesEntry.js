@@ -3,7 +3,7 @@ import '../css/MessagesEntry.css';
 import testImage from '../assets/kanishka.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt} from 'react-icons/fa'
 
-function ExploreEntry(props) {
+function MessagesEntry(props) {
   // Note: re-using a lot of components from Explore to improve reusability
   return (
     <React.Fragment>
@@ -76,4 +76,4 @@ function ExploreEntry(props) {
   );
 }
 
-export default ExploreEntry;
+export default MessagesEntry;

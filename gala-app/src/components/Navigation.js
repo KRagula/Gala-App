@@ -88,16 +88,18 @@ function Navigation(props) {
             <div className = "OptionSelected">
               <div className="OptionSelectedSide" />
                 <div>
-                  BIDS
+                  MY BIDS
                 </div>
                 <div className="OptionSelectedSide">
                 <FontAwesomeIcon icon={faChevronRight}/>
               </div>
             </div>
             :
-            <div className = "Option">
-              BIDS
-          </div>
+            <Link to="/mybids" style={{ textDecoration: 'none' }}>
+              <div className = "Option">
+                MY BIDS
+              </div>
+            </Link>
           }
           {props.selectedOption == "archive" ?
             <div className = "OptionSelected">
