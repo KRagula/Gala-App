@@ -1,122 +1,94 @@
 import React, { useState } from 'react';
-import ReactAnime from 'react-animejs'
-import { Link } from 'react-router-dom';
+import ReactAnime from 'react-animejs';
 import Header from './Header';
-import axios from 'axios'
+import { login } from '../axios/credentials.js';
 import '../css/Login.css';
 
 const { Anime } = ReactAnime;
 
-function Login() {
+const Login = () => {
+	// controller state
+	const [control, setControl] = useState(null);
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
-    var state = {
-        email:'',
-        password:''
-    }
+	const onSubmit = event => {
+		event.preventDefault();
+		const credentials = {
+			email: email,
+			password: password,
+		};
+		login(credentials);
+	};
 
-    function onSubmit(event){
-      event.preventDefault()
-      const credentials = {
-          email: state.email,
-          password: state.password
-      }
-      axios.post('http://localhost:4000/app/login', {withCredentials: true})
-          .then(function(response) {
-            if ((response.data.data=='data')) {
-              //document.cookie='firstname='+response.data.firstname+';max-age=3600'
-              //document.cookie='lastname='+response.data.lastname+';max-age=3600'
-              // document.cookie('firstname', response.data.firstname)
-              // document.cookie('lastname', response.data.lastname)
-              //console.log(response.getResponseHeader('Set-Cookie'))
-              //console.log(response.headers.cookie)
-              window.location = '/explore'
-            }
-          })
-          .catch(function (error) {
-            if (error.response.status == "409") {
-              document.getElementById("errorArea").innerHTML = "Incorrect Password or User Doesn't Exist";
-            } else {
-              document.getElementById("errorArea").innerHTML = "Incorrect Password or User Doesn't Exist";
-            }
-            
-            
-            console.log(error.response.status);
-          })
-      
-    }
+	// meta state
+	const [meta, setMeta] = useState({
+		control: control,
+		progress: 100,
+		currentTime: 0,
+		duration: 0,
+	});
 
-    function changeEmail(event){
-      state.email=event.target.value
-    }
-  
-    function changePassword(event){
-      state.password=event.target.value
-    }
+	// timeline
+	const timeline = [];
+	timeline.push({
+		targets: '#LoginFormArea',
+		delay: 10,
+		duration: 3000,
+		opacity: 100,
+		easing: 'easeInOutSine',
+	});
 
-    // controller state
-    const [control, setControl] = useState(null);
-
-    // meta state
-    const [meta, setMeta] = useState({
-        control: control,
-        progress: 100,
-        currentTime: 0,
-        duration: 0
-    });
-  
-    // timeline
-    var timeline = [];
-    timeline.push(
-      {
-          targets: "#LoginFormArea",
-          delay: 10,
-          duration: 3000,
-          opacity: 100,
-          easing: 'easeInOutSine',
-      })
-
-  return (
-    <React.Fragment>
-      <Header />
-      <div class="LoginFormArea" id="LoginFormArea">
-        <div>
-          <div class="LoginTitleArea">
-            <div class="LoginTitle">
-              Welcome back.
-            </div>
-          </div>
-          <div class="LoginInputArea">
-            <div class="LoginInputTitle" style={{color: "red", align:"center"}} id="errorArea">
-            </div>
-          </div>
-          <div class="LoginInputArea">
-            <div class="LoginInputTitle">
-              Email Address
-            </div>
-            <input type="text" class="LoginInput" required placeholder="email@email.com" onChange={changeEmail}/>
-          </div>
-          <div class="LoginInputArea">
-            <div class="LoginInputTitle">
-              Password
-            </div>
-            <input type="password" class="LoginInput" required placeholder="Password" onChange={changePassword}/>
-          </div>
-          <div class="LoginSubmitButton" onClick={onSubmit}>
-            Log In
-          </div>
-        </div>
-      </div>
-      <Anime initial={timeline}
-              control={control}
-              setMeta={setMeta}
-              animeConfig={{
-                  autoplay: true,
-                  duration: 4000,
-                  easing: "easeInOutSine"
-              }}>
-        </Anime>
-    </React.Fragment>
-  );
-}
+	return (
+		<React.Fragment>
+			<Header />
+			<div class='LoginFormArea' id='LoginFormArea'>
+				<div>
+					<div class='LoginTitleArea'>
+						<div class='LoginTitle'>Welcome back.</div>
+					</div>
+					<div class='LoginInputArea'>
+						<div
+							class='LoginInputTitle'
+							style={{ color: 'red', align: 'center' }}
+							id='errorArea'></div>
+					</div>
+					<div class='LoginInputArea'>
+						<div class='LoginInputTitle'>Email Address</div>
+						<input
+							type='text'
+							class='LoginInput'
+							placeholder='email@email.com'
+							onChange={event => setEmail(event.target.value)}
+							required
+						/>
+					</div>
+					<div class='LoginInputArea'>
+						<div class='LoginInputTitle'>Password</div>
+						<input
+							type='password'
+							class='LoginInput'
+							placeholder='Password'
+							onChange={event => setPassword(event.target.value)}
+							required
+						/>
+					</div>
+					<div class='LoginSubmitButton' onClick={onSubmit}>
+						Log In
+					</div>
+				</div>
+			</div>
+			<Anime
+				initial={timeline}
+				control={control}
+				setMeta={setMeta}
+				animeConfig={{
+					autoplay: true,
+					duration: 4000,
+					easing: 'easeInOutSine',
+				}}></Anime>
+		</React.Fragment>
+	);
+};
 
 export default Login;
