@@ -42,8 +42,8 @@
   flex-direction: column;
   justify-content: flex-start;
   height: 65%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  /* overflow-y: scroll; */
+  /* overflow-x: hidden; */
 }
 
 .DatePickerArea {

@@ -1,0 +1,79 @@
+.BidsEntryPaper {
+  padding: 10px;
+  min-height: 150px;
+  height: 150px;
+  background-color: rgb(245, 245, 245);
+  margin-bottom: 2%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.BidsEntryDescriptionTitle {
+  height: 100%;
+  margin-right: 4%;
+  border-bottom: 1px rgb(218, 217, 217) solid;
+  padding-bottom: 6px;
+}
+
+.BidsEntryDescriptionTitleSub {
+  margin-top: 4px;
+  margin-right: 5%;
+  font-size: 1em;
+  overflow-x: scroll;
+  font-style: italic;
+  font-size: 0.95em;
+}
+
+.BidsEntryBottomArea {
+  margin-left: 2%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.BidsEntryBottomLeftArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.BidsEntryBottomLeftAreaRow {
+  margin-top: 8px;
+  font-size: 1.05em;
+  display: flex;
+}
+
+.BidsEntryBottomLeftAreaRowChevron {
+  margin: auto;
+  margin-right: 10px;
+  font-size: 0.7em;
+}
+
+.BidsEntryBottomLeftAreaRowPrice {
+  margin-left: 5px;
+}
+
+.BidsEntryBottomRightArea {
+  margin-right: 2%;
+  display: flex;
+  flex-direction: column-reverse;
+  margin-bottom: 1%;
+}
+
+.BidsEntryBottomRightAreaRow {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.BidsEntryBottomRightAreaWidget {
+  margin-left: 15px;
+}
+
+.BidsEntryBottomRightAreaWidget.Confirm {
+  color: rgb(0, 0, 143);
+}
+
+.BidsEntryBottomRightAreaWidget.Deny {
+  color: rgb(143, 0, 0);
+}

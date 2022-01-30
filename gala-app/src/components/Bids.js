@@ -77,7 +77,29 @@ function Bids() {
               }
             </div>
             <div className="BidsEntryArea">
-              <BidsEntry />
+              <BidsEntry isReceived={true} />
+              <BidsEntry isReceived={true} />
+            </div>
+          </div>
+          <div className="BidsCollapsableArea">
+            <div className="BidsCollapseBar">
+              <div className="BidsCollapseText">
+                Bids Sent
+              </div>
+              {collapseFirst ? 
+                <div className="BidsCollapseArrow" onClick={handleCollapseFirst}>
+                  <FontAwesomeIcon icon={faChevronDown}/>
+                </div>
+                :
+                <div className="BidsCollapseArrow" onClick={handleCollapseFirst}>
+                  <FontAwesomeIcon icon={faChevronUp}/>
+                </div>
+              }
+            </div>
+            <div className="BidsEntryArea">
+              <BidsEntry isReceived={false} />
+              <BidsEntry isReceived={false} />
+              <BidsEntry isReceived={false} />
             </div>
           </div>
         </div>
