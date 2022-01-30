@@ -76,31 +76,39 @@ function Bids() {
                 </div>
               }
             </div>
-            <div className="BidsEntryArea">
-              <BidsEntry isReceived={true} />
-              <BidsEntry isReceived={true} />
-            </div>
+            {!collapseFirst ?
+              <div className="BidsEntryArea">
+                <BidsEntry isReceived={true} />
+                <BidsEntry isReceived={true} />
+              </div>
+              :
+              <div />
+            }
           </div>
           <div className="BidsCollapsableArea">
             <div className="BidsCollapseBar">
               <div className="BidsCollapseText">
                 Bids Sent
               </div>
-              {collapseFirst ? 
-                <div className="BidsCollapseArrow" onClick={handleCollapseFirst}>
+              {collapseSecond ? 
+                <div className="BidsCollapseArrow" onClick={handleCollapseSecond}>
                   <FontAwesomeIcon icon={faChevronDown}/>
                 </div>
                 :
-                <div className="BidsCollapseArrow" onClick={handleCollapseFirst}>
+                <div className="BidsCollapseArrow" onClick={handleCollapseSecond}>
                   <FontAwesomeIcon icon={faChevronUp}/>
                 </div>
               }
             </div>
-            <div className="BidsEntryArea">
-              <BidsEntry isReceived={false} />
-              <BidsEntry isReceived={false} />
-              <BidsEntry isReceived={false} />
-            </div>
+            {!collapseSecond ?
+              <div className="BidsEntryArea">
+                <BidsEntry isReceived={false} isConfirmed={true}/>
+                <BidsEntry isReceived={false} isConfirmed={false}/>
+                <BidsEntry isReceived={false} isConfirmed={false}/>
+              </div>
+            :
+              <div />
+            }
           </div>
         </div>
       </div>

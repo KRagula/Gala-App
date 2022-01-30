@@ -10,6 +10,11 @@
   font-family: 'Quicksand', sans-serif;
 }
 
+.BidsEntryPaper:hover {
+  box-shadow: 2px 2px #c9c9c9;
+  transition-duration: 0.2s;
+}
+
 .BidsEntryDescriptionTitle {
   height: 100%;
   margin-right: 4%;
@@ -21,9 +26,9 @@
   margin-top: 4px;
   margin-right: 5%;
   font-size: 1em;
-  overflow-x: scroll;
   font-style: italic;
   font-size: 0.95em;
+  color: rgb(40, 40, 40);
 }
 
 .BidsEntryBottomArea {
@@ -42,6 +47,12 @@
   margin-top: 8px;
   font-size: 1.05em;
   display: flex;
+  flex-direction: row;
+}
+
+.BidsEntryBottomLeftAreaRowWrapper {
+  display: flex;
+  flex-direction: row;
 }
 
 .BidsEntryBottomLeftAreaRowChevron {
@@ -52,6 +63,21 @@
 
 .BidsEntryBottomLeftAreaRowPrice {
   margin-left: 5px;
+}
+
+.BidsEntryBottomLeftAreaRowStatus {
+  margin: auto;
+  margin-left: 5px;
+  font-size: 0.95em;
+  font-weight: bold;
+}
+
+.BidsEntryBottomLeftAreaRowStatus.Waiting {
+  color: rgba(158, 146, 11, 0.61)
+}
+
+.BidsEntryBottomLeftAreaRowStatus.Confirmed {
+  color: rgb(13, 79, 13);
 }
 
 .BidsEntryBottomRightArea {

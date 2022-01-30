@@ -88,36 +88,53 @@ function BidsEntry(props) {
           <div className="ExploreEntryDescriptionArea">
             <div className="BidsEntryDescriptionTitle">
               <div className="ExploreEntryDescriptionTitleMain">
-                PITBULL CONCERT
+                SKYDIVING LESSONS
               </div>
               <div className="BidsEntryDescriptionTitleSub">
-                Auction Price: $50.00
+                Auction Price: $100.00
               </div>
               <div className="BidsEntryDescriptionTitleSub">
-                Highest Bid: <b>$60.00</b>
+                Highest Bid: <b>$110.00</b>
               </div>
             </div>
           </div>
           <div className="BidsEntryBottomArea">
             <div className="BidsEntryBottomLeftArea">
               <div className="BidsEntryBottomLeftAreaRow">
-                <div className="BidsEntryBottomLeftAreaRowChevron">
-                  <FontAwesomeIcon icon={faChevronRight}/>
+                <div className="BidsEntryBottomLeftAreaRowWrapper">
+                  <div className="BidsEntryBottomLeftAreaRowChevron">
+                    <FontAwesomeIcon icon={faChevronRight}/>
+                  </div>
+                  Your Bid:
+                  <div className="BidsEntryBottomLeftAreaRowPrice">
+                    <b>$105.00</b>
+                  </div>
                 </div>
-                Kanishka's Bid:
-                <div className="BidsEntryBottomLeftAreaRowPrice">
-                  <b>$55.00</b>
-                </div>
+              </div>
+              <div className="BidsEntryBottomLeftAreaRow">
+                <i>Status: </i>
+                {props.isConfirmed ?
+                  <div className="BidsEntryBottomLeftAreaRowStatus Confirmed">
+                    Confirmed.
+                  </div>
+                  :
+                  <div className="BidsEntryBottomLeftAreaRowStatus Waiting">
+                    Waiting for response...
+                  </div>
+                }
               </div>
             </div>
             <div className="BidsEntryBottomRightArea">
               <div className="BidsEntryBottomRightAreaRow">
-                <div className="BidsEntryBottomRightAreaWidget Confirm">
-                  Click to Confirm
-                </div>  
-                <div className="BidsEntryBottomRightAreaWidget Deny">
-                  Click to Deny
-                </div>  
+                {props.isConfirmed ?
+                  <div className="BidsEntryBottomRightAreaWidget Confirm">
+                    <b>Click to Payment</b>
+                  </div> 
+                : 
+                  <div className="BidsEntryBottomRightAreaWidget Deny">
+                    Click to Withdraw
+                  </div>  
+                }
               </div>
             </div>
           </div>
