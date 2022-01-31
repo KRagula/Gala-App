@@ -1,0 +1,16 @@
+POST http://localhost:8080/makePost
+Content-Type: application/json
+
+{
+		"title": "Zed Concert",
+		"description": "Come see a Zed concert with me",
+		"streetAddress": "560 Mission St",
+		"cityAddress": "San Francisco",
+		"stateAddress": "CA",
+		"zipAddress": "19104",
+		"timeStart": "Tue Feb 01 2022 00:00:00 GMT+0000 (GMT)",
+		"timeEnd": "Wed Feb 02 2022 00:00:00 GMT+0000 (GMT)",
+		"price": "50",
+		"tags": "party, fun, concert",
+		"hostEmail": "kragula@seas.upenn.edu"
+}

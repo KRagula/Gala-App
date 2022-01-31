@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const credentialRoutes = require('./routes/credential-routes.js');
+const postRoutes = require('./routes/post-routes.js');
 const app = express();
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
@@ -24,6 +25,8 @@ mongoose.connect(process.env.DATABASE_ACCESS, () => console.log('Database connec
 /** ENDPOINTS **/
 app.post('/signup', credentialRoutes.signup);
 app.post('/login', credentialRoutes.login);
+app.post('/makePost', postRoutes.postNew);
+app.post('/getCityPosts', postRoutes.getCityPosts);
 
 console.log(
 	'Authors: Edward Kim (kime022), Claire Wang (waclaire), Robin Tan (robintan), Kanishka Ragula (kragula)'
