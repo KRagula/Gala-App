@@ -2,6 +2,7 @@ const postTemplate = require('../models/PostModels');
 const jwt = require('jsonwebtoken');
 
 const postNew = (request, response) => {
+	//TODO: Use https://docs.aws.amazon.com/location/latest/developerguide/search-place-index-geocoding.html for AWS Geocoding
 	
 	const newPost = new postTemplate({
 		title: request.body.title,
