@@ -79,8 +79,8 @@ function Dates() {
             </div>
             {!collapseFirst ?
               <div className="BidsEntryArea">
-                <DatesEntry isReceived={true} />
-                <DatesEntry isReceived={true} />
+                <DatesEntry isUpcoming={true} isOngoing={true}/>
+                <DatesEntry isUpcoming={true} isOngoing={false} />
               </div>
               :
               <div />
@@ -103,9 +103,9 @@ function Dates() {
             </div>
             {!collapseSecond ?
               <div className="BidsEntryArea">
-                <DatesEntry isReceived={false} isConfirmed={true}/>
-                <DatesEntry isReceived={false} isConfirmed={false}/>
-                <DatesEntry isReceived={false} isConfirmed={false}/>
+                <DatesEntry isUpcoming={false}/>
+                <DatesEntry isUpcoming={false}/>
+                <DatesEntry isUpcoming={false}/>
               </div>
             :
               <div />

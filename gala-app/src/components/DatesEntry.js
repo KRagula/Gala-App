@@ -3,10 +3,10 @@ import '../css/DatesEntry.css';
 import testImage from '../assets/kanishka.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt} from 'react-icons/fa'
 
-function DatesEntry() {
+function DatesEntry(props) {
   return (
     <React.Fragment>
-      <div className="ExploreEntryPaper">
+      <div className="DatesEntryPaper">
         <div className="ExploreEntryProfileAreaWrapper">
           <div className="ExploreEntryProfileArea">
             <img src={testImage} className="ExploreEntryProfileImage"/>
@@ -22,9 +22,9 @@ function DatesEntry() {
             </div>
           </div>
         </div>
-        <div className="ExploreEntryRightArea">
-          <div className="ExploreEntryDescriptionArea">
-            <div className="ExploreEntryDescriptionTitle">
+        <div className="DatesEntryRightArea">
+          <div className="DatesEntryDescriptionArea">
+            <div className="DatesEntryDescriptionTitle">
               <div className="ExploreEntryDescriptionTitleMain">
                 PITBULL CONCERT
               </div>
@@ -39,25 +39,40 @@ function DatesEntry() {
               <div className="ExploreEntryDot" />
               <div>01/20/2022</div>
             </div>
-            <div className="ExploreEntryDescriptionBottomArea">
-              <div className="ExploreEntryDescriptionTagWrapper">
-                <div className="ExploreEntryDescriptionTagTitle">
-                  Tags:
-                </div>
-                <div className="ExploreEntryDescriptionTagArea">
-                  <div className="ExploreEntryTag">concert</div>
-                  <div className="ExploreEntryTag">fun</div>
-                  <div className="ExploreEntryTag">music</div> 
-                  <div className="ExploreEntryTag">food</div>
-                  <div className="ExploreEntryTag">dancing</div>
-                  <div className="ExploreEntryTag">disco</div> 
-                </div>
+          </div>
+          <div className="DatesEntryBottomArea">
+            <div className="BidsEntryBottomLeftArea">
+              <div className="BidsEntryBottomLeftAreaRow">
+                <i>Status: </i>
+                {props.isUpcoming ?
+                  props.isOngoing ?
+                    <div className="BidsEntryBottomLeftAreaRowStatus Ongoing">
+                      Ongoing.
+                    </div>
+                    :
+                    <div className="BidsEntryBottomLeftAreaRowStatus Confirmed">
+                      Confirmed.
+                    </div>
+                  :
+                  <div className="BidsEntryBottomLeftAreaRowStatus Completed">
+                    Completed.
+                  </div>
+                }
               </div>
             </div>
-          </div>
-          <div className="ExploreEntrySeeMoreArea">
-            <div className="ExploreEntrySeeMore">
-              Click to see more
+            <div className="BidsEntryBottomRightArea">
+              <div className="BidsEntryBottomRightAreaRow">
+                {props.isUpcoming ?
+                  <div className="BidsEntryBottomRightAreaWidget Confirm">
+                    Click for details
+                  </div> 
+                  :
+                  <div />
+                }
+                <div className="BidsEntryBottomRightAreaWidget Deny">
+                  Click to withdraw
+                </div>  
+              </div>
             </div>
           </div>
         </div>
