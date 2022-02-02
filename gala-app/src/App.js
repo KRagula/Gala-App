@@ -11,6 +11,7 @@ import Explore from './components/Explore';
 import Create from './components/Create';
 import Messages from './components/Messages';
 import Bids from './components/Bids';
+import Dates from './components/Dates';
 import Payment from './components/Payment';
 import './css/App.css';
 
@@ -31,6 +32,7 @@ function App() {
           <Route exact path="/create" element={<Create/>} />
           <Route exact path="/messages" element={<Messages/>} />
           <Route exact path="/mybids" element={<Bids/>} />
+          <Route exact path="/mydates" element={<Dates/>} />
           <Route exact path="/payment" element={<Payment/>} />
         </Routes>
       </BrowserRouter>

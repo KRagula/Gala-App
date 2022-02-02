@@ -101,20 +101,22 @@ function Navigation(props) {
               </div>
             </Link>
           }
-          {props.selectedOption == "archive" ?
+          {props.selectedOption == "dates" ?
             <div className = "OptionSelected">
               <div className="OptionSelectedSide" />
                 <div>
-                  ARCHIVE
+                  MY DATES
                 </div>
                 <div className="OptionSelectedSide">
                 <FontAwesomeIcon icon={faChevronRight}/>
               </div>
             </div>
             :
-            <div className = "Option Last">
-              ARCHIVE
-          </div>
+            <Link to="/mydates" style={{ textDecoration: 'none' }}>
+              <div className = "Option Last">
+                MY DATES
+              </div>
+            </Link>
           }
         </div>
       </div>}

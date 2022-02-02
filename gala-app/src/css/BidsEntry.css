@@ -73,11 +73,19 @@
 }
 
 .BidsEntryBottomLeftAreaRowStatus.Waiting {
-  color: rgba(158, 146, 11, 0.61)
+  color: rgba(145, 31, 11, 0.61)
 }
 
 .BidsEntryBottomLeftAreaRowStatus.Confirmed {
   color: rgb(13, 79, 13);
+}
+
+.BidsEntryBottomLeftAreaRowStatus.Ongoing {
+  color: rgb(148, 136, 0);
+}
+
+.BidsEntryBottomLeftAreaRowStatus.Completed {
+  color: rgb(40, 40, 40);
 }
 
 .BidsEntryBottomRightArea {
