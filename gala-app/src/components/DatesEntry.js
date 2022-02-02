@@ -1,6 +1,7 @@
 import React from 'react';
 import '../css/DatesEntry.css';
 import testImage from '../assets/kanishka.jpeg';
+import testImage2 from '../assets/eddie.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt} from 'react-icons/fa'
 
 function DatesEntry(props) {
@@ -9,14 +10,14 @@ function DatesEntry(props) {
       <div className="DatesEntryPaper">
         <div className="ExploreEntryProfileAreaWrapper">
           <div className="ExploreEntryProfileArea">
-            <img src={testImage} className="ExploreEntryProfileImage"/>
+            <img src={testImage2} className="ExploreEntryProfileImage"/>
             <div className="ExploreEntryProfileText">
-              Kanishka
+              Eddie
             </div>
             <div className="ExploreEntryProfileStars">
               <FaStar fontSize="11px" color="#424242"/>
-              <FaStar fontSize="11px" color="#424242"/>
               <FaStarHalfAlt fontSize="11px" color="#424242"/>
+              <FaRegStar fontSize="11px" color="#424242"/>
               <FaRegStar fontSize="11px" color="#424242"/>
               <FaRegStar fontSize="11px" color="#424242"/>
             </div>
@@ -26,18 +27,18 @@ function DatesEntry(props) {
           <div className="DatesEntryDescriptionArea">
             <div className="DatesEntryDescriptionTitle">
               <div className="ExploreEntryDescriptionTitleMain">
-                PITBULL CONCERT
+                TENNIS LESSONS
               </div>
               <div className="ExploreEntryDescriptionTitleSub">
-                Come to the Pitbull concert with me this Saturday at the Moda Center! Tickets and drinks on me.
+                You bring the balls, I bring the racket.
               </div>
             </div>
             <div className="ExploreEntryDescriptionLogistics">
-              <div>$50.00</div>
+              <div>$20.00</div>
               <div className="ExploreEntryDot" />
-              <div>Portland, OR (5 mi)</div>
+              <div>Philadelpia, PA (1 mi)</div>
               <div className="ExploreEntryDot" />
-              <div>01/20/2022</div>
+              <div>02/15/2022</div>
             </div>
           </div>
           <div className="DatesEntryBottomArea">
