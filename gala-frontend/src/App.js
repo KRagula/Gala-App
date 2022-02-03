@@ -13,6 +13,7 @@ import Messages from './components/Messages';
 import Bids from './components/Bids';
 import Dates from './components/Dates';
 import Payment from './components/Payment';
+import Message from './components/Message';
 import './css/App.css';
 
 
@@ -34,6 +35,7 @@ function App() {
           <Route exact path="/mybids" element={<Bids/>} />
           <Route exact path="/mydates" element={<Dates/>} />
           <Route exact path="/payment" element={<Payment/>} />
+          <Route exact path="/message" element={<Message/>} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>
