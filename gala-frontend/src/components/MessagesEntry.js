@@ -34,7 +34,7 @@ function MessagesEntry(props) {
         </div>
         <div className="ExploreEntryRightArea">
           <div className="ExploreEntryDescriptionArea">
-            <div className="ExploreEntryDescriptionTitle">
+            <div className="MessagesEntryDescriptionTitle">
               <div className="ExploreEntryDescriptionTitleMain">
                 PITBULL CONCERT
               </div>
