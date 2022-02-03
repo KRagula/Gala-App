@@ -53,11 +53,13 @@ function ExploreEntry() {
                   <div className="ExploreEntryTag">disco</div> 
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="ExploreEntrySeeMoreArea">
-            <div className="ExploreEntrySeeMore">
-              Click to see more
+              <div className="ExploreEntrySeeMoreArea">
+                <div className="ExploreEntrySeeMoreAreaWrapper">
+                  <div className="ExploreEntrySeeMore">
+                    Click to see more
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

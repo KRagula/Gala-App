@@ -63,16 +63,16 @@ function DatesEntry(props) {
             </div>
             <div className="BidsEntryBottomRightArea">
               <div className="BidsEntryBottomRightAreaRow">
+                <div className="BidsEntryBottomRightAreaWidget Confirm">
+                  Click for details
+                </div> 
                 {props.isUpcoming ?
-                  <div className="BidsEntryBottomRightAreaWidget Confirm">
-                    Click for details
-                  </div> 
+                  <div className="BidsEntryBottomRightAreaWidget Deny">
+                    Click to withdraw
+                  </div>  
                   :
                   <div />
                 }
-                <div className="BidsEntryBottomRightAreaWidget Deny">
-                  Click to withdraw
-                </div>  
               </div>
             </div>
           </div>

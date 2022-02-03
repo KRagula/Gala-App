@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactAnime from 'react-animejs';
-import Header from '../components/Header';
+import Header from './Header';
 import { signup } from '../axios/credentials.js';
 import '../css/Signup.css';
 
