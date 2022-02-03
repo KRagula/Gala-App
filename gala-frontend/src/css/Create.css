@@ -1,184 +1,182 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 
 .CreateArea {
-  width: 100%;
-  padding-right: 9%;
+	width: 100%;
+	padding-right: 9%;
 }
 
 .CreateFormArea {
-  margin: 3% 5% 2% 11%;
-  background-color: rgb(245, 245, 245);
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
+	margin: 3% 5% 2% 11%;
+	background-color: rgb(245, 245, 245);
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
 }
 
 .CreateFormRow {
-  padding: 2% 2% 1% 2%;
-  display: flex;
+	padding: 2% 2% 1% 2%;
+	display: flex;
 }
 
 .CreateFormRow.Time {
-  padding-top: 1.5%;
+	padding-top: 1.5%;
 }
 
 .CreateFormRow.Proof {
-  padding-top: 1%;
+	padding-top: 1%;
 }
 
 .CreateFormRow.Tags {
-  padding-top: 0;
+	padding-top: 0;
 }
 
 .CreateFormRowTitle {
-  padding-top: 7px;
-  width: 150px;
-  font-size: 1.3em;
-  font-family: 'Quicksand', sans-serif;
+	padding-top: 7px;
+	width: 150px;
+	font-size: 1.3em;
+	font-family: 'Quicksand', sans-serif;
 }
 
 .CreateFormRowTitle.Time {
-  padding-top: 12px;
+	padding-top: 12px;
 }
 
 .CreateFormRowTitle.Tags {
-  padding-top: 3px;
+	padding-top: 3px;
 }
 
 .CreateFormRowInput {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #b1b1b1;
-  width: 65%;
-  height: 18px;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+	width: 65%;
+	height: 18px;
 }
 
 .CreateFormRowInput.Price {
-  width: 10%;
+	width: 10%;
 }
 
 .CreateFormRowInput.Tag {
-  width: 80px;
-  height: 12px;
+	width: 80px;
+	height: 12px;
 }
 
-
 .CreateFormInputAreaAddress {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 60%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 60%;
 }
 
 .CreateFormInputAreaRowAddress {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .CreateFormInputAreaRowAddress.AddressFirst {
-  margin-bottom: 1.5%;
+	margin-bottom: 1.5%;
 }
 
 .CreateFormRowInputAddress {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #b1b1b1;
-  width: 100%;
-  height: 18px;
-  margin-right: 20px;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+	width: 100%;
+	height: 18px;
+	margin-right: 20px;
 }
 
 .CreateFormInputAreaTime {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .CreateFormDateTime {
-  background-color: white;
-  border-radius: 5px;
+	background-color: white;
+	border-radius: 5px;
 }
 
 .CreateFormTimeBetweenText {
-  margin: 0 16px 0 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: 1em;
-  font-family: 'Quicksand', sans-serif;
+	margin: 0 16px 0 16px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-size: 1em;
+	font-family: 'Quicksand', sans-serif;
 }
 
 .CreateFormInputProof {
-  margin-top: 20px;
+	margin-top: 20px;
 }
 
 .CreateFormRowInputAreaTags {
-  display: flex;
-  flex-direction: row;
-  font-size: 0.9em;
+	display: flex;
+	flex-direction: row;
+	font-size: 0.9em;
 }
 
 .CreateFormInputTagInsn {
-  margin: auto;
-  margin-left: 10px;
-  font-family: 'Quicksand', sans-serif;
+	margin: auto;
+	margin-left: 10px;
+	font-family: 'Quicksand', sans-serif;
 }
 
 .CreateFormTagsArea {
-  display: flex;
-  flex-direction: flex-start;
-  width: 70%;
-  max-width: 70%;
-  overflow-x: scroll;
+	display: flex;
+	flex-direction: flex-start;
+	width: 70%;
+	max-width: 70%;
+	overflow-x: scroll;
 }
 
 .CreateFormTagEntry {
-  margin-right: 10px;
-  background-color: rgb(215, 215, 215);
-  padding: 4px 6px 4px 6px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: row;
-  font-size: 0.9em;
+	margin-right: 10px;
+	background-color: rgb(215, 215, 215);
+	padding: 4px 6px 4px 6px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: row;
+	font-size: 0.9em;
 }
 
 .CreateFormTagEntryX {
-  margin: auto;
-  padding-right: 7px;
+	margin: auto;
+	padding-right: 7px;
 }
 
 .CreateFormButtonArea {
-  margin: 0 12% 3% 0;
-  display: flex;
-  flex-direction: row-reverse;
+	margin: 0 12% 3% 0;
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 .CreateFormButton {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.1em;
-  color: #ffffff;
-  border-radius: 6px;
-  width: 8%;
-  padding: 8px;
-  text-align: center;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.1em;
+	color: #ffffff;
+	border-radius: 6px;
+	width: 8%;
+	padding: 8px;
+	text-align: center;
 }
 
 .CreateFormButton.Submit {
-  background-color: rgb(0, 157, 102);
+	background-color: rgb(0, 157, 102);
 }
 
 .CreateFormButton.Submit:hover {
-  transition-duration: 0.4s;
-  background-color: rgb(0, 123, 107);
+	transition-duration: 0.4s;
+	background-color: rgb(0, 123, 107);
 }
 
 .CreateFormButton.Clear {
-  background-color: rgb(169, 39, 0);
-  margin-right: 10px;
+	background-color: rgb(169, 39, 0);
+	margin-right: 10px;
 }
 
 .CreateFormButton.Clear:hover {
-  transition-duration: 0.4s;
-  background-color: rgb(123, 47, 0);
+	transition-duration: 0.4s;
+	background-color: rgb(123, 47, 0);
 }
-

@@ -1,113 +1,113 @@
 .BidsEntryPaper {
-  padding: 10px;
-  min-height: 150px;
-  height: 150px;
-  background-color: rgb(245, 245, 245);
-  margin-bottom: 2%;
-  border-radius: 10px;
-  display: flex;
-  justify-content: flex-start;
-  font-family: 'Quicksand', sans-serif;
+	padding: 10px;
+	min-height: 150px;
+	height: 150px;
+	background-color: rgb(245, 245, 245);
+	margin-bottom: 2%;
+	border-radius: 10px;
+	display: flex;
+	justify-content: flex-start;
+	font-family: 'Quicksand', sans-serif;
 }
 
 .BidsEntryPaper:hover {
-  box-shadow: 2px 2px #c9c9c9;
-  transition-duration: 0.2s;
+	box-shadow: 2px 2px #c9c9c9;
+	transition-duration: 0.2s;
 }
 
 .BidsEntryDescriptionTitle {
-  height: 100%;
-  margin-right: 4%;
-  border-bottom: 1px rgb(218, 217, 217) solid;
-  padding-bottom: 6px;
+	height: 100%;
+	margin-right: 4%;
+	border-bottom: 1px rgb(218, 217, 217) solid;
+	padding-bottom: 6px;
 }
 
 .BidsEntryDescriptionTitleSub {
-  margin-top: 4px;
-  margin-right: 5%;
-  font-size: 1em;
-  font-style: italic;
-  font-size: 0.95em;
-  color: rgb(40, 40, 40);
+	margin-top: 4px;
+	margin-right: 5%;
+	font-size: 1em;
+	font-style: italic;
+	font-size: 0.95em;
+	color: rgb(40, 40, 40);
 }
 
 .BidsEntryBottomArea {
-  margin-left: 2%;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
+	margin-left: 2%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
 }
 
 .BidsEntryBottomLeftArea {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .BidsEntryBottomLeftAreaRow {
-  margin-top: 8px;
-  font-size: 1.05em;
-  display: flex;
-  flex-direction: row;
+	margin-top: 8px;
+	font-size: 1.05em;
+	display: flex;
+	flex-direction: row;
 }
 
 .BidsEntryBottomLeftAreaRowWrapper {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
 .BidsEntryBottomLeftAreaRowChevron {
-  margin: auto;
-  margin-right: 10px;
-  font-size: 0.7em;
+	margin: auto;
+	margin-right: 10px;
+	font-size: 0.7em;
 }
 
 .BidsEntryBottomLeftAreaRowPrice {
-  margin-left: 5px;
+	margin-left: 5px;
 }
 
 .BidsEntryBottomLeftAreaRowStatus {
-  margin: auto;
-  margin-left: 5px;
-  font-size: 0.95em;
-  font-weight: bold;
+	margin: auto;
+	margin-left: 5px;
+	font-size: 0.95em;
+	font-weight: bold;
 }
 
 .BidsEntryBottomLeftAreaRowStatus.Waiting {
-  color: rgba(145, 31, 11, 0.61)
+	color: rgba(145, 31, 11, 0.61);
 }
 
 .BidsEntryBottomLeftAreaRowStatus.Confirmed {
-  color: rgb(13, 79, 13);
+	color: rgb(13, 79, 13);
 }
 
 .BidsEntryBottomLeftAreaRowStatus.Ongoing {
-  color: rgb(148, 136, 0);
+	color: rgb(148, 136, 0);
 }
 
 .BidsEntryBottomLeftAreaRowStatus.Completed {
-  color: rgb(40, 40, 40);
+	color: rgb(40, 40, 40);
 }
 
 .BidsEntryBottomRightArea {
-  margin-right: 2%;
-  display: flex;
-  flex-direction: column-reverse;
-  margin-bottom: 1%;
+	margin-right: 2%;
+	display: flex;
+	flex-direction: column-reverse;
+	margin-bottom: 1%;
 }
 
 .BidsEntryBottomRightAreaRow {
-  display: flex;
-  flex-direction: row-reverse;
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 .BidsEntryBottomRightAreaWidget {
-  margin-left: 15px;
+	margin-left: 15px;
 }
 
 .BidsEntryBottomRightAreaWidget.Confirm {
-  color: rgb(0, 0, 143);
+	color: rgb(0, 0, 143);
 }
 
 .BidsEntryBottomRightAreaWidget.Deny {
-  color: rgb(143, 0, 0);
+	color: rgb(143, 0, 0);
 }

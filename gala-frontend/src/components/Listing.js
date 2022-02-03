@@ -6,7 +6,7 @@ import '../css/Message.css';
 
 const { Anime } = ReactAnime;
 
-function Message() {
+function Listing() {
 	// controller state
 	const [control, setControl] = useState(null);
 
@@ -33,7 +33,7 @@ function Message() {
 			<UserHeader />
 			<div className='DashboardArea'>
 				<Navigation />
-				<div className='MessageArea'>TODO: EDDIE TO USE SENDBIRD</div>
+				<div className='MessageArea'>TODO: ROBIN TO IMPLEMENT LISTING</div>
 			</div>
 			<Anime
 				initial={timeline}
@@ -48,4 +48,4 @@ function Message() {
 	);
 }
 
-export default Message;
+export default Listing;
