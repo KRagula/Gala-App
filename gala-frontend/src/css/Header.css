@@ -2,92 +2,94 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
 
 .HeaderArea {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    border-bottom: 1px solid rgb(211, 211, 211);
-    background-color: rgba(216, 216, 216, 0.116);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-bottom: 1px solid rgb(211, 211, 211);
+	background-color: rgba(216, 216, 216, 0.116);
 }
 
 .HeaderLeftArea {
-    margin: auto;
-    margin-left: 0%;
-    display: flex;
-    width: 60%;
+	margin: auto;
+	margin-left: 0%;
+	display: flex;
+	width: 60%;
 }
 .HeaderRightArea {
-    margin: auto;
-    margin-right: 5%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+	margin: auto;
+	margin-right: 5%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .GalaLogoArea {
-    width: 25%;
-    text-align: center;
+	width: 25%;
+	text-align: center;
 }
 
 .GalaLogo {
-    font-family: 'Caveat', cursive;
-    font-size: 4em;
-    color: #61165d;
+	font-family: 'Caveat', cursive;
+	font-size: 4em;
+	color: #61165d;
 }
 
 .SignupButton {
-    margin-right: 15px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.2em;
-    color: #ffffff;
-    border-radius: 8px;
-    padding: 1% 1% 1% 1%;
-    padding: 10px;
-    background-color: rgb(141, 115, 212);
+	margin-right: 15px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.2em;
+	color: #ffffff;
+	border-radius: 8px;
+	padding: 1% 1% 1% 1%;
+	padding: 10px;
+	background-color: rgb(141, 115, 212);
 }
 
 .SignupButton:hover {
-    transition-duration: 0.4s;
-    background-color: rgb(109, 89, 165);
+	transition-duration: 0.4s;
+	background-color: rgb(109, 89, 165);
 }
 
 .LoginButton {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.2em;
-    color: #7a7a7a;
-    border-radius: 8px;
-    width: 60px;
-    padding: 10px;
-    text-align: center;
-    background-color: rgb(230, 230, 230);
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.2em;
+	color: #7a7a7a;
+	border-radius: 8px;
+	width: 60px;
+	padding: 10px;
+	text-align: center;
+	background-color: rgb(230, 230, 230);
 }
 
 .LoginButton:hover {
-    transition-duration: 0.4s;
-    background-color: #D1D1D1;
+	transition-duration: 0.4s;
+	background-color: #d1d1d1;
 }
 
 .HeaderLeftWidgetArea {
-    width: 30%;
-    display: flex;
-    justify-content: space-between;
+	width: 30%;
+	display: flex;
+	justify-content: space-between;
 }
 
 .HeaderLeftWidget {
-    margin: auto 0px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.2em;
-    color: #380058;
+	margin: auto 0px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.2em;
+	color: #380058;
 }
 
 .HeaderLeftWidget:hover {
-    transition-duration: 0.2s;
-    font-weight: bold;
+	transition-duration: 0.2s;
+	font-weight: bold;
 }
 
-a.header { /* for disabling default white during active link */
-    color: #380058;
+a.header {
+	/* for disabling default white during active link */
+	color: #380058;
 }
 
-a.header:active { /* for disabling default red during active link */
-    color: #380058;
+a.header:active {
+	/* for disabling default red during active link */
+	color: #380058;
 }

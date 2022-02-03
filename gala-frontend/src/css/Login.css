@@ -1,57 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
 
 .LoginFormArea {
-  margin: 3% 30% 0 30%;
-  padding-bottom: 3%;
-  border-radius: 5%;
-  background-color: rgb(245, 245, 245);
-  opacity: 0; /* for animation */
+	margin: 3% 30% 0 30%;
+	padding-bottom: 3%;
+	border-radius: 5%;
+	background-color: rgb(245, 245, 245);
+	opacity: 0; /* for animation */
 }
 
 .LoginTitleArea {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .LoginTitle {
-  margin-top: 3%;
-  font-family: 'Caveat', cursive;
-  font-size: 3em;
-  color: maroon;
+	margin-top: 3%;
+	font-family: 'Caveat', cursive;
+	font-size: 3em;
+	color: maroon;
 }
 
 .LoginInputArea {
-  margin: 5% 15% 0 15%;
+	margin: 5% 15% 0 15%;
 }
 
 .LoginInputTitle {
-  font-size: 1.3em;
+	font-size: 1.3em;
 }
 
 .LoginInput {
-  margin-top: 3%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #cecece;
-  width: 90%;
-  height: 18px;
-  background-color: white;
+	margin-top: 3%;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #cecece;
+	width: 90%;
+	height: 18px;
+	background-color: white;
 }
 
 .LoginSubmitButton {
-  margin: auto;
-  margin-top: 8%;
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.2em;
-  color: #ffffff;
-  border-radius: 8px;
-  width: 50%;
-  padding: 10px;
-  text-align: center;
-  background-color: rgb(110, 0, 153);
+	margin: auto;
+	margin-top: 8%;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.2em;
+	color: #ffffff;
+	border-radius: 8px;
+	width: 50%;
+	padding: 10px;
+	text-align: center;
+	background-color: rgb(110, 0, 153);
 }
 
 .LoginSubmitButton:hover {
-  transition-duration: 0.4s;
-  background-color: rgb(84, 0, 117);
+	transition-duration: 0.4s;
+	background-color: rgb(84, 0, 117);
 }
