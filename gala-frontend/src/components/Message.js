@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { SendBirdProvider, withSendBird } from 'sendbird-uikit';
+import { App as SendBirdApp } from 'sendbird-uikit';
+import 'sendbird-uikit/dist/index.css';
+
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
@@ -6,7 +10,25 @@ import '../css/Message.css';
 
 const { Anime } = ReactAnime;
 
-function Message() {
+const AppStyle = {
+	fontFamily: 'sans-serif',
+	textAlign: 'center',
+	height: '100vh',
+	width: '100vw',
+};
+
+const App = () => {
+	return (
+		<div className={AppStyle}>
+			<SendBirdApp
+				appId={'819E6E70-321B-4252-B9FF-1BD7E466F490'}
+				userId={'1'} // Specify your user ID.
+			/>
+		</div>
+	);
+};
+
+const Message = () => {
 	// controller state
 	const [control, setControl] = useState(null);
 
@@ -33,7 +55,7 @@ function Message() {
 			<UserHeader />
 			<div className='DashboardArea'>
 				<Navigation />
-				<div className='MessageArea'>TODO: EDDIE TO USE SENDBIRD</div>
+				<App />
 			</div>
 			<Anime
 				initial={timeline}
@@ -46,6 +68,6 @@ function Message() {
 				}}></Anime>
 		</React.Fragment>
 	);
-}
+};
 
 export default Message;
