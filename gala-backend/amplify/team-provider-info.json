@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gala-dev-164430-authRole",
+      "UnauthRoleArn": "arn:aws:iam::798093067401:role/amplify-gala-dev-164430-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::798093067401:role/amplify-gala-dev-164430-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-gala-dev-164430-deployment",
+      "UnauthRoleName": "amplify-gala-dev-164430-unauthRole",
+      "StackName": "amplify-gala-dev-164430",
+      "StackId": "arn:aws:cloudformation:us-east-2:798093067401:stack/amplify-gala-dev-164430/2382fb60-885f-11ec-b04d-06d8e962b882",
+      "AmplifyAppId": "d3rz63ppfh2ffh"
+    },
+    "categories": {
+      "auth": {
+        "gala7cff51b4": {}
+      }
+    }
+  }
+}
