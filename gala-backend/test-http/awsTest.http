@@ -1,0 +1,7 @@
+POST /places/v0/indexes/GalaPlaceIndex/search/text 
+Content-type: application/json
+
+{
+    "Text": "4200 Pine St., Philadelphia, PA 19104",
+    "MaxResults": 5
+}
