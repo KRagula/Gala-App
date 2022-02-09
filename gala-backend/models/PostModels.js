@@ -25,24 +25,32 @@ const postTemplate = new mongoose.Schema({
 		type: Number,
 		required: true,
 	},
-    timeStart: {
+	timeStart: {
 		type: Date,
 		required: true,
 	},
-    timeEnd: {
+	timeEnd: {
 		type: Date,
 		required: true,
 	},
-    price: {
+	price: {
 		type: Number,
 		required: true,
 	},
-    tags: {
+	tags: {
 		type: String,
 		required: true,
 	},
-    hostEmail: {
+	hostEmail: {
 		type: String,
+		required: true,
+	},
+	longitude: {
+		type: Number,
+		required: true,
+	},
+	latitude: {
+		type: Number,
 		required: true,
 	},
 });
