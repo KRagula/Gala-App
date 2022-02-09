@@ -1,9 +1,26 @@
 const postTemplate = require('../models/PostModels');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+const fetch = arg => import('node-fetch').then(({ default: fetch }) => fetch(arg));
 
-const postNew = (request, response) => {
-	//TODO: Use https://docs.aws.amazon.com/location/latest/developerguide/search-place-index-geocoding.html for AWS Geocoding
-	
+const postNew = async (request, response) => {
+	const addressString =
+		request.body.streetAddress +
+		', ' +
+		request.body.cityAddress +
+		', ' +
+		request.body.stateAddress +
+		', ' +
+		request.body.zipAddress;
+
+	var coordinates = await getCoordinates(addressString);
+
+	console.log(coordinates);
+	if (coordinates[0] == -181) {
+		response.json({ statusMessage: 'Geocoding Error' });
+		return;
+	}
+
 	const newPost = new postTemplate({
 		title: request.body.title,
 		description: request.body.description,
@@ -16,17 +33,20 @@ const postNew = (request, response) => {
 		price: request.body.price,
 		tags: request.body.tags,
 		hostEmail: request.body.hostEmail,
+		longitude: coordinates[0],
+		latitude: coordinates[1],
 	});
+
 	//TODO: Verify that the JWT matches for the email payload
 	//TODO: Generate ID for the post?
 	newPost
 		.save()
-		.then(data=> {
-			response.json({statusMessage: 'Saved'})
+		.then(data => {
+			response.json({ statusMessage: 'Saved' });
 		})
 		.catch(error => {
-			response.json(error)
-		})
+			response.json(error);
+		});
 };
 
 const getCityPosts = async (request, response) => {
@@ -36,8 +56,24 @@ const getCityPosts = async (request, response) => {
 		response.json({});
 		return;
 	} else {
-		response.json(response2)
+		response.json(response2);
 	}
+};
+
+const getCoordinates = async address => {
+	var returnValue = [-181];
+	const addURI = encodeURI(address);
+	const url =
+		'https://api.mapbox.com/geocoding/v5/mapbox.places/' +
+		addURI +
+		'.json?limit=1&access_token=' +
+		process.env.MAPS_TOKEN;
+	const response = await fetch(url);
+	await response.json().then(data => {
+		console.log(data.features[0].center);
+		returnValue = data.features[0].center;
+	});
+	return returnValue;
 };
 
 module.exports = {
