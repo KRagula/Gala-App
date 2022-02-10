@@ -15,7 +15,7 @@ const signup = async (request, response) => {
 		salt: saltPassword,
 	});
 
-	signUpTemplate.findOne({ email: request.body.email }, function (err, res) {
+	signUpTemplate.findOne({ email: request.body.email }, (err, res) => {
 		if (!res) {
 			signedUpUser
 				.save()
@@ -42,7 +42,7 @@ const login = async (request, response) => {
 		return;
 	}
 
-	bcrypt.compare(request.body.password, response2.password, function (err, res) {
+	bcrypt.compare(request.body.password, response2.password, (err, res) => {
 		if (err) {
 			response.sendStatus(410);
 			//Invalid password
