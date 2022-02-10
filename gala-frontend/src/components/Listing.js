@@ -284,10 +284,10 @@ function Listing(props) {
 												Rate your experience:
 												<div className='ListingEngagedStatusTextArea'>
 													<FaRegStar fontSize='16px' color='#424242' onClick={handleOneStars} />
-													<FaRegStar fontSize='16px' color='#424242' />
-													<FaRegStar fontSize='16px' color='#424242' />
-													<FaRegStar fontSize='16px' color='#424242' />
-													<FaRegStar fontSize='16px' color='#424242' />
+													<FaRegStar fontSize='16px' color='#424242' onClick={handleTwoStars} />
+													<FaRegStar fontSize='16px' color='#424242' onClick={handleThreeStars} />
+													<FaRegStar fontSize='16px' color='#424242' onClick={handleFourStars} />
+													<FaRegStar fontSize='16px' color='#424242' onClick={handleFiveStars} />
 												</div>
 											</div>
 										) : (
@@ -295,6 +295,32 @@ function Listing(props) {
 												Thanks for your feedback! (for debugging: {dateRating} stars)
 											</div>
 										)}
+									</div>
+								) : (
+									<div />
+								)}
+							</div>
+						) : (
+							<div />
+						)}
+						{props.role !== 'creator' ? (
+							<div>
+								{props.role === 'observer' ? (
+									<div className='ListingMessageOptionArea'>
+										<div className='ListingMessageOption Red'>Click to offer a bid</div>
+										<div className='ListingMessageOption Blue'>Click to message</div>
+									</div>
+								) : (
+									<div />
+								)}
+								{props.role === 'engager' && props.status !== 'completed' ? (
+									<div className='ListingMessageOptionArea'>
+										{props.status !== 'ongoing' ? (
+											<div className='ListingMessageOption Red'>Click to offer a bid</div>
+										) : (
+											<div />
+										)}
+										<div className='ListingMessageOption Blue'>Click to message</div>
 									</div>
 								) : (
 									<div />
