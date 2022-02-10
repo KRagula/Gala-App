@@ -15,7 +15,6 @@ const postNew = async (request, response) => {
 
 	var coordinates = await getCoordinates(addressString);
 
-	console.log(coordinates);
 	if (coordinates[0] == -181) {
 		response.json({ statusMessage: 'Geocoding Error' });
 		return;
@@ -70,7 +69,6 @@ const getCoordinates = async address => {
 		process.env.MAPS_TOKEN;
 	const response = await fetch(url);
 	await response.json().then(data => {
-		console.log(data.features[0].center);
 		returnValue = data.features[0].center;
 	});
 	return returnValue;
