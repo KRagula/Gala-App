@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
-mongoose.connect(dbConfig.mongoDBAccess, () => console.log('Database connected'));
+mongoose.connect(dbConfig.mongoDBAccess, () => console.log('Mongo Database Connected'));
 
 /** ENDPOINTS **/
 app.post('/signup', credentialRoutes.signup);
@@ -39,6 +39,6 @@ console.log(
 const port = serverConfig.backendPort || '8080';
 app.listen(port, () => {
 	console.log(
-		'Server running on port ' + port + '. Now open http://localhost:' + port + '/ in your browser!'
+		`Server running on port ${serverConfig.backendPort}. Now open ${serverConfig.backendURL} in your browser!`
 	);
 });
