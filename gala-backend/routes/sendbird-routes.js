@@ -39,8 +39,6 @@ const joinGroup = async () => {
 		});
 };
 
-joinGroup();
-
 export default {
 	createUser: createUser,
 	joinGroup: joinGroup,
