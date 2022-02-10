@@ -1,6 +1,7 @@
-const signUpTemplate = require('../models/SignUpModels');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+import signUpTemplate from '../models/SignUpModels.js';
 
 const signup = async (request, response) => {
 	const saltPassword = await bcrypt.genSalt(10);
@@ -65,7 +66,7 @@ const login = async (request, response) => {
 	});
 };
 
-module.exports = {
+export default {
 	signup: signup,
 	login: login,
 };

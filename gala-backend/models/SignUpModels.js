@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const signUpTemplate = new mongoose.Schema({
 	firstName: {
@@ -27,4 +27,4 @@ const signUpTemplate = new mongoose.Schema({
 	},
 });
 
-module.exports = mongoose.model('mytable', signUpTemplate);
+export default mongoose.model('mytable', signUpTemplate);

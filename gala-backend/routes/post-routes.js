@@ -1,7 +1,7 @@
-const postTemplate = require('../models/PostModels');
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+import jwt from 'jsonwebtoken';
 const fetch = arg => import('node-fetch').then(({ default: fetch }) => fetch(arg));
+
+import postTemplate from '../models/PostModels.js';
 
 const postNew = async (request, response) => {
 	const addressString =
@@ -76,7 +76,7 @@ const getCoordinates = async address => {
 	return returnValue;
 };
 
-module.exports = {
+export default {
 	postNew: postNew,
 	getCityPosts: getCityPosts,
 };

@@ -3,6 +3,6 @@ import config from '../configurations/sendbird-config.js';
 
 const createUser = async () => {};
 
-module.exports = {
+export default {
 	createUser: createUser,
 };
