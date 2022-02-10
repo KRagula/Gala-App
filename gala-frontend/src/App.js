@@ -36,7 +36,11 @@ function App() {
 					<Route exact path='/mydates' element={<Dates />} />
 					<Route exact path='/payment' element={<Payment />} />
 					<Route exact path='/message' element={<Message />} />
-					<Route exact path='/listing' element={<Listing isCreator={true} />} />
+					<Route
+						exact
+						path='/listing'
+						element={<Listing role={'engager'} status={'completed'} />}
+					/>
 				</Routes>
 			</BrowserRouter>
 		</React.Fragment>

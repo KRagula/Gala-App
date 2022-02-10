@@ -122,6 +122,76 @@ div::-webkit-scrollbar {
 	flex-direction: column;
 }
 
+.ListingEngagedArea {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.ListingEngagedStatusArea {
+	margin-left: 8%;
+	font-size: 1.5em;
+	display: flex;
+}
+
+.ListingEngagedStatusArea.Extra {
+	margin-top: 1%;
+	font-size: 1.2em;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.ListingEngagedStatus {
+	margin-left: 10px;
+}
+
+.ListingEngagedStatus.Waiting {
+	color: rgba(145, 31, 11, 0.61);
+}
+
+.ListingEngagedStatus.Confirmed {
+	color: rgb(13, 79, 13);
+}
+
+.ListingEngagedStatus.Ongoing {
+	color: rgb(148, 136, 0);
+}
+
+.ListingEngagedStatus.Completed {
+	color: rgb(40, 40, 40);
+}
+
+.ListingCheckupBox {
+	margin-left: 15px;
+	padding: 5px;
+	border-radius: 4px;
+	font-size: 0.8em;
+}
+
+.ListingCheckupBox.Good {
+	background-color: rgb(219, 255, 218);
+}
+
+.ListingCheckupBox.Good:hover {
+	background-color: rgb(163, 255, 160);
+	transition-duration: 0.2s;
+}
+
+.ListingCheckupBox.Bad {
+	background-color: rgb(255, 218, 218);
+}
+
+.ListingCheckupBox.Bad:hover {
+	background-color: rgb(255, 160, 160);
+	transition-duration: 0.2s;
+}
+
+.ListingEngagedStatusTextArea {
+	margin: auto;
+	margin-left: 5px;
+	display: flex;
+}
+
 a.ListingAddress {
 	color: blue;
 }

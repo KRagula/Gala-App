@@ -13,10 +13,57 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 const { Anime } = ReactAnime;
 
 function Listing(props) {
+	// For collapse Bids Received box
 	const [collapseFirst, setCollapseFirst] = useState(false);
 
 	const handleCollapseFirst = () => {
 		setCollapseFirst(!collapseFirst);
+	};
+
+	// For toggling "thanks for notifying us" text
+	const [showThanksForNotif, setShowThanksForNotif] = useState(false);
+
+	// For "I'm Okay"/"I'm in Danger" box
+	const [isInDanger, setIsInDanger] = useState(false);
+
+	const handleSetOkay = () => {
+		setShowThanksForNotif(true);
+	};
+
+	const handleSetInDanger = () => {
+		setIsInDanger(true);
+		setShowThanksForNotif(true);
+	};
+
+	// For toggling "thanks for feedback" text
+	const [showThanksForFeedback, setShowThanksForFeedback] = useState(false);
+
+	// For "Rate your date" box
+	const [dateRating, setDateRating] = useState(0);
+
+	const handleOneStars = () => {
+		setShowThanksForFeedback(true);
+		setDateRating(1);
+	};
+
+	const handleTwoStars = () => {
+		setShowThanksForFeedback(true);
+		setDateRating(2);
+	};
+
+	const handleThreeStars = () => {
+		setShowThanksForFeedback(true);
+		setDateRating(3);
+	};
+
+	const handleFourStars = () => {
+		setShowThanksForFeedback(true);
+		setDateRating(4);
+	};
+
+	const handleFiveStars = () => {
+		setShowThanksForFeedback(true);
+		setDateRating(5);
 	};
 
 	// controller state
@@ -40,6 +87,11 @@ function Listing(props) {
 		easing: 'easeInOutExpo',
 	});
 
+	var name = 'Kanishka';
+	if (props.role === 'creator') {
+		name = 'you';
+	}
+
 	return (
 		<React.Fragment>
 			<UserHeader />
@@ -50,7 +102,7 @@ function Listing(props) {
 						<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
 							<div className='DashboardTitleText'>Listing</div>
 							<div className='DashboardTitleDot' />
-							<div className='DashboardDescriptionText'>View this date by Kanishka</div>
+							<div className='DashboardDescriptionText'>View this date by {name}</div>
 						</div>
 					</div>
 					<div className='ListingArea'>
@@ -133,7 +185,7 @@ function Listing(props) {
 									</div>
 								</div>
 							</div>
-							{props.isCreator ? (
+							{props.role === 'creator' ? (
 								<div className='ListingDeleteArea'>
 									<div className='ListingDelete'>Click to remove listing</div>
 								</div>
@@ -141,7 +193,7 @@ function Listing(props) {
 								<div />
 							)}
 						</div>
-						{props.isCreator ? (
+						{props.role === 'creator' ? (
 							<div className='ListingBidsCollapsableArea'>
 								<div className='BidsCollapseBar'>
 									<div className='BidsCollapseText'>Bids Received</div>
@@ -159,6 +211,90 @@ function Listing(props) {
 									<div className='BidsEntryArea'>
 										<BidsEntry isReceived={true} />
 										<BidsEntry isReceived={true} />
+									</div>
+								) : (
+									<div />
+								)}
+							</div>
+						) : (
+							<div />
+						)}
+						{props.role === 'engager' ? (
+							<div className='ListingEngagedArea'>
+								<div className='ListingEngagedStatusArea'>
+									Status:
+									{props.status === 'waiting' ? (
+										<div className='ListingEngagedStatus Waiting'>Waiting for response...</div>
+									) : (
+										<div />
+									)}
+									{props.status === 'confirmed' ? (
+										<div className='ListingEngagedStatus Confirmed'>Confirmed.</div>
+									) : (
+										<div />
+									)}
+									{props.status === 'ongoing' ? (
+										<div className='ListingEngagedStatus Ongoing'>Ongoing.</div>
+									) : (
+										<div />
+									)}
+									{props.status === 'completed' ? (
+										<div className='ListingEngagedStatus Completed'>Completed.</div>
+									) : (
+										<div />
+									)}
+								</div>
+								{props.status === 'waiting' ? (
+									<div className='ListingEngagedStatusArea Extra'>Your Bid: $60.00</div>
+								) : (
+									<div />
+								)}
+								{props.status === 'ongoing' ? (
+									<div>
+										{!showThanksForNotif ? (
+											<div className='ListingEngagedStatusArea Extra'>
+												How's your date going?
+												<div className='ListingCheckupBox Good' onClick={handleSetOkay}>
+													I'm okay.
+												</div>
+												<div className='ListingCheckupBox Bad' onClick={handleSetInDanger}>
+													I might be in danger.
+												</div>
+											</div>
+										) : (
+											<div className='ListingEngagedStatusArea Extra'>
+												Thanks for letting us know!
+												{isInDanger ? (
+													<div className='ListingEngagedStatusTextArea'>
+														We are in contact with authorities to aid you.
+													</div>
+												) : (
+													<div />
+												)}
+											</div>
+										)}
+									</div>
+								) : (
+									<div />
+								)}
+								{props.status === 'completed' ? (
+									<div>
+										{!showThanksForFeedback ? (
+											<div className='ListingEngagedStatusArea Extra'>
+												Rate your experience:
+												<div className='ListingEngagedStatusTextArea'>
+													<FaRegStar fontSize='16px' color='#424242' onClick={handleOneStars} />
+													<FaRegStar fontSize='16px' color='#424242' />
+													<FaRegStar fontSize='16px' color='#424242' />
+													<FaRegStar fontSize='16px' color='#424242' />
+													<FaRegStar fontSize='16px' color='#424242' />
+												</div>
+											</div>
+										) : (
+											<div className='ListingEngagedStatusArea Extra'>
+												Thanks for your feedback! (for debugging: {dateRating} stars)
+											</div>
+										)}
 									</div>
 								) : (
 									<div />
