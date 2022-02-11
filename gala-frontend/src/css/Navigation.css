@@ -1,0 +1,104 @@
+.NavigationArea {
+	background-image: linear-gradient(to top left, rgba(50, 0, 50, 0.85), rgb(50, 0, 50));
+	min-width: 15% !important;
+	width: 15%;
+}
+
+.NavigationAreaCollapsed {
+	width: 40px;
+}
+
+.CollapseArea {
+	height: 40px;
+	display: flex;
+	flex-direction: row-reverse;
+	color: white;
+}
+
+.CollapseArea.Expand {
+	background-image: linear-gradient(to top left, rgba(50, 0, 50, 0.85), rgb(50, 0, 50));
+}
+
+.CollapseBox {
+	width: 40px;
+	display: flex;
+	justify-content: center;
+	font-size: 1.5em;
+}
+
+.CollapseBox.Expand {
+	width: 40px;
+	display: flex;
+	justify-content: center;
+	font-size: 1.5em;
+	background-color: rgb(50, 0, 50);
+}
+
+.CollapseArrow {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.CollapseBox:hover {
+	border-radius: 100%;
+	background-color: rgba(255, 255, 255, 0.317);
+	transition-duration: 0.2s;
+}
+
+.OptionsArea {
+	margin-top: 30%;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.Option {
+	margin: 0 5% 0 5%;
+	padding: 15% 0 15% 0;
+	border-bottom: 1px solid;
+	text-align: center;
+}
+
+.Option.First {
+	border-top: 1px solid;
+}
+
+.Option.Last {
+	margin-bottom: 100%;
+}
+
+.Option:hover {
+	background-color: rgba(255, 255, 255, 0.317);
+	font-weight: bold;
+	transition-duration: 0.2s;
+}
+
+.OptionSelected {
+	margin: 0 5% 0 5%;
+	padding: 15% 0 15% 0;
+	border-bottom: 1px solid;
+	background-color: rgba(255, 255, 255, 0.8);
+	color: rgb(50, 0, 50);
+	font-weight: bold;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.OptionSelectedSide {
+	width: 10%;
+	padding-left: 10px;
+}
+
+/* default a setup located here */
+a {
+	/* for disabling default purple during active link */
+	color: white;
+}
+
+a:active {
+	/* for disabling default purple during active link */
+	color: white;
+}

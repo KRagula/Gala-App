@@ -1,0 +1,75 @@
+.ExploreArea {
+	width: 100%;
+	padding-right: 9%;
+}
+
+.ExploreToolbarArea {
+	margin: 3% 0 0 8%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.ExploreToolbarLeftArea {
+	width: 50%;
+	display: flex;
+}
+
+.ExploreToolbarRightArea {
+	width: 50%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.ExploreToolbarSearch {
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+	width: 50%;
+}
+
+.ExploreToolbarSelect {
+	margin-left: 8%;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+	width: 30%;
+}
+
+.ExploreEntryArea {
+	margin-top: 3%;
+	padding: 0 0 0 8%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	/* height: 65%; */
+	/* overflow-y: scroll; */
+	/* overflow-x: hidden; */
+}
+
+.DatePickerArea {
+	margin-left: 8%;
+	display: flex;
+	justify-content: space-between;
+	width: 45%;
+}
+
+.DatePickerBetweenText {
+	margin: auto;
+	margin-left: 6%;
+	margin-right: 6%;
+	width: 50%;
+}
+
+.react-datepicker__input-container input {
+	margin: 0;
+	width: 80px;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+}
+
+.ExplorePaginationArea {
+	padding-bottom: 3%;
+	display: flex;
+	justify-content: center;
+}

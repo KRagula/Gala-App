@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+.ExploreEntryPaper {
+	padding: 10px;
+	min-height: 180px;
+	height: 180px;
+	background-color: rgb(245, 245, 245);
+	margin-bottom: 3%;
+	border-radius: 10px;
+	display: flex;
+	justify-content: flex-start;
+	font-family: 'Quicksand', sans-serif;
+}
+
+.ExploreEntryPaper:hover {
+	box-shadow: 2px 2px #c9c9c9;
+	transition-duration: 0.2s;
+}
+
+.ExploreEntryProfileAreaWrapper {
+	width: 15%;
+	border-right: 1px rgb(206, 206, 206) solid;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.ExploreEntryProfileArea {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.ExploreEntryProfileImage {
+	margin: auto;
+	height: 90px;
+	width: 90px;
+	border-radius: 50%;
+	border: 1px rgb(218, 217, 217) solid;
+}
+
+.ExploreEntryProfileText {
+	margin-top: 10px;
+	text-align: center;
+	font-size: 1em;
+}
+
+.ExploreEntryProfileStars {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.ExploreEntryRightArea {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.ExploreEntryDescriptionArea {
+	margin-left: 2%;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.ExploreEntryDescriptionTitle {
+	height: 32%;
+	margin-right: 4%;
+	border-bottom: 1px rgb(218, 217, 217) solid;
+}
+
+.ExploreEntryDescriptionTitleMain {
+	font-size: 1.4em;
+	font-weight: bold;
+}
+
+.ExploreEntryDescriptionTitleSub {
+	margin-right: 5%;
+	font-size: 1em;
+	overflow-x: scroll;
+	padding-bottom: 2%;
+}
+
+.ExploreEntryDescriptionLogistics {
+	width: 100%;
+	margin-top: 1%;
+	color: rgb(80, 80, 80);
+	display: flex;
+}
+
+.ExploreEntryDot:after {
+	margin: auto;
+	margin: 0 5px 0 5px;
+	font-size: 1em;
+	font-weight: bold;
+	content: ' \B7 ';
+}
+
+.ExploreEntryDescriptionLogistics {
+	width: 100%;
+	margin-top: 1%;
+	color: rgb(80, 80, 80);
+	display: flex;
+}
+
+.ExploreEntryDescriptionBottomArea {
+	margin-top: 2%;
+	margin-right: 2%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.ExploreEntryDescriptionTagWrapper {
+	width: 80%;
+	height: 100%;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.ExploreEntryDescriptionTagTitle {
+	font-style: italic;
+	padding-top: 4px;
+}
+
+.ExploreEntryDescriptionTagArea {
+	margin-left: 2%;
+	max-width: 750px;
+	overflow-x: scroll;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.ExploreEntryTag {
+	margin-right: 10px;
+	background-color: rgb(215, 215, 215);
+	padding: 5px 7px 5px 7px;
+	border-radius: 5px;
+	height: 20px;
+}
+
+.ExploreEntrySeeMoreArea {
+	display: flex;
+	flex-direction: column-reverse;
+	width: 20%;
+}
+
+.ExploreEntrySeeMoreAreaWrapper {
+	display: flex;
+	flex-direction: row-reverse;
+	padding: 0 10px 5px 0;
+}
+
+.ExploreEntrySeeMore {
+	margin: 0 2% 1% 0;
+	color: rgb(0, 0, 169);
+}

@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.ContactAreaWrapper {
+	margin: auto;
+	margin-top: 5%;
+	width: 50%;
+}
+
+.ContactArea {
+	display: flex;
+	flex-direction: column;
+}
+
+.ContactTitle {
+	margin-left: 20px;
+	font-size: 2em;
+	font-family: 'Roboto', sans-serif;
+	opacity: 0; /* for animation */
+}
+
+.ContactPaper {
+	margin-top: 2%;
+	background-color: rgb(240, 240, 240);
+	border-radius: 6px;
+	padding: 20px;
+	font-size: 1em;
+	text-align: left;
+	opacity: 0; /* for animation */
+}

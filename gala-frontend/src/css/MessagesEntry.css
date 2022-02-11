@@ -1,0 +1,78 @@
+.MessagesEntryPaper {
+	padding: 10px;
+	min-height: 140px;
+	height: 140px;
+	background-color: rgb(245, 245, 245);
+	margin-bottom: 2%;
+	border-radius: 5px;
+	display: flex;
+	justify-content: flex-start;
+	font-family: 'Quicksand', sans-serif;
+}
+
+.MessagesEntryPaper:hover {
+	box-shadow: 2px 2px #c9c9c9;
+	transition-duration: 0.2s;
+}
+
+.MessagesEntryDescriptionTitle {
+	height: 40%;
+	margin-right: 4%;
+	border-bottom: 1px rgb(218, 217, 217) solid;
+}
+
+.MessagesNewMessageNotifArea {
+	width: 12px;
+	display: flex;
+	flex-direction: column;
+}
+
+.MessagesNewMessageNotif {
+	display: flex;
+	justify-content: center;
+}
+
+.MessagesNewMessageDot {
+	height: 12px;
+	width: 12px;
+	background-color: rgb(126, 188, 255);
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.MessagesEntryProfileAreaWrapper {
+	width: 14%;
+	border-right: 1px rgb(206, 206, 206) solid;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.MessagesEntryDescriptionBottomArea {
+	margin-top: 15px;
+	display: flex;
+	justify-content: space-between;
+	height: 40px;
+}
+
+.MessagesNewMessageArea {
+	width: 600px;
+	display: flex;
+	flex-direction: row;
+}
+
+.MessagesNewMessageTitle {
+	font-weight: bold;
+}
+
+.MessagesNewMessageText {
+	font-style: italic;
+	margin-left: 5px;
+	overflow: hidden;
+}
+
+.MessagesEntrySeeMore {
+	padding-top: 8px;
+	padding-right: 4%;
+	color: rgb(0, 0, 169);
+}
