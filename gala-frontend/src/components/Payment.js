@@ -45,7 +45,9 @@ function Payment() {
 					<br />
 					Price: $50
 					<br />
-					<button> Secure Pay using PayPal </button>
+					<form action='http://localhost:8080/pay' method='post'>
+						<input type='submit' value='Purchase' />
+					</form>
 				</div>
 			</div>
 			<Anime

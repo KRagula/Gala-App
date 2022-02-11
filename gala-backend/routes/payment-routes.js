@@ -1,7 +1,9 @@
-const paypal = require('paypal-rest-sdk');
-const sgMail = require('@sendgrid/mail');
+import paypal from 'paypal-rest-sdk';
+import sgMail from '@sendgrid/mail';
+// const paypal = require('paypal-rest-sdk');
+// const sgMail = require('@sendgrid/mail');
 
-require('dotenv').config();
+// require('dotenv').config();
 
 var sg_apikey = process.env.SENDGRID_API_KEY;
 // console.log("this is the api key" + sg_apikey);
@@ -112,7 +114,7 @@ const success = async (req, res) => {
 		});
 };
 
-module.exports = {
+export default {
 	pay: pay,
 	success: success,
 	cancel: cancel,
