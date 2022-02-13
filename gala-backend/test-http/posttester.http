@@ -2,7 +2,7 @@ POST http://localhost:8080/makePost
 Content-Type: application/json
 
 {
-		"title": "Reptile Farm Tour",
+		"title": "Snake Farm Tour",
 		"description": "See snakes in their natural habitat",
 		"streetAddress": "3800 Walnut Street",
 		"cityAddress": "Philadelphia",

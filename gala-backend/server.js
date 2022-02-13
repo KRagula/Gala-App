@@ -10,6 +10,7 @@ import postRoutes from './routes/post-routes.js';
 import './configurations/setup.js';
 import dbConfig from './configurations/db-config.js';
 import serverConfig from './configurations/server-config.js';
+import paymentRoutes from './routes/payment-routes.js';
 
 const app = express();
 
@@ -21,9 +22,14 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
+/** ENDPOINTS **/
+app.post('/pay', paymentRoutes.pay);
+app.get('/success', paymentRoutes.success);
+app.get('/cancel', paymentRoutes.cancel);
 mongoose.connect(dbConfig.mongoDBAccess, () => console.log('Mongo Database Connected'));
 
 /** ENDPOINTS **/
