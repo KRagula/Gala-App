@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 const fetch = arg => import('node-fetch').then(({ default: fetch }) => fetch(arg));
-
+import axios from 'axios';
 import postTemplate from '../models/PostModels.js';
 
 const postNew = async (request, response) => {
@@ -67,10 +67,12 @@ const getCoordinates = async address => {
 		addURI +
 		'.json?limit=1&access_token=' +
 		process.env.MAPS_TOKEN;
-	const response = await fetch(url);
-	await response.json().then(data => {
-		returnValue = data.features[0].center;
+	const response = axios.get(url);
+	returnValue = response.then(data => {
+		console.log(data.data.features[0].center);
+		return data.data.features[0].center;
 	});
+	console.log(returnValue);
 	return returnValue;
 };
 

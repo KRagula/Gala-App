@@ -112,14 +112,14 @@ function Create() {
 							<div className='CreateFormRowTitle'>Title:</div>
 							<input
 								className='CreateFormRowInput'
-								placeholder='Pitbull Concert'
+								placeholder='Title of Experience'
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
 							<div className='CreateFormRowTitle'>Description:</div>
 							<input
 								className='CreateFormRowInput'
-								placeholder='Come to the Pitbull concert with me this Saturday at the Moda Center!'
+								placeholder='Description of Experience'
 								id='DescriptionInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -184,7 +184,7 @@ function Create() {
 							<MaskedInput
 								className='CreateFormRowInput Price'
 								mask={currencyMask}
-								placeholder='$50.00'
+								placeholder='$0.00'
 							/>
 						</div>
 						<div className='CreateFormRow Proof'>
@@ -196,7 +196,7 @@ function Create() {
 							<div className='CreateFormRowInputAreaTags'>
 								<input
 									className='CreateFormRowInput Tag'
-									placeholder='Clubbing'
+									placeholder='Fun, Experience'
 									maxlength='15'
 									onChange={handleChange}
 									onKeyDown={handleKeyDown}
