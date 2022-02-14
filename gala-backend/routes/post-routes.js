@@ -31,7 +31,7 @@ const postNew = async (request, response) => {
 		zipAddress: request.body.zipAddress,
 		timeStart: request.body.timeStart,
 		timeEnd: request.body.timeEnd,
-		price: request.body.price,
+		price: Number(request.body.price.replace(/[^0-9.-]+/g, '')),
 		tags: request.body.tags,
 		hostEmail: request.body.hostEmail,
 		longitude: coordinates[0],
@@ -71,10 +71,8 @@ const getCoordinates = async address => {
 		geoConfig.mapToken;
 	const response = axios.get(url);
 	returnValue = response.then(data => {
-		console.log(data.data.features[0].center);
 		return data.data.features[0].center;
 	});
-	console.log(returnValue);
 	return returnValue;
 };
 
