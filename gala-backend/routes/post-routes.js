@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-const fetch = arg => import('node-fetch').then(({ default: fetch }) => fetch(arg));
 import axios from 'axios';
 import postTemplate from '../models/PostModels.js';
 
