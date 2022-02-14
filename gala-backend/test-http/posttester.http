@@ -1,4 +1,4 @@
-POST http://localhost:8080/makePost
+POST http://localhost:8080/experience/makePost
 Content-Type: application/json
 
 {

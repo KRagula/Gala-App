@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-//dotenv.config({ path: '../../.env' });
+import serverConfig from '../configurations/server-config.js';
 
 export const login = credentials => {
 	axios
-		.post(`http://localhost:8080/login`, credentials, { withCredentials: true })
+		.post(`${serverConfig.backendURL}/credential/login`, credentials, { withCredentials: true })
 		.then(response => {
 			if (response.data.data == 'data') {
 				//document.cookie='firstname='+response.data.firstname+';max-age=3600'
@@ -27,7 +27,7 @@ export const login = credentials => {
 
 export const signup = registered => {
 	axios
-		.post(`http://localhost:8080/signup`, registered, { withCredentials: true })
+		.post(`${serverConfig.backendURL}/credential/signup`, registered, { withCredentials: true })
 		.then(response => {
 			if (response.data.data == 'data') {
 				// document.cookie = 'firstname=' + response.data.firstname + ';max-age=3600';

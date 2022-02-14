@@ -1,18 +1,15 @@
 import paypal from 'paypal-rest-sdk';
 import sgMail from '@sendgrid/mail';
-// const paypal = require('paypal-rest-sdk');
-// const sgMail = require('@sendgrid/mail');
 
-// require('dotenv').config();
+import sendgridConfig from '../configurations/sendgrid-config.js';
+import paypalConfig from '../configurations/paypal-config.js';
 
-var sg_apikey = process.env.SENDGRID_API_KEY;
-// console.log("this is the api key" + sg_apikey);
-sgMail.setApiKey(sg_apikey);
+sgMail.setApiKey(sendgridConfig.apiKey);
 
 paypal.configure({
-	mode: 'sandbox', //sandbox or live
-	client_id: process.env.CLIENT_ID,
-	client_secret: process.env.CLIENT_SECRET,
+	mode: paypalConfig.mode,
+	client_id: paypalConfig.clientId,
+	client_secret: paypalConfig.clientSecret,
 });
 
 const cancel = async (request, response) => {
@@ -26,8 +23,8 @@ const pay = async (request, res) => {
 			payment_method: 'paypal',
 		},
 		redirect_urls: {
-			return_url: 'http://localhost:8080/success',
-			cancel_url: 'http://localhost:8080/cancel',
+			return_url: 'http://localhost:8080/payment/success',
+			cancel_url: 'http://localhost:8080/payment/cancel',
 		},
 		transactions: [
 			{
@@ -53,7 +50,7 @@ const pay = async (request, res) => {
 
 	console.log('this is the object' + create_payment_json);
 
-	//pass in create_payment_json and returns payment object
+	// pass in create_payment_json and returns payment object
 	paypal.payment.create(create_payment_json, function (error, payment) {
 		if (error) {
 			throw error;

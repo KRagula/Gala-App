@@ -2,41 +2,45 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import signUpTemplate from '../models/SignUpModels.js';
+import sendbirdRoutes from './sendbird-routes.js';
 
-const signup = async (request, response) => {
+import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
+import { CredentialError, UserExistsError } from '../error/credential-errors.js';
+
+const signup = async (req, res, next) => {
 	const saltPassword = await bcrypt.genSalt(10);
-	const securePassword = await bcrypt.hash(request.body.password, saltPassword);
+	const securePassword = await bcrypt.hash(req.body.password, saltPassword);
 
 	const signedUpUser = new signUpTemplate({
-		firstName: request.body.firstName,
-		lastName: request.body.lastName,
-		email: request.body.email,
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		email: req.body.email,
 		password: securePassword,
 		salt: saltPassword,
 	});
 
-	signUpTemplate.findOne({ email: request.body.email }, (err, res) => {
-		if (!res) {
+	signUpTemplate.findOne({ email: req.body.email }, (findErr, doc) => {
+		if (!doc) {
 			signedUpUser
 				.save()
 				.then(data => {
-					response.json({
+					res.json({
 						firstname: signedUpUser.firstName,
 						lastname: signedUpUser.lastName,
 						data: 'data',
 					});
+
+					sendbirdRoutes.createUser(data._id.toString(), data.firstName, data.lastName);
 				})
-				.catch(error => {
-					response.json(error);
-				});
-		} else {
-			response.sendStatus(409);
-		}
+				.catch(saveErr => next(new ServerError(serverErrorTypes.mongodb, saveErr)));
+		} else if (findErr) next(new ServerError(serverErrorTypes.mongodb, findErr));
+		else next(new UserExistsError(req.body.email));
 	});
 };
 
-const login = async (request, response) => {
+const login = async (request, response, next) => {
 	const response2 = await signUpTemplate.findOne({ email: request.body.email });
+	console.log(response2);
 	if (!response2) {
 		response.sendStatus(409);
 		return;

@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
-const fetch = arg => import('node-fetch').then(({ default: fetch }) => fetch(arg));
 import axios from 'axios';
 import postTemplate from '../models/PostModels.js';
+import geoConfig from '../configurations/geo-config.js';
+
+const fetch = arg => import('node-fetch').then(({ default: fetch }) => fetch(arg));
 
 const postNew = async (request, response) => {
 	const addressString =
@@ -66,7 +68,7 @@ const getCoordinates = async address => {
 		'https://api.mapbox.com/geocoding/v5/mapbox.places/' +
 		addURI +
 		'.json?limit=1&access_token=' +
-		process.env.MAPS_TOKEN;
+		geoConfig.mapToken;
 	const response = axios.get(url);
 	returnValue = response.then(data => {
 		console.log(data.data.features[0].center);

@@ -7,19 +7,20 @@ const axiosConfig = {
 	},
 };
 
-const createUser = async () => {
+const createUser = async (id, firstName, lastName) => {
 	const body = {
-		user_id: 'hi',
-		nickname: 'testguy',
+		user_id: id,
+		nickname: `${firstName} ${lastName}`,
 		profile_url: '',
 	};
+
 	axios
 		.post(`${sendbirdConfig.apiRequestURL}/users`, body, axiosConfig)
 		.then(res => {
 			console.log(res);
 		})
 		.catch(err => {
-			console.log(err);
+			throw err;
 		});
 };
 
@@ -27,6 +28,7 @@ const joinGroup = async () => {
 	const body = {
 		name: 'Tennis Lessons Experience 2',
 		user_ids: ['1', '2'],
+		is_distinct: true,
 	};
 
 	axios
