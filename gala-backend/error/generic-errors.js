@@ -9,6 +9,7 @@ export const serverErrorTypes = {
 	paypal: 'paypal',
 	sendbird: 'sendbird',
 	sendgrid: 'sendgrid',
+	geo: 'geo',
 	generic: 'generic',
 };
 

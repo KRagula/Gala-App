@@ -11,9 +11,17 @@ import serverConfig from './configurations/server-config.js';
 import credentialRoutes from './routes/credential-routes.js';
 import paymentRoutes from './routes/payment-routes.js';
 import postRoutes from './routes/post-routes.js';
-import errorHandlers from './error/error-handlers.js';
 
-mongoose.connect(dbConfig.mongoDBAccess, () => console.log('Mongo Database Connected'));
+import errorHandlers from './middleware/error-handlers.js';
+import tokenHandlers from './middleware/token-handlers.js';
+
+mongoose
+	.connect(dbConfig.mongoDBAccess)
+	.then(() => console.log('Mongo Database Connected'))
+	.catch(err => {
+		console.error('ERROR: Mongo Database Could Not Connect:\n', err);
+		process.exit(1);
+	});
 
 const corsOptions = {
 	origin: serverConfig.frontendURL,
