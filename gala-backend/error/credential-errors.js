@@ -15,7 +15,17 @@ export class UserExistsError extends CredentialError {
 		super();
 
 		this.name = this.constructor.name;
-		this.message = `The email ${email} is already in use!`;
+		this.message = `The email ${email} is already in use.`;
 		this.statusCode = 409;
+	}
+}
+
+export class InvalidCredentialError extends CredentialError {
+	constructor() {
+		super();
+
+		this.name = this.constructor.name;
+		this.message = `Credentials invalid.`;
+		this.statusCode = 401;
 	}
 }

@@ -1,10 +1,14 @@
 import axios from 'axios';
 
 import serverConfig from '../configurations/server-config.js';
+import routeCredential from '../configurations/route-credential-config.js';
+import ROUTE from '../configurations/route-frontend-config.js';
 
 export const login = credentials => {
 	axios
-		.post(`${serverConfig.backendURL}/credential/login`, credentials, { withCredentials: true })
+		.post(`${serverConfig.backendURL}${routeCredential.login}`, credentials, {
+			withCredentials: true,
+		})
 		.then(response => {
 			if (response.data.data == 'data') {
 				//document.cookie='firstname='+response.data.firstname+';max-age=3600'
@@ -13,7 +17,7 @@ export const login = credentials => {
 				// document.cookie('lastname', response.data.lastname)
 				//console.log(response.getResponseHeader('Set-Cookie'))
 				//console.log(response.headers.cookie)
-				window.location = '/explore';
+				window.location = ROUTE.EXPLORE;
 			}
 		})
 		.catch(error => {
@@ -27,7 +31,9 @@ export const login = credentials => {
 
 export const signup = registered => {
 	axios
-		.post(`${serverConfig.backendURL}/credential/signup`, registered, { withCredentials: true })
+		.post(`${serverConfig.backendURL}${routeCredential.signup}`, registered, {
+			withCredentials: true,
+		})
 		.then(response => {
 			if (response.data.data == 'data') {
 				// document.cookie = 'firstname=' + response.data.firstname + ';max-age=3600';
@@ -36,7 +42,7 @@ export const signup = registered => {
 				// document.cookie('lastname', response.data.lastname)
 				//console.log(response.getResponseHeader('Set-Cookie'))
 				//console.log(response.headers.cookie)
-				window.location = '/explore';
+				window.location = ROUTE.EXPLORE;
 			}
 		})
 		.catch(error => {

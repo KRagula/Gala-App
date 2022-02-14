@@ -17,26 +17,32 @@ import Message from './components/Message';
 import Listing from './components/Listing';
 import './css/App.css';
 
+import ROUTE from './configurations/route-frontend-config.js';
+
 function App() {
 	return (
 		<React.Fragment>
 			<BrowserRouter>
 				<Routes>
-					<Route exact path='' element={<Homepage />} />
-					<Route exact path='/signup' element={<Signup />} />
-					<Route exact path='/login' element={<Login />} />
-					<Route exact path='/safety' element={<Safety />} />
-					<Route exact path='/about' element={<About />} />
-					<Route exact path='/contact' element={<Contact />} />
-					<Route exact path='/dashboard' element={<Dashboard />} />
-					<Route exact path='/explore' element={<Explore />} />
-					<Route exact path='/create' element={<Create />} />
-					<Route exact path='/messages' element={<Messages />} />
-					<Route exact path='/mybids' element={<Bids />} />
-					<Route exact path='/mydates' element={<Dates />} />
-					<Route exact path='/payment' element={<Payment />} />
-					<Route exact path='/message' element={<Message />} />
-					<Route exact path='/listing' element={<Listing role={'engager'} status={'ongoing'} />} />
+					<Route exact path={ROUTE.HOME} element={<Homepage />} />
+					<Route exact path={ROUTE.SIGNUP} element={<Signup />} />
+					<Route exact path={ROUTE.LOGIN} element={<Login />} />
+					<Route exact path={ROUTE.SAFETY} element={<Safety />} />
+					<Route exact path={ROUTE.ABOUT} element={<About />} />
+					<Route exact path={ROUTE.CONTACT} element={<Contact />} />
+					<Route exact path={ROUTE.DASHBOARD} element={<Dashboard />} />
+					<Route exact path={ROUTE.EXPLORE} element={<Explore />} />
+					<Route exact path={ROUTE.CREATE} element={<Create />} />
+					<Route exact path={ROUTE.MESSAGES} element={<Messages />} />
+					<Route exact path={ROUTE.MYBIDS} element={<Bids />} />
+					<Route exact path={ROUTE.MYDATES} element={<Dates />} />
+					<Route exact path={ROUTE.PAYMENT} element={<Payment />} />
+					<Route exact path={ROUTE.MESSAGE} element={<Message />} />
+					<Route
+						exact
+						path={ROUTE.LISTING}
+						element={<Listing role={'engager'} status={'ongoing'} />}
+					/>
 				</Routes>
 			</BrowserRouter>
 		</React.Fragment>

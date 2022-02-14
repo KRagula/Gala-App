@@ -36,6 +36,8 @@ app.get('/payment/cancel', paymentRoutes.cancel);
 /** CREDENTIAL ENDPOINTS **/
 app.post('/credential/signup', credentialRoutes.signup);
 app.post('/credential/login', credentialRoutes.login);
+
+/** EXPERIENCE ENDPOINTS **/
 app.post('/experience/make-post', postRoutes.postNew);
 app.post('/experience/get-city-posts', postRoutes.getCityPosts);
 

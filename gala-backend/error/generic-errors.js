@@ -1,5 +1,7 @@
 export const clientErrorTypes = {
 	credential: 'credential',
+	experience: 'experience',
+	generic: 'generic',
 };
 
 export const serverErrorTypes = {

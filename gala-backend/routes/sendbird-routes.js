@@ -1,44 +1,40 @@
 import axios from 'axios';
 import sendbirdConfig from '../configurations/sendbird-config.js';
 
+import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
+
 const axiosConfig = {
 	headers: {
 		'Api-Token': sendbirdConfig.secondaryToken,
 	},
 };
 
-const createUser = async (id, firstName, lastName) => {
+const createUser = (id, firstName, lastName) => {
 	const body = {
 		user_id: id,
 		nickname: `${firstName} ${lastName}`,
 		profile_url: '',
 	};
 
-	axios
-		.post(`${sendbirdConfig.apiRequestURL}/users`, body, axiosConfig)
-		.then(res => {
-			console.log(res);
-		})
-		.catch(err => {
-			throw err;
-		});
+	try {
+		return axios.post(`${sendbirdConfig.apiRequestURL}/users`, body, axiosConfig);
+	} catch (err) {
+		throw new ServerError(serverErrorTypes.sendbird, err);
+	}
 };
 
-const joinGroup = async () => {
+const joinGroup = (channelName, providerId, experiencerId) => {
 	const body = {
-		name: 'Tennis Lessons Experience 2',
-		user_ids: ['1', '2'],
+		name: channelName,
+		user_ids: [providerId, experiencerId],
 		is_distinct: true,
 	};
 
-	axios
-		.post(`${sendbirdConfig.apiRequestURL}/group_channels`, body, axiosConfig)
-		.then(res => {
-			console.log(res);
-		})
-		.catch(err => {
-			console.log(err);
-		});
+	try {
+		return axios.post(`${sendbirdConfig.apiRequestURL}/group_channels`, body, axiosConfig);
+	} catch (err) {
+		throw new ServerError(serverErrorTypes.sendbird, err);
+	}
 };
 
 export default {

@@ -2,10 +2,13 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import signUpTemplate from '../models/SignUpModels.js';
-import sendbirdRoutes from './sendbird-routes.js';
 
 import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
-import { CredentialError, UserExistsError } from '../error/credential-errors.js';
+import {
+	CredentialError,
+	UserExistsError,
+	InvalidCredentialError,
+} from '../error/credential-errors.js';
 
 const signup = async (req, res, next) => {
 	const saltPassword = await bcrypt.genSalt(10);
@@ -19,54 +22,46 @@ const signup = async (req, res, next) => {
 		salt: saltPassword,
 	});
 
-	signUpTemplate.findOne({ email: req.body.email }, (findErr, doc) => {
-		if (!doc) {
-			signedUpUser
-				.save()
-				.then(data => {
-					res.json({
-						firstname: signedUpUser.firstName,
-						lastname: signedUpUser.lastName,
-						data: 'data',
-					});
+	let signupData;
+	try {
+		const userDoc = await signUpTemplate.findOne({ email: req.body.email });
+		if (userDoc) return next(new UserExistsError(req.body.email));
+		signupData = await signedUpUser.save();
 
-					sendbirdRoutes.createUser(data._id.toString(), data.firstName, data.lastName);
-				})
-				.catch(saveErr => next(new ServerError(serverErrorTypes.mongodb, saveErr)));
-		} else if (findErr) next(new ServerError(serverErrorTypes.mongodb, findErr));
-		else next(new UserExistsError(req.body.email));
-	});
+		return res.json({
+			firstname: signedUpUser.firstName,
+			lastname: signedUpUser.lastName,
+			data: 'data',
+		});
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
 };
 
-const login = async (request, response, next) => {
-	const response2 = await signUpTemplate.findOne({ email: request.body.email });
-	console.log(response2);
-	if (!response2) {
-		response.sendStatus(409);
-		return;
+const login = async (req, res, next) => {
+	let doc;
+	try {
+		doc = await signUpTemplate.findOne({ email: req.body.email });
+		if (!doc) return next(new InvalidCredentialError()); // User DNE
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
 	}
 
-	bcrypt.compare(request.body.password, response2.password, (err, res) => {
-		if (err) {
-			response.sendStatus(410);
-			//Invalid password
-		}
-		if (res) {
+	bcrypt.compare(req.body.password, doc.password, (err, same) => {
+		if (err) return next(new ServerError(serverErrorTypes.generic, err));
+		else if (same) {
 			// Send JWT
-			let options = {
+			const options = {
 				maxAge: 1000 * 60 * 60, // would expire after 60 minutes
 			};
 
 			//   var nameCookie = 'firstname=' + response2.firstName
 			//   var lastNameCookie = 'lastname=' + response2.lastName
 
-			response.cookie('first-name', response2.firstName, options);
-			response.cookie('last-name', response2.lastName, options);
-			response.json({ firstname: response2.firstName, lastname: response2.lastName, data: 'data' });
-		} else {
-			// response is OutgoingMessage object that server response http request
-			response.sendStatus(401);
-		}
+			res.cookie('first-name', doc.firstName, options);
+			res.cookie('last-name', doc.lastName, options);
+			res.json({ firstname: doc.firstName, lastname: doc.lastName, data: 'data' });
+		} else return next(new InvalidCredentialError());
 	});
 };
 

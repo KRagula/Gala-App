@@ -3,61 +3,55 @@ import axios from 'axios';
 import postTemplate from '../models/PostModels.js';
 import geoConfig from '../configurations/geo-config.js';
 
-const fetch = arg => import('node-fetch').then(({ default: fetch }) => fetch(arg));
+import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
 
-const postNew = async (request, response) => {
-	const addressString =
-		request.body.streetAddress +
-		', ' +
-		request.body.cityAddress +
-		', ' +
-		request.body.stateAddress +
-		', ' +
-		request.body.zipAddress;
+const postNew = async (req, res, next) => {
+	const addressString = `${req.body.streetAddress}, ${req.body.cityAddress}, ${req.body.stateAddress}, ${req.body.zipAddress}`;
 
-	var coordinates = await getCoordinates(addressString);
+	const coordinates = await getCoordinates(addressString);
 
 	if (coordinates[0] == -181) {
-		response.json({ statusMessage: 'Geocoding Error' });
+		res.json({ statusMessage: 'Geocoding Error' });
 		return;
 	}
 
 	const newPost = new postTemplate({
-		title: request.body.title,
-		description: request.body.description,
-		streetAddress: request.body.streetAddress,
-		cityAddress: request.body.cityAddress,
-		stateAddress: request.body.stateAddress,
-		zipAddress: request.body.zipAddress,
-		timeStart: request.body.timeStart,
-		timeEnd: request.body.timeEnd,
-		price: Number(request.body.price.replace(/[^0-9.-]+/g, '')),
-		tags: request.body.tags,
-		hostEmail: request.body.hostEmail,
+		title: req.body.title,
+		description: req.body.description,
+		streetAddress: req.body.streetAddress,
+		cityAddress: req.body.cityAddress,
+		stateAddress: req.body.stateAddress,
+		zipAddress: req.body.zipAddress,
+		timeStart: req.body.timeStart,
+		timeEnd: req.body.timeEnd,
+		price: Number(req.body.price.replace(/[^0-9.-]+/g, '')),
+		tags: req.body.tags,
+		hostEmail: req.body.hostEmail,
 		longitude: coordinates[0],
 		latitude: coordinates[1],
 	});
 
-	//TODO: Verify that the JWT matches for the email payload
+	//TODO: Verify that the JWT matches for the email payload (can use middleware for this, no need to do within route)
 	//TODO: Generate ID for the post?
-	newPost
-		.save()
-		.then(data => {
-			response.json({ statusMessage: 'Saved' });
-		})
-		.catch(error => {
-			response.json(error);
-		});
+	try {
+		await newPost.save();
+		return res.json({ statusMessage: 'Saved' });
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
 };
 
-const getCityPosts = async (request, response) => {
+const getCityPosts = async (req, res, next) => {
 	//Verify request comes from logged in user?
-	const response2 = await postTemplate.find({ cityAddress: request.body.cityAddress });
-	if (!response2) {
-		response.json({});
-		return;
-	} else {
-		response.json(response2);
+	try {
+		const doc = await postTemplate.find({ cityAddress: req.body.cityAddress });
+		if (!doc) {
+			return res.json({});
+		} else {
+			return res.json(doc);
+		}
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
 	}
 };
 
