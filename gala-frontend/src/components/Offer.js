@@ -106,7 +106,7 @@ function Offer() {
 										</div>
 										<div className='OfferBidInfoRow'>
 											<div>Highest Bid:</div>
-											<div className='OfferBidInfoRowPrice Highest'>$110.00</div>
+											<div className='OfferBidInfoRowPrice Bold'>$110.00</div>
 										</div>
 									</div>
 								</div>

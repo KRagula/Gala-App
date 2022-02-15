@@ -42,7 +42,7 @@ function Confirm() {
 						<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
 							<div className='DashboardTitleText'>Confirm</div>
 							<div className='DashboardTitleDot' />
-							<div className='DashboardDescriptionText'>Approve Claire's offer for this date.</div>
+							<div className='DashboardDescriptionText'>Approve Claire's offer for this date</div>
 						</div>
 					</div>
 					<div className='OfferArea'>
@@ -65,8 +65,7 @@ function Confirm() {
 									<div className='DatesEntryDescriptionTitle'>
 										<div className='ExploreEntryDescriptionTitleMain'>PITBULL CONCERT</div>
 										<div className='ExploreEntryDescriptionTitleSub'>
-											Come to the Pitbull concert with me this Saturday at the Moda Center! Tickets
-											and drinks on me.
+											Come to the Pitbull concert with me this Saturday at the Moda Center!
 										</div>
 									</div>
 									<div className='ExploreEntryDescriptionLogistics'>
@@ -89,13 +88,14 @@ function Confirm() {
 										</div>
 										<div className='OfferBidInfoRow'>
 											<div>Highest Bid:</div>
-											<div className='OfferBidInfoRowPrice Highest'>$110.00</div>
+											<div className='OfferBidInfoRowPrice'>$110.00</div>
 										</div>
 									</div>
 								</div>
 								<div className='OfferBidRequestWrapper'>
 									<div className='OfferBidRequest'>
-										<div className='OfferBidRequestPrompt'>Your Bid:</div>
+										<div>Claire's Bid:</div>
+										<div className='OfferBidInfoRowPrice Bold'>$105.00</div>
 									</div>
 								</div>
 								<div className='OfferBidOptionArea'>
