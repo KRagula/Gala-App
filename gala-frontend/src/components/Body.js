@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import ReactAnime from 'react-animejs';
 import '../css/Body.css';
 
+import ROUTE from '../configurations/route-frontend-config.js';
+
 const { Anime } = ReactAnime;
 
 function Body() {
@@ -91,7 +93,7 @@ function Body() {
 					Attend a concert
 				</div>
 				<div className='CreateAccountButton' id='CreateAccountButton'>
-					<Link to='/signup' style={{ textDecoration: 'none' }}>
+					<Link to={ROUTE.SIGNUP} style={{ textDecoration: 'none' }}>
 						<div className='CreateAccountButtonArea'>Create Account</div>
 					</Link>
 				</div>

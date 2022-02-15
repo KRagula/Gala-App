@@ -12,6 +12,7 @@ import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { createPost } from '../axios/posts.js';
 
 const { Anime } = ReactAnime;
 
@@ -33,6 +34,13 @@ const MAX_NUM_TAGS = 10;
 function Create() {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
+	const [title, setTitle] = useState('');
+	const [descriptionEvent, setDescriptionEvent] = useState('');
+	const [street, setStreet] = useState('');
+	const [city, setCity] = useState('');
+	const [zip, setZip] = useState('');
+	const [stateLoc, setStateLoc] = useState('');
+	const [priceExp, setPriceExp] = useState('');
 
 	const currencyMask = createNumberMask({
 		...defaultMaskOptions,
@@ -71,6 +79,24 @@ function Create() {
 		if (index > -1) {
 			setTagsList(tagsList.filter(val => val !== tagVal));
 		}
+	};
+
+	const onSubmit = event => {
+		//event.preventDefault(); Take out once we can redirect to a post
+		const newPost = {
+			title: title,
+			description: descriptionEvent,
+			streetAddress: street,
+			cityAddress: city,
+			stateAddress: stateLoc,
+			zipAddress: zip,
+			timeStart: startDate,
+			timeEnd: endDate,
+			price: priceExp,
+			tags: tagsList.toString(),
+			hostEmail: 'fillerUseCookies@gmail.com',
+		};
+		createPost(newPost);
 	};
 
 	// controller state
@@ -113,6 +139,7 @@ function Create() {
 							<input
 								className='CreateFormRowInput'
 								placeholder='Title of Experience'
+								onChange={event => setTitle(event.target.value)}
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -120,6 +147,7 @@ function Create() {
 							<input
 								className='CreateFormRowInput'
 								placeholder='Description of Experience'
+								onChange={event => setDescriptionEvent(event.target.value)}
 								id='DescriptionInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -129,20 +157,24 @@ function Create() {
 									<input
 										className='CreateFormRowInputAddress'
 										placeholder='Street Name'
+										onChange={event => setStreet(event.target.value)}
 										id='StreetInputField'></input>
 								</div>
 								<div className='CreateFormInputAreaRowAddress'>
 									<input
 										className='CreateFormRowInputAddress'
 										placeholder='City'
+										onChange={event => setCity(event.target.value)}
 										id='CityInputField'></input>
 									<input
 										className='CreateFormRowInputAddress'
 										placeholder='State'
+										onChange={event => setStateLoc(event.target.value)}
 										id='StateInputField'></input>
 									<input
 										className='CreateFormRowInputAddress'
 										placeholder='ZIP Code'
+										onChange={event => setZip(event.target.value)}
 										id='ZipInputField'></input>
 								</div>
 							</div>
@@ -184,6 +216,7 @@ function Create() {
 							<MaskedInput
 								className='CreateFormRowInput Price'
 								mask={currencyMask}
+								onChange={event => setPriceExp(event.target.value)}
 								placeholder='$0.00'
 							/>
 						</div>
@@ -196,7 +229,7 @@ function Create() {
 							<div className='CreateFormRowInputAreaTags'>
 								<input
 									className='CreateFormRowInput Tag'
-									placeholder='Fun, Experience'
+									placeholder='Fun'
 									maxlength='15'
 									onChange={handleChange}
 									onKeyDown={handleKeyDown}
@@ -229,7 +262,9 @@ function Create() {
 							</div>
 						</div>
 						<div className='CreateFormButtonArea'>
-							<div className='CreateFormButton Submit'>Submit</div>
+							<div className='CreateFormButton Submit' onClick={onSubmit}>
+								Submit
+							</div>
 							<div className='CreateFormButton Clear'>Clear</div>
 						</div>
 					</div>

@@ -4,15 +4,16 @@ import express from 'express';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 
-import credentialRoutes from './routes/credential-routes.js';
-import postRoutes from './routes/post-routes.js';
-
 import './configurations/setup.js';
 import dbConfig from './configurations/db-config.js';
 import serverConfig from './configurations/server-config.js';
-import paymentRoutes from './routes/payment-routes.js';
 
-const app = express();
+import credentialRoutes from './routes/credential-routes.js';
+import paymentRoutes from './routes/payment-routes.js';
+import postRoutes from './routes/post-routes.js';
+import errorHandlers from './error/error-handlers.js';
+
+mongoose.connect(dbConfig.mongoDBAccess, () => console.log('Mongo Database Connected'));
 
 const corsOptions = {
 	origin: serverConfig.frontendURL,
@@ -20,23 +21,29 @@ const corsOptions = {
 	optionSuccessStatus: 200,
 };
 
+const app = express();
+
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
-/** ENDPOINTS **/
-app.post('/pay', paymentRoutes.pay);
-app.get('/success', paymentRoutes.success);
-app.get('/cancel', paymentRoutes.cancel);
-mongoose.connect(dbConfig.mongoDBAccess, () => console.log('Mongo Database Connected'));
+/** PAYMENT ENDPOINTS **/
+app.post('/payment/pay', paymentRoutes.pay);
+app.get('/payment/success', paymentRoutes.success);
+app.get('/payment/cancel', paymentRoutes.cancel);
 
-/** ENDPOINTS **/
-app.post('/signup', credentialRoutes.signup);
-app.post('/login', credentialRoutes.login);
-app.post('/makePost', postRoutes.postNew);
-app.post('/getCityPosts', postRoutes.getCityPosts);
+/** CREDENTIAL ENDPOINTS **/
+app.post('/credential/signup', credentialRoutes.signup);
+app.post('/credential/login', credentialRoutes.login);
+
+/** EXPERIENCE ENDPOINTS **/
+app.post('/experience/make-post', postRoutes.postNew);
+app.post('/experience/get-city-posts', postRoutes.getCityPosts);
+
+/** ERROR HANDLING **/
+app.use(errorHandlers.errorLogger);
+app.use(errorHandlers.errorResponder);
 
 console.log(
 	'Authors: Edward Kim (kime022), Claire Wang (waclaire), Robin Tan (robintan), Kanishka Ragula (kragula)'

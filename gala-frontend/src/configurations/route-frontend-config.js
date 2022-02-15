@@ -1,0 +1,18 @@
+export default {
+	HOME: '/',
+	SIGNUP: '/signup',
+	LOGIN: '/login',
+	SAFETY: '/safety',
+	ABOUT: '/about',
+	CONTACT: '/contact',
+	DASHBOARD: '/dashboard',
+	EXPLORE: '/explore',
+	CREATE: '/create',
+	MESSAGES: '/messages',
+	MYBIDS: '/mybids',
+	MYDATES: '/mydates',
+	PAYMENT: '/payment',
+	MESSAGE: '/message',
+	LISTING: '/listing',
+	PROFILE: '/profile',
+};

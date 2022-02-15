@@ -1,4 +1,4 @@
-POST http://localhost:8080/getCityPosts
+POST http://localhost:8080/experience/get-city-posts
 Content-Type: application/json
 
 {

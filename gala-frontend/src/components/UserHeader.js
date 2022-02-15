@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../css/UserHeader.css';
 
+import ROUTE from '../configurations/route-frontend-config.js';
+
 function UserHeader() {
 	function setHeaderValue() {
 		const firstname = document.cookie
@@ -16,7 +18,7 @@ function UserHeader() {
 			<div className='HeaderArea'>
 				<div className='HeaderLeftArea'>
 					<div className='GalaLogoArea'>
-						<Link to='/dashboard' style={{ textDecoration: 'none' }}>
+						<Link to={ROUTE.DASHBOARD} style={{ textDecoration: 'none' }}>
 							<div className='GalaLogo' onLoad={setHeaderValue}>
 								Gala
 							</div>
@@ -29,10 +31,10 @@ function UserHeader() {
 					</div>
 				</div>
 				<div className='HeaderRightArea'>
-					<Link to='/profile' style={{ textDecoration: 'none' }}>
+					<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
 						<div className='ProfileButton'>Profile</div>
 					</Link>
-					<Link to='/' style={{ textDecoration: 'none' }}>
+					<Link to={ROUTE.HOME} style={{ textDecoration: 'none' }}>
 						<div className='SignoutButton'>Sign Out</div>
 					</Link>
 				</div>
