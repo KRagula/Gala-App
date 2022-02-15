@@ -69,8 +69,6 @@ function Confirm() {
 										</div>
 									</div>
 									<div className='ExploreEntryDescriptionLogistics'>
-										<div>$50.00</div>
-										<div className='ExploreEntryDot' />
 										<div>Portland, OR (5 mi)</div>
 										<div className='ExploreEntryDot' />
 										<div>01/20/2022</div>

@@ -87,8 +87,6 @@ function Offer() {
 										</div>
 									</div>
 									<div className='ExploreEntryDescriptionLogistics'>
-										<div>$20.00</div>
-										<div className='ExploreEntryDot' />
 										<div>Philadelpia, PA (1 mi)</div>
 										<div className='ExploreEntryDot' />
 										<div>02/15/2022</div>

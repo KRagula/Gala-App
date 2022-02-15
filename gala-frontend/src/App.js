@@ -45,8 +45,8 @@ function App() {
 						path={ROUTE.LISTING}
 						element={<Listing role={'engager'} status={'ongoing'} />}
 					/>
-					<Route exact path='/offer' element={<Offer />} />
-					<Route exact path='/confirm' element={<Confirm />} />
+					<Route exact path={ROUTE.OFFER} element={<Offer />} />
+					<Route exact path={ROUTE.CONFIRM} element={<Confirm />} />
 				</Routes>
 			</BrowserRouter>
 		</React.Fragment>
