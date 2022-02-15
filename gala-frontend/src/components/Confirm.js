@@ -2,33 +2,15 @@ import React, { useState } from 'react';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
-import '../css/Offer.css';
+import '../css/Confirm.css';
 import testImage from '../assets/kanishka.jpeg';
 import testImage2 from '../assets/eddie.jpeg';
+import testImage3 from '../assets/claire.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
-import MaskedInput from 'react-text-mask';
-import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 const { Anime } = ReactAnime;
 
-const defaultMaskOptions = {
-	prefix: '$',
-	suffix: '',
-	includeThousandsSeparator: true,
-	thousandsSeparatorSymbol: ',',
-	allowDecimal: true,
-	decimalSymbol: '.',
-	decimalLimit: 2, // how many digits allowed after the decimal
-	integerLimit: 7, // limit length of integer numbers
-	allowNegative: false,
-	allowLeadingZeroes: false,
-};
-
-function Offer() {
-	const currencyMask = createNumberMask({
-		...defaultMaskOptions,
-	});
-
+function Confirm() {
 	// controller state
 	const [control, setControl] = useState(null);
 
@@ -58,22 +40,22 @@ function Offer() {
 				<div className='OfferAreaWrapper'>
 					<div className='DashboardTitleDescriptionAreaWrapper'>
 						<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
-							<div className='DashboardTitleText'>Offer</div>
+							<div className='DashboardTitleText'>Confirm</div>
 							<div className='DashboardTitleDot' />
-							<div className='DashboardDescriptionText'>Place a bid for this date</div>
+							<div className='DashboardDescriptionText'>Approve Claire's offer for this date</div>
 						</div>
 					</div>
 					<div className='OfferArea'>
 						<div className='OfferListingInfo'>
 							<div className='OfferProfileAreaWrapper'>
 								<div className='ExploreEntryProfileArea'>
-									<img src={testImage2} className='ExploreEntryProfileImage' />
-									<div className='ExploreEntryProfileText'>Eddie</div>
+									<img src={testImage3} className='ExploreEntryProfileImage' />
+									<div className='ExploreEntryProfileText'>Claire</div>
 									<div className='ExploreEntryProfileStars'>
 										<FaStar fontSize='11px' color='#424242' />
+										<FaStar fontSize='11px' color='#424242' />
+										<FaStar fontSize='11px' color='#424242' />
 										<FaStarHalfAlt fontSize='11px' color='#424242' />
-										<FaRegStar fontSize='11px' color='#424242' />
-										<FaRegStar fontSize='11px' color='#424242' />
 										<FaRegStar fontSize='11px' color='#424242' />
 									</div>
 								</div>
@@ -81,17 +63,17 @@ function Offer() {
 							<div className='DatesEntryRightArea'>
 								<div className='DatesEntryDescriptionArea'>
 									<div className='DatesEntryDescriptionTitle'>
-										<div className='ExploreEntryDescriptionTitleMain'>TENNIS LESSONS</div>
+										<div className='ExploreEntryDescriptionTitleMain'>PITBULL CONCERT</div>
 										<div className='ExploreEntryDescriptionTitleSub'>
-											You bring the balls, I bring the racket.
+											Come to the Pitbull concert with me this Saturday at the Moda Center!
 										</div>
 									</div>
 									<div className='ExploreEntryDescriptionLogistics'>
-										<div>$20.00</div>
+										<div>$50.00</div>
 										<div className='ExploreEntryDot' />
-										<div>Philadelpia, PA (1 mi)</div>
+										<div>Portland, OR (5 mi)</div>
 										<div className='ExploreEntryDot' />
-										<div>02/15/2022</div>
+										<div>01/20/2022</div>
 									</div>
 								</div>
 							</div>
@@ -106,24 +88,18 @@ function Offer() {
 										</div>
 										<div className='OfferBidInfoRow'>
 											<div>Highest Bid:</div>
-											<div className='OfferBidInfoRowPrice Bold'>$110.00</div>
+											<div className='OfferBidInfoRowPrice'>$110.00</div>
 										</div>
 									</div>
 								</div>
 								<div className='OfferBidRequestWrapper'>
 									<div className='OfferBidRequest'>
-										<div className='OfferBidRequestPrompt'>Your Bid:</div>
-										<div>
-											<MaskedInput
-												className='OfferBidRequestInput'
-												mask={currencyMask}
-												placeholder='$0.00'
-											/>
-										</div>
+										<div>Claire's Bid:</div>
+										<div className='OfferBidInfoRowPrice Bold'>$105.00</div>
 									</div>
 								</div>
 								<div className='OfferBidOptionArea'>
-									<div className='OfferBidOptionButton Submit'>Submit</div>
+									<div className='OfferBidOptionButton Submit'>Confirm</div>
 									<div className='OfferBidOptionButton GoBack'>Go Back</div>
 								</div>
 							</div>
@@ -144,4 +120,4 @@ function Offer() {
 	);
 }
 
-export default Offer;
+export default Confirm;
