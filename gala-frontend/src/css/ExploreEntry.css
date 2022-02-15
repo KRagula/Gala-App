@@ -81,6 +81,8 @@
 	margin-right: 5%;
 	font-size: 1em;
 	overflow-x: scroll;
+	max-width: 700px;
+	white-space: nowrap;
 	padding-bottom: 2%;
 }
 

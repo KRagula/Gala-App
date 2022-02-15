@@ -15,4 +15,6 @@ export default {
 	MESSAGE: '/message',
 	LISTING: '/listing',
 	PROFILE: '/profile',
+	OFFER: '/offer',
+	CONFIRM: '/confirm',
 };

@@ -1,0 +1,133 @@
+.OfferAreaWrapper {
+	width: 100%;
+	padding-right: 9%;
+}
+
+.OfferArea {
+	margin: 2% 6% 10% 13%;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Quicksand', sans-serif;
+}
+
+.OfferListingInfo {
+	margin: 1.5% 2% 2% 2%;
+	padding: 20px 0 20px 0;
+	min-height: 110px;
+	height: 110px;
+	display: flex;
+	justify-content: flex-start;
+	font-family: 'Quicksand', sans-serif;
+	background-color: rgb(245, 245, 245);
+	border-radius: 7px;
+}
+
+.OfferProfileAreaWrapper {
+	width: 20%;
+	border-right: 1px rgb(206, 206, 206) solid;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.OfferBidAreaWrapper {
+	display: flex;
+	justify-content: center;
+}
+
+.OfferBidArea {
+	margin-top: 2%;
+	width: 75%;
+	display: flex;
+	flex-direction: column;
+}
+
+.OfferBidInfoWrapper {
+	display: flex;
+	justify-content: center;
+}
+
+.OfferBidInfo {
+	display: flex;
+	flex-direction: column;
+	padding: 7px;
+	border-bottom: 1px rgb(206, 206, 206) solid;
+}
+
+.OfferBidInfoRow {
+	display: flex;
+	justify-content: space-between;
+	width: 235px;
+	margin-top: 4px;
+	margin-right: 5%;
+	font-size: 1.2em;
+	color: rgb(40, 40, 40);
+}
+
+.OfferBidInfoRowPrice {
+	margin-left: 20px;
+}
+
+.OfferBidInfoRowPrice.Bold {
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.OfferBidRequestWrapper {
+	display: flex;
+	justify-content: center;
+}
+
+.OfferBidRequest {
+	margin-top: 9px;
+	width: 235px;
+	font-size: 1.2em;
+	display: flex;
+	justify-content: space-between;
+}
+
+.OfferBidRequestPrompt {
+	margin-top: 5px;
+}
+
+.OfferBidRequestInput {
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+	width: 80px;
+	height: 13px;
+}
+
+.OfferBidOptionArea {
+	margin-top: 8%;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.OfferBidOptionButton {
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.1em;
+	color: #ffffff;
+	border-radius: 6px;
+	padding: 8px 10px 8px 10px;
+	text-align: center;
+}
+
+.OfferBidOptionButton.Submit {
+	background-color: rgb(0, 157, 102);
+}
+
+.OfferBidOptionButton.Submit:hover {
+	transition-duration: 0.4s;
+	background-color: rgb(0, 123, 107);
+}
+
+.OfferBidOptionButton.GoBack {
+	background-color: rgb(169, 39, 0);
+	margin-right: 10px;
+}
+
+.OfferBidOptionButton.GoBack:hover {
+	transition-duration: 0.4s;
+	background-color: rgb(123, 47, 0);
+}
