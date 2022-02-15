@@ -15,6 +15,7 @@ import Dates from './components/Dates';
 import Payment from './components/Payment';
 import Message from './components/Message';
 import Listing from './components/Listing';
+import Offer from './components/Offer';
 import './css/App.css';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
 					<Route exact path='/payment' element={<Payment />} />
 					<Route exact path='/message' element={<Message />} />
 					<Route exact path='/listing' element={<Listing role={'engager'} status={'ongoing'} />} />
+					<Route exact path='/offer' element={<Offer />} />
 				</Routes>
 			</BrowserRouter>
 		</React.Fragment>
