@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link, Route } from 'react-router-dom';
 import '../css/DatesEntry.css';
 import testImage from '../assets/kanishka.jpeg';
 import testImage2 from '../assets/eddie.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+
+import ROUTE from '../configurations/route-frontend-config.js';
 
 function DatesEntry(props) {
 	return (
@@ -26,7 +29,7 @@ function DatesEntry(props) {
 						<div className='DatesEntryDescriptionTitle'>
 							<div className='ExploreEntryDescriptionTitleMain'>TENNIS LESSONS</div>
 							<div className='ExploreEntryDescriptionTitleSub'>
-								You bring the balls, I bring the racket.
+								I've played tennis for a few years, would be happy to give lessons at Penn Park!
 							</div>
 						</div>
 						<div className='ExploreEntryDescriptionLogistics'>
@@ -40,21 +43,29 @@ function DatesEntry(props) {
 					<div className='DatesEntryBottomArea'>
 						<div className='BidsEntryBottomLeftArea'>
 							<div className='BidsEntryBottomLeftAreaRow'>
-								<i>Status: </i>
-								{props.isUpcoming ? (
-									props.isOngoing ? (
-										<div className='BidsEntryBottomLeftAreaRowStatus Ongoing'>Ongoing.</div>
-									) : (
-										<div className='BidsEntryBottomLeftAreaRowStatus Confirmed'>Confirmed.</div>
-									)
+								{!props.isOwn ? (
+									<div className='DatesEntryBottomLeftAreaRowStatusWrapper'>
+										<i>Status: </i>
+										{props.isUpcoming ? (
+											props.isOngoing ? (
+												<div className='BidsEntryBottomLeftAreaRowStatus Ongoing'>Ongoing.</div>
+											) : (
+												<div className='BidsEntryBottomLeftAreaRowStatus Confirmed'>Confirmed.</div>
+											)
+										) : (
+											<div className='BidsEntryBottomLeftAreaRowStatus Completed'>Completed.</div>
+										)}
+									</div>
 								) : (
-									<div className='BidsEntryBottomLeftAreaRowStatus Completed'>Completed.</div>
+									<div />
 								)}
 							</div>
 						</div>
 						<div className='BidsEntryBottomRightArea'>
 							<div className='BidsEntryBottomRightAreaRow'>
-								<div className='BidsEntryBottomRightAreaWidget Confirm'>Click for details</div>
+								<Link to={ROUTE.LISTING} style={{ textDecoration: 'none' }}>
+									<div className='BidsEntryBottomRightAreaWidget Confirm'>Click for details</div>
+								</Link>
 								{props.isUpcoming ? (
 									<div className='BidsEntryBottomRightAreaWidget Deny'>Click to withdraw</div>
 								) : (

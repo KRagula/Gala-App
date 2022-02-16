@@ -36,3 +36,7 @@
 	margin-right: 4%;
 	border-bottom: 1px rgb(218, 217, 217) solid;
 }
+
+.DatesEntryBottomLeftAreaRowStatusWrapper {
+	display: flex;
+}

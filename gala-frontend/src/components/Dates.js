@@ -12,6 +12,7 @@ const { Anime } = ReactAnime;
 function Dates() {
 	const [collapseFirst, setCollapseFirst] = useState(false);
 	const [collapseSecond, setCollapseSecond] = useState(false);
+	const [collapseThird, setCollapseThird] = useState(false);
 
 	const handleCollapseFirst = () => {
 		setCollapseFirst(!collapseFirst);
@@ -19,6 +20,10 @@ function Dates() {
 
 	const handleCollapseSecond = () => {
 		setCollapseSecond(!collapseSecond);
+	};
+
+	const handleCollapseThird = () => {
+		setCollapseThird(!collapseThird);
 	};
 
 	// controller state
@@ -80,7 +85,7 @@ function Dates() {
 					</div>
 					<div className='BidsCollapsableArea'>
 						<div className='BidsCollapseBar'>
-							<div className='BidsCollapseText'>Past Dates</div>
+							<div className='BidsCollapseText'>Dates You Created</div>
 							{collapseSecond ? (
 								<div className='BidsCollapseArrow' onClick={handleCollapseSecond}>
 									<FontAwesomeIcon icon={faChevronDown} />
@@ -92,6 +97,27 @@ function Dates() {
 							)}
 						</div>
 						{!collapseSecond ? (
+							<div className='BidsEntryArea'>
+								<DatesEntry isUpcoming={false} isOwn={true} />
+							</div>
+						) : (
+							<div />
+						)}
+					</div>
+					<div className='BidsCollapsableArea'>
+						<div className='BidsCollapseBar'>
+							<div className='BidsCollapseText'>Past Dates</div>
+							{collapseThird ? (
+								<div className='BidsCollapseArrow' onClick={handleCollapseThird}>
+									<FontAwesomeIcon icon={faChevronDown} />
+								</div>
+							) : (
+								<div className='BidsCollapseArrow' onClick={handleCollapseThird}>
+									<FontAwesomeIcon icon={faChevronUp} />
+								</div>
+							)}
+						</div>
+						{!collapseThird ? (
 							<div className='BidsEntryArea'>
 								<DatesEntry isUpcoming={false} />
 								<DatesEntry isUpcoming={false} />

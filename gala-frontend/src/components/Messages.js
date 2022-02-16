@@ -60,7 +60,7 @@ function Messages() {
 						</div>
 					</div>
 					<div className='MessagesEntryArea'>
-						<MessagesEntry isNewMessage={true} newMessage='come over baby girl' />
+						<MessagesEntry isNewMessage={true} newMessage={"I'll be 5 minutes late."} />
 						<MessagesEntry isNewMessage={false} />
 						<MessagesEntry isNewMessage={false} />
 					</div>

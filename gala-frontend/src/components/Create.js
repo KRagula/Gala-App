@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, Route } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
@@ -13,6 +14,8 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { createPost } from '../axios/posts.js';
+
+import ROUTE from '../configurations/route-frontend-config.js';
 
 const { Anime } = ReactAnime;
 
@@ -262,9 +265,11 @@ function Create() {
 							</div>
 						</div>
 						<div className='CreateFormButtonArea'>
-							<div className='CreateFormButton Submit' onClick={onSubmit}>
-								Submit
-							</div>
+							<Link to={ROUTE.MYDATES} style={{ textDecoration: 'none' }}>
+								<div className='CreateFormButton Submit' onClick={onSubmit}>
+									Submit
+								</div>
+							</Link>
 							<div className='CreateFormButton Clear'>Clear</div>
 						</div>
 					</div>
