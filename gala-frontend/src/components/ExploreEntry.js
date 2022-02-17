@@ -1,7 +1,10 @@
 import React from 'react';
+import { Link, Route } from 'react-router-dom';
 import '../css/ExploreEntry.css';
 import testImage from '../assets/kanishka.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+
+import ROUTE from '../configurations/route-frontend-config.js';
 
 function ExploreEntry() {
 	return (
@@ -50,7 +53,9 @@ function ExploreEntry() {
 							</div>
 							<div className='ExploreEntrySeeMoreArea'>
 								<div className='ExploreEntrySeeMoreAreaWrapper'>
-									<div className='ExploreEntrySeeMore'>Click to see more</div>
+									<Link to={ROUTE.LISTING} style={{ textDecoration: 'none' }}>
+										<div className='ExploreEntrySeeMore'>Click to see more</div>
+									</Link>
 								</div>
 							</div>
 						</div>

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import '../css/Navigation.css';
+
+import ROUTE from '../configurations/route-frontend-config.js';
 
 function Navigation(props) {
 	const [shouldCollapse, setShouldCollapse] = useState(false);
@@ -45,7 +47,7 @@ function Navigation(props) {
 								</div>
 							</div>
 						) : (
-							<Link to='/explore' style={{ textDecoration: 'none' }}>
+							<Link to={ROUTE.EXPLORE} style={{ textDecoration: 'none' }}>
 								<div className='Option First'>EXPLORE</div>
 							</Link>
 						)}
@@ -58,7 +60,7 @@ function Navigation(props) {
 								</div>
 							</div>
 						) : (
-							<Link to='/create' style={{ textDecoration: 'none' }}>
+							<Link to={ROUTE.CREATE} style={{ textDecoration: 'none' }}>
 								<div className='Option'>CREATE</div>
 							</Link>
 						)}
@@ -71,7 +73,7 @@ function Navigation(props) {
 								</div>
 							</div>
 						) : (
-							<Link to='/messages' style={{ textDecoration: 'none' }}>
+							<Link to={ROUTE.MESSAGES} style={{ textDecoration: 'none' }}>
 								<div className='Option'>MESSAGES</div>
 							</Link>
 						)}
@@ -84,7 +86,7 @@ function Navigation(props) {
 								</div>
 							</div>
 						) : (
-							<Link to='/mybids' style={{ textDecoration: 'none' }}>
+							<Link to={ROUTE.MYBIDS} style={{ textDecoration: 'none' }}>
 								<div className='Option'>MY BIDS</div>
 							</Link>
 						)}
@@ -97,7 +99,7 @@ function Navigation(props) {
 								</div>
 							</div>
 						) : (
-							<Link to='/mydates' style={{ textDecoration: 'none' }}>
+							<Link to={ROUTE.MYDATES} style={{ textDecoration: 'none' }}>
 								<div className='Option Last'>MY DATES</div>
 							</Link>
 						)}

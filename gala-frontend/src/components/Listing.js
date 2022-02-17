@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, Route } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
@@ -9,6 +10,8 @@ import testFile from '../assets/file-test.pdf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+
+import ROUTE from '../configurations/route-frontend-config.js';
 
 const { Anime } = ReactAnime;
 
@@ -320,7 +323,9 @@ function Listing(props) {
 										) : (
 											<div />
 										)}
-										<div className='ListingMessageOption Blue'>Click to message</div>
+										<Link to={ROUTE.MESSAGE} style={{ textDecoration: 'none' }}>
+											<div className='ListingMessageOption Blue'>Click to message</div>
+										</Link>
 									</div>
 								) : (
 									<div />

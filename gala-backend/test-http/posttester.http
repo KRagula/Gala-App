@@ -1,10 +1,10 @@
-POST http://localhost:8080/makePost
+POST http://localhost:8080/experience/make-post
 Content-Type: application/json
 
 {
-		"title": "Anteater Farm Tour",
-		"description": "See ants in their natural habitat",
-		"streetAddress": "4200 Walnut Street",
+		"title": "Snake Farm Tour",
+		"description": "See snakes in their natural habitat",
+		"streetAddress": "3800 Walnut Street",
 		"cityAddress": "Philadelphia",
 		"stateAddress": "PA",
 		"zipAddress": "19104",

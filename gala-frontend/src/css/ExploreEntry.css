@@ -81,6 +81,8 @@
 	margin-right: 5%;
 	font-size: 1em;
 	overflow-x: scroll;
+	max-width: 700px;
+	white-space: nowrap;
 	padding-bottom: 2%;
 }
 
@@ -151,10 +153,11 @@
 .ExploreEntrySeeMoreAreaWrapper {
 	display: flex;
 	flex-direction: row-reverse;
-	padding: 0 10px 5px 0;
+	padding: 0 14px 5px 0;
 }
 
 .ExploreEntrySeeMore {
+	width: 100%;
 	margin: 0 2% 1% 0;
 	color: rgb(0, 0, 169);
 }

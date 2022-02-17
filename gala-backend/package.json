@@ -12,6 +12,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@sendgrid/mail": "^7.6.0",
 		"axios": "^0.25.0",
 		"bcrypt": "^5.0.1",
 		"body-parser": "^1.19.0",
@@ -25,7 +26,10 @@
 		"morgan": "^1.10.0",
 		"node-fetch": "^3.2.0",
 		"nodemon": "^2.0.15",
+<<<<<<< HEAD
 		"@sendgrid/mail": "^7.6.0",
+=======
+>>>>>>> dedb3f9edcdfcf7519b85a89bd2d6a1151883c9f
 		"paypal-rest-sdk": "^1.8.1"
 	}
 }
