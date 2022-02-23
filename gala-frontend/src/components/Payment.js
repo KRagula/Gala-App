@@ -45,7 +45,7 @@ function Payment() {
 					<br />
 					Price: $50
 					<br />
-					<form action='http://localhost:8080/pay' method='post'>
+					<form action='http://localhost:8080/payment/pay' method='post'>
 						<input type='submit' value='Purchase' />
 					</form>
 				</div>

@@ -1,0 +1,20 @@
+version: '3'
+services:
+  gala-backend:
+    env_file:
+      - ./gala-backend/.env
+    build: ./gala-backend
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+  gala-frontend:
+    build: ./gala-frontend
+    env_file:
+      - ./gala-backend/.env
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - gala-backend
