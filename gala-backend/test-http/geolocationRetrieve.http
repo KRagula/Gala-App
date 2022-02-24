@@ -2,5 +2,6 @@ POST http://localhost:8080/experience/get-city-posts
 Content-Type: application/json
 
 {
-		"cityAddress": "4200 Pine St., Philadelphia, PA 19104"
+		"address": "4200 Pine St., Philadelphia, PA 19104",
+		"range": 20 1609.34
 }

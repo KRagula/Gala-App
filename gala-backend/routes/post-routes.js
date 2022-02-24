@@ -27,8 +27,10 @@ const postNew = async (req, res, next) => {
 		price: Number(req.body.price.replace(/[^0-9.-]+/g, '')),
 		tags: req.body.tags,
 		hostEmail: req.body.hostEmail,
-		longitude: coordinates[0],
-		latitude: coordinates[1],
+		location: {
+			type: 'Point',
+			coordinates: [coordinates[0], coordinates[1]],
+		},
 	});
 
 	//TODO: Verify that the JWT matches for the email payload (can use middleware for this, no need to do within route)
@@ -43,6 +45,23 @@ const postNew = async (req, res, next) => {
 
 const getCityPosts = async (req, res, next) => {
 	//Verify request comes from logged in user?
+	try {
+		const doc = await postTemplate.find({ cityAddress: req.body.cityAddress });
+		if (!doc) {
+			return res.json({});
+		} else {
+			return res.json(doc);
+		}
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+};
+
+const getNearbyPosts = async (req, res, next) => {
+	//Verify request comes from logged in user?
+	const rangeSearch = req.body.range;
+	const addressCoords = await getCoordinates(req.body.address);
+
 	try {
 		const doc = await postTemplate.find({ cityAddress: req.body.cityAddress });
 		if (!doc) {
