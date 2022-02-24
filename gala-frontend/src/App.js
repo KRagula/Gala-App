@@ -6,7 +6,6 @@ import Login from './components/Login';
 import Safety from './components/Safety';
 import About from './components/About';
 import Contact from './components/Contact';
-import Dashboard from './components/Dashboard';
 import Explore from './components/Explore';
 import Create from './components/Create';
 import Messages from './components/Messages';
@@ -33,7 +32,6 @@ function App() {
 					<Route exact path={ROUTE.SAFETY} element={<Safety />} />
 					<Route exact path={ROUTE.ABOUT} element={<About />} />
 					<Route exact path={ROUTE.CONTACT} element={<Contact />} />
-					<Route exact path={ROUTE.DASHBOARD} element={<Dashboard />} />
 					<Route exact path={ROUTE.EXPLORE} element={<Explore />} />
 					<Route exact path={ROUTE.CREATE} element={<Create />} />
 					<Route exact path={ROUTE.MESSAGES} element={<Messages />} />
@@ -48,7 +46,7 @@ function App() {
 					/>
 					<Route exact path={ROUTE.OFFER} element={<Offer />} />
 					<Route exact path={ROUTE.CONFIRM} element={<Confirm />} />
-					<Route exact path={ROUTE.PROFILE} element={<Profile />} />
+					<Route exact path={ROUTE.PROFILE} element={<Profile role={'creator'} />} />
 				</Routes>
 			</BrowserRouter>
 		</React.Fragment>

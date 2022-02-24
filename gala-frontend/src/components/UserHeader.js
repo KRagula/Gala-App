@@ -18,7 +18,7 @@ function UserHeader() {
 			<div className='HeaderArea'>
 				<div className='HeaderLeftArea'>
 					<div className='GalaLogoArea'>
-						<Link to={ROUTE.DASHBOARD} style={{ textDecoration: 'none' }}>
+						<Link to={ROUTE.EXPLORE} style={{ textDecoration: 'none' }}>
 							<div className='GalaLogo' onLoad={setHeaderValue}>
 								Gala
 							</div>

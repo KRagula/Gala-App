@@ -7,7 +7,6 @@ import '../css/Profile.css';
 import testImage from '../assets/kanishka.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -35,7 +34,7 @@ function Profile(props) {
 		easing: 'easeInOutExpo',
 	});
 
-	var name = 'Kanishka';
+	var name = "Kanishka's";
 	if (props.role === 'creator') {
 		name = 'your';
 	}
@@ -50,7 +49,7 @@ function Profile(props) {
 						<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
 							<div className='DashboardTitleText'>Profile</div>
 							<div className='DashboardTitleDot' />
-							<div className='DashboardDescriptionText'>View {name}'s user profile</div>
+							<div className='DashboardDescriptionText'>View {name} user profile</div>
 						</div>
 					</div>
 					<div className='ListingArea'>
@@ -113,7 +112,9 @@ function Profile(props) {
 							</div>
 						</div>
 						{props.role === 'creator' ? (
-							<div className='ListingBidsCollapsableArea'>Click to update profile</div>
+							<div className='ProfileUpdateAreaWrapper'>
+								<div className='ProfileUpdateArea'>Click to update profile</div>
+							</div>
 						) : (
 							<div />
 						)}
