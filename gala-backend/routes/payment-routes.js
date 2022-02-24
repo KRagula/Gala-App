@@ -1,5 +1,6 @@
 import paypal from 'paypal-rest-sdk';
 import sgMail from '@sendgrid/mail';
+import axios from 'axios';
 
 import sendgridConfig from '../configurations/sendgrid-config.js';
 import paypalConfig from '../configurations/paypal-config.js';
@@ -43,12 +44,12 @@ const pay = async (request, res) => {
 					currency: 'USD',
 					total: '1.00',
 				},
-				description: 'paypal test for Claire',
+				description: 'paypal test',
 			},
 		],
 	};
 
-	console.log('this is the object' + create_payment_json);
+	//console.log('this is the object' + create_payment_json);
 
 	// pass in create_payment_json and returns payment object
 	paypal.payment.create(create_payment_json, function (error, payment) {
@@ -66,7 +67,6 @@ const pay = async (request, res) => {
 };
 
 const success = async (req, res) => {
-	var invoiceId;
 	const payerId = req.query.PayerID;
 	const paymentId = req.query.paymentId;
 	const execute_payment_json = {
@@ -83,32 +83,46 @@ const success = async (req, res) => {
 
 	paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
 		if (error) {
-			// console.log(error.response);
 			throw error;
 		} else {
-			// console.log('Get Payment Response');
-			// console.log(JSON.stringify(payment));
-			res.send('Success you just made a payment');
-			// console.log("this is invoice id" + invoiceId);
+			const buyer_email = payment['payer']['payer_info']['email'];
+			const merchant_email = payment['transactions'][0]['payee']['email'];
+			const amount = payment['transactions'][0]['amount'];
+			const item_list = payment['transactions'][0]['item_list'];
+			const price = item_list['items'][0]['price'];
+			const tax = item_list['items'][0]['tax'];
+			const msg = {
+				to: 'clairezwang0612@gmail.com', // Change to your recipient
+				from: 'gala.app.experiences@gmail.com', // Change to your verified sender
+				subject: 'Gala Receipt for: Pitbull Concert', //Change with name of experience purchased
+				templateId: 'd-6155c13a32da4f3c89e3d2244e7117da',
+				dynamic_template_data: {
+					description: 'Pitbull Concert',
+					quantity: '1',
+					amount: price,
+					subtotal: amount['details']['subtotal'],
+					t_and_f: tax,
+					total: amount['total'],
+					merchant_email: merchant_email,
+					buyer_email: buyer_email,
+					payment_method: payment['payer']['payment_method'],
+					payment_status: payment['state'],
+					transaction_id: payment['id'],
+					transaction_date: payment['create_time'],
+				},
+			};
+
+			sgMail
+				.send(msg)
+				.then(response => {
+					response.send(response[0].statusCode);
+				})
+				.catch(error => {
+					throw error;
+					// console.error(error);
+				});
 		}
 	});
-	const msg = {
-		to: 'clairezwang0612@gmail.com', // Change to your recipient
-		from: 'gala.app.experiences@gmail.com', // Change to your verified sender
-		subject: 'Sending with SendGrid is Fun',
-		text: 'Gala Receipts',
-		html: '<strong>Receipt below</strong>',
-	};
-
-	sgMail
-		.send(msg)
-		.then(response => {
-			// console.log(response[0].statusCode);
-			// console.log(response[0].headers);
-		})
-		.catch(error => {
-			// console.error(error);
-		});
 };
 
 export default {

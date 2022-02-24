@@ -153,10 +153,11 @@
 .ExploreEntrySeeMoreAreaWrapper {
 	display: flex;
 	flex-direction: row-reverse;
-	padding: 0 10px 5px 0;
+	padding: 0 14px 5px 0;
 }
 
 .ExploreEntrySeeMore {
+	width: 100%;
 	margin: 0 2% 1% 0;
 	color: rgb(0, 0, 169);
 }
