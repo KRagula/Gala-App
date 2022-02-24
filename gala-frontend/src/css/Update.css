@@ -1,0 +1,43 @@
+.UpdateFormRowInput {
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+	width: 65%;
+	height: 18px;
+}
+
+.UpdateFormRowInput.Name {
+	width: 25%;
+}
+
+.UpdateFormRowInput.LongText {
+	width: 60%;
+}
+
+.UpdateFormRowInput.Age {
+	width: 80px;
+}
+
+.UpdateFormProfileInput {
+	margin-top: 10px;
+}
+
+.UpdateFormProfilePictureWrapper {
+	margin-top: 25px;
+	display: flex;
+	justify-content: center;
+}
+
+.UpdateFormProfilePicture {
+	margin: auto;
+	margin-top: 5%;
+	display: block;
+	height: 150px;
+	width: 150px;
+	line-height: 60px;
+	text-align: center;
+	padding: 2px;
+	border: 1px rgb(218, 217, 217) solid;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}

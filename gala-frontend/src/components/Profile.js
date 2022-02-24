@@ -85,7 +85,7 @@ function Profile(props) {
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Age:</div>
-								<div className='ListingDataRowInfo'>21</div>
+								<div className='ListingDataRowInfo'>20</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Interests:</div>
@@ -113,7 +113,9 @@ function Profile(props) {
 						</div>
 						{props.role === 'creator' ? (
 							<div className='ProfileUpdateAreaWrapper'>
-								<div className='ProfileUpdateArea'>Click to update profile</div>
+								<Link to={ROUTE.UPDATE} style={{ textDecoration: 'none' }}>
+									<div className='ProfileUpdateArea'>Click to update profile</div>
+								</Link>
 							</div>
 						) : (
 							<div />
