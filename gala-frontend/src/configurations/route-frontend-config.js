@@ -5,7 +5,6 @@ export default {
 	SAFETY: '/safety',
 	ABOUT: '/about',
 	CONTACT: '/contact',
-	DASHBOARD: '/dashboard',
 	EXPLORE: '/explore',
 	CREATE: '/create',
 	MESSAGES: '/messages',
