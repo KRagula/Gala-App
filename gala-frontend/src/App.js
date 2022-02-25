@@ -17,6 +17,7 @@ import Listing from './components/Listing';
 import Offer from './components/Offer';
 import Confirm from './components/Confirm';
 import Profile from './components/Profile';
+import Update from './components/Update';
 import './css/App.css';
 
 import ROUTE from './configurations/route-frontend-config.js';
@@ -47,6 +48,7 @@ function App() {
 					<Route exact path={ROUTE.OFFER} element={<Offer />} />
 					<Route exact path={ROUTE.CONFIRM} element={<Confirm />} />
 					<Route exact path={ROUTE.PROFILE} element={<Profile role={'creator'} />} />
+					<Route exact path={ROUTE.UPDATE} element={<Update />} />
 				</Routes>
 			</BrowserRouter>
 		</React.Fragment>

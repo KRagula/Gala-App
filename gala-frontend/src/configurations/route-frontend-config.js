@@ -16,4 +16,5 @@ export default {
 	PROFILE: '/profile',
 	OFFER: '/offer',
 	CONFIRM: '/confirm',
+	UPDATE: '/update',
 };
