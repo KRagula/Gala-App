@@ -1,6 +1,9 @@
 import bodyParser from 'body-parser';
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
+import helmet from 'helmet';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 
@@ -11,9 +14,18 @@ import serverConfig from './configurations/server-config.js';
 import credentialRoutes from './routes/credential-routes.js';
 import paymentRoutes from './routes/payment-routes.js';
 import postRoutes from './routes/post-routes.js';
-import errorHandlers from './error/error-handlers.js';
+import awsRoutes from './routes/aws-routes.js';
 
-mongoose.connect(dbConfig.mongoDBAccess, () => console.log('Mongo Database Connected'));
+import errorHandlers from './middleware/error-handlers.js';
+import tokenHandlers from './middleware/token-handlers.js';
+
+mongoose
+	.connect(dbConfig.mongoDBAccess)
+	.then(() => console.log('Mongo Database Connected'))
+	.catch(err => {
+		console.error('ERROR: Mongo Database Could Not Connect:\n', err);
+		process.exit(1);
+	});
 
 const corsOptions = {
 	origin: serverConfig.frontendURL,
@@ -23,10 +35,17 @@ const corsOptions = {
 
 const app = express();
 
+/** Middleware Library Configs **/
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
+app.use(compression());
+app.use(helmet());
+app.use(cookieParser());
+
+/** AWS ENDPOINTS **/
+app.post('/aws/fileupload', awsRoutes.uploadFile);
 
 /** PAYMENT ENDPOINTS **/
 app.post('/payment/pay', paymentRoutes.pay);

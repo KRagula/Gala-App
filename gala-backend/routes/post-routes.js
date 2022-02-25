@@ -11,8 +11,7 @@ const postNew = async (req, res, next) => {
 	const coordinates = await getCoordinates(addressString);
 
 	if (coordinates[0] == -181) {
-		res.json({ statusMessage: 'Geocoding Error' });
-		return;
+		return next(new ServerError(serverErrorTypes.geo, -181));
 	}
 
 	const newPost = new postTemplate({

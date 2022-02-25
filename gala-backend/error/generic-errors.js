@@ -5,10 +5,12 @@ export const clientErrorTypes = {
 };
 
 export const serverErrorTypes = {
+	awsS3: 'awsS3',
 	mongodb: 'mongodb',
 	paypal: 'paypal',
 	sendbird: 'sendbird',
 	sendgrid: 'sendgrid',
+	geo: 'geo',
 	generic: 'generic',
 };
 

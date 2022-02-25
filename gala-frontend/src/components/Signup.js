@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactAnime from 'react-animejs';
 import Header from './Header';
 import { signup } from '../axios/credentials.js';
+import { uploadFile } from '../axios/aws.js';
 import '../css/Signup.css';
 
 const { Anime } = ReactAnime;
@@ -11,6 +12,7 @@ function Signup() {
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [selectedImage, setSelectedImage] = useState(null);
 
 	const onSubmit = event => {
 		event.preventDefault();
@@ -21,9 +23,12 @@ function Signup() {
 			password: password,
 		};
 		signup(registered);
-	};
 
-	const [selectedImage, setSelectedImage] = useState(null);
+		// TODO: Change so that this is intitiated only after successful signup
+		if (selectedImage) {
+			uploadFile(selectedImage);
+		}
+	};
 
 	// controller state
 	const [control, setControl] = useState(null);

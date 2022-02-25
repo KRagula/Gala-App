@@ -1,6 +1,6 @@
 const errorLogger = (err, req, res, next) => {
 	if (err.classification == 'server') {
-		// Log or do some notification to us here
+		console.log(err);
 	}
 
 	next(err);
