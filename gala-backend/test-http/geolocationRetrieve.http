@@ -1,0 +1,7 @@
+POST http://localhost:8080/experience/get-nearby-posts
+Content-Type: application/json
+
+{
+		"address": "4200 Pine St., Philadelphia, PA 19104",
+		"range": 201609.34
+}

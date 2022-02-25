@@ -2,12 +2,12 @@ POST http://localhost:8080/experience/make-post
 Content-Type: application/json
 
 {
-		"title": "Snake Farm Tour",
-		"description": "See snakes in their natural habitat",
-		"streetAddress": "4200 Walnut Street",
-		"cityAddress": "Philadelphia",
-		"stateAddress": "PA",
-		"zipAddress": "19104",
+		"title": "SF Test Location",
+		"description": "Test locations in SF",
+		"streetAddress": "500 Mission Street",
+		"cityAddress": "San Francisco",
+		"stateAddress": "CA",
+		"zipAddress": "94105",
 		"timeStart": "Tue Feb 01 2022 00:00:00 GMT+0000 (GMT)",
 		"timeEnd": "Wed Feb 02 2022 00:00:00 GMT+0000 (GMT)",
 		"price": "50",
