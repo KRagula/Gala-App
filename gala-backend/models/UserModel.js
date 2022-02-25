@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-const signUpTemplate = new mongoose.Schema({
+import dbConfig from '../configurations/db-config.js';
+
+const userTemplate = new mongoose.Schema({
 	firstName: {
 		type: String,
 		required: true,
@@ -25,6 +27,10 @@ const signUpTemplate = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	profilePicture: {
+		type: String,
+		required: false,
+	},
 });
 
-export default mongoose.model('mytable', signUpTemplate);
+export default mongoose.model(dbConfig.mongoDBTableUser, userTemplate);

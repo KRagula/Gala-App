@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import signUpTemplate from '../models/SignUpModels.js';
+import userTemplate from '../models/UserModel.js';
 
 import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
 import {
@@ -14,7 +14,7 @@ const signup = async (req, res, next) => {
 	const saltPassword = await bcrypt.genSalt(10);
 	const securePassword = await bcrypt.hash(req.body.password, saltPassword);
 
-	const signedUpUser = new signUpTemplate({
+	const signedUpUser = new userTemplate({
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
 		email: req.body.email,
@@ -24,7 +24,7 @@ const signup = async (req, res, next) => {
 
 	let signupData;
 	try {
-		const userDoc = await signUpTemplate.findOne({ email: req.body.email });
+		const userDoc = await userTemplate.findOne({ email: req.body.email });
 		if (userDoc) return next(new UserExistsError(req.body.email));
 		signupData = await signedUpUser.save();
 
@@ -41,7 +41,7 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
 	let doc;
 	try {
-		doc = await signUpTemplate.findOne({ email: req.body.email });
+		doc = await userTemplate.findOne({ email: req.body.email });
 		if (!doc) return next(new InvalidCredentialError()); // User DNE
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
