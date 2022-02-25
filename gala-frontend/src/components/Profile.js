@@ -68,10 +68,6 @@ function Profile(props) {
 						</div>
 						<div className='ListingDataPaper'>
 							<div className='ListingDataRow'>
-								<div className='ListingDataRowTitle'>Name:</div>
-								<div className='ListingDataRowInfo'>Kanishka Ragula</div>
-							</div>
-							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Headline:</div>
 								<div className='ListingDataRowInfo'>
 									Hi! I'm Kanishka. I like memes, finance, and memes about finance. I study in the
@@ -85,7 +81,11 @@ function Profile(props) {
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Age:</div>
-								<div className='ListingDataRowInfo'>21</div>
+								<div className='ListingDataRowInfo'>20</div>
+							</div>
+							<div className='ListingDataRow'>
+								<div className='ListingDataRowTitle'>Fun Fact:</div>
+								<div className='ListingDataRowInfo'>I have a twin brother.</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Interests:</div>
@@ -103,17 +103,15 @@ function Profile(props) {
 								</div>
 							</div>
 							<div className='ListingDataRow'>
-								<div className='ListingDataRowTitle'>Fun Fact:</div>
-								<div className='ListingDataRowInfo'>I have a twin brother.</div>
-							</div>
-							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Gala Dates:</div>
 								<div className='ListingDataRowInfo'>3</div>
 							</div>
 						</div>
 						{props.role === 'creator' ? (
 							<div className='ProfileUpdateAreaWrapper'>
-								<div className='ProfileUpdateArea'>Click to update profile</div>
+								<Link to={ROUTE.UPDATE} style={{ textDecoration: 'none' }}>
+									<div className='ProfileUpdateArea'>Click to update profile</div>
+								</Link>
 							</div>
 						) : (
 							<div />
