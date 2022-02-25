@@ -68,10 +68,6 @@ function Profile(props) {
 						</div>
 						<div className='ListingDataPaper'>
 							<div className='ListingDataRow'>
-								<div className='ListingDataRowTitle'>Name:</div>
-								<div className='ListingDataRowInfo'>Kanishka Ragula</div>
-							</div>
-							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Headline:</div>
 								<div className='ListingDataRowInfo'>
 									Hi! I'm Kanishka. I like memes, finance, and memes about finance. I study in the
@@ -88,6 +84,10 @@ function Profile(props) {
 								<div className='ListingDataRowInfo'>20</div>
 							</div>
 							<div className='ListingDataRow'>
+								<div className='ListingDataRowTitle'>Fun Fact:</div>
+								<div className='ListingDataRowInfo'>I have a twin brother.</div>
+							</div>
+							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Interests:</div>
 								<div className='ListingDataRowInfo'>
 									<div className='ListingDataTagArea'>
@@ -101,10 +101,6 @@ function Profile(props) {
 										<div className='ListingTag'>partying</div>
 									</div>
 								</div>
-							</div>
-							<div className='ListingDataRow'>
-								<div className='ListingDataRowTitle'>Fun Fact:</div>
-								<div className='ListingDataRowInfo'>I have a twin brother.</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Gala Dates:</div>

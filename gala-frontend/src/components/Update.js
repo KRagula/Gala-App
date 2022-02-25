@@ -6,6 +6,7 @@ import ReactAnime from 'react-animejs';
 import '../css/Dashboard.css';
 import '../css/Update.css';
 import testImage from '../assets/kanishka.jpeg';
+import defaultImage from '../assets/default.jpeg';
 import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,7 +29,7 @@ const defaultMaskOptions = {
 const MAX_NUM_TAGS = 10;
 
 function Update() {
-	const [tagsList, setTagsList] = useState([]);
+	const [interestsList, setInterestsList] = useState(['food', 'dancing', 'bowling']);
 	const [showTagInsn, setShowTagInsn] = useState(false);
 
 	const [selectedImage, setSelectedImage] = useState(null);
@@ -43,10 +44,10 @@ function Update() {
 			newTagVal = newTagVal.toLowerCase();
 			if (
 				newTagVal.length > 0 &&
-				!tagsList.includes(newTagVal) &&
-				tagsList.length <= MAX_NUM_TAGS
+				!interestsList.includes(newTagVal) &&
+				interestsList.length <= MAX_NUM_TAGS
 			) {
-				setTagsList(tagsList => [...tagsList, newTagVal]);
+				setInterestsList(interestsList => [...interestsList, newTagVal]);
 				document.getElementById('TagInputField').value = '';
 				setShowTagInsn(false);
 			}
@@ -63,9 +64,9 @@ function Update() {
 	};
 
 	const handleDeleteTag = tagVal => {
-		const index = tagsList.indexOf(tagVal);
+		const index = interestsList.indexOf(tagVal);
 		if (index > -1) {
-			setTagsList(tagsList.filter(val => val !== tagVal));
+			setInterestsList(interestsList.filter(val => val !== tagVal));
 		}
 	};
 
@@ -129,13 +130,17 @@ function Update() {
 									setSelectedImage(event.target.files[0]);
 								}}
 								required></input>
-							{selectedImage && (
+							{selectedImage ? (
 								<div className='UpdateFormProfilePictureWrapper'>
 									<img
 										className='UpdateFormProfilePicture'
-										alt={selectedImage}
+										alt={defaultImage}
 										src={URL.createObjectURL(selectedImage)}
 									/>
+								</div>
+							) : (
+								<div className='UpdateFormProfilePictureWrapper'>
+									<img className='UpdateFormProfilePicture' alt={defaultImage} src={testImage} />
 								</div>
 							)}
 						</div>
@@ -158,14 +163,22 @@ function Update() {
 						</div>
 						<div className='CreateFormRow'>
 							<div className='CreateFormRowTitle'>Gender:</div>
-							<select name='gender-select' id='gender-select' className='ExploreToolbarSelect'>
-								<option value='unspecified' selected disabled hidden>
+							<select name='gender-select' id='gender-select' className='UpdateGenderSelect'>
+								<option value='unspecified' selected disabled>
 									Unspecified
 								</option>
-								<option value='man'>Male</option>
+								<option value='man'>Man</option>
 								<option value='woman'>Woman</option>
 								<option value='other'>Other</option>
 							</select>
+						</div>
+						<div className='CreateFormRow'>
+							<div className='CreateFormRowTitle'>Fun Fact:</div>
+							<input
+								className='UpdateFormRowInput LongText'
+								placeholder='Headline about yourself'
+								defaultValue='I have a twin brother.'
+								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
 							<div className='CreateFormRowTitle Tags'>Interests:</div>
@@ -187,8 +200,8 @@ function Update() {
 						<div className='CreateFormRow Tags'>
 							<div className='CreateFormRowTitle'></div>
 							<div className='CreateFormTagsArea'>
-								{tagsList.length > 0 ? (
-									tagsList.map(tag => (
+								{interestsList.length > 0 ? (
+									interestsList.map(tag => (
 										<div className='CreateFormTagEntry' key={tag}>
 											<div
 												className='CreateFormTagEntryX'
@@ -205,10 +218,12 @@ function Update() {
 							</div>
 						</div>
 						<div className='CreateFormButtonArea'>
-							<Link to={ROUTE.MYDATES} style={{ textDecoration: 'none' }}>
+							<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
 								<div className='CreateFormButton Submit'>Submit</div>
 							</Link>
-							<div className='CreateFormButton Clear'>Clear</div>
+							<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
+								<div className='CreateFormButton Clear'>Back</div>
+							</Link>
 						</div>
 					</div>
 				</div>

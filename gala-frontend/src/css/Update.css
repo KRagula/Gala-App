@@ -11,7 +11,7 @@
 }
 
 .UpdateFormRowInput.LongText {
-	width: 60%;
+	width: 40%;
 }
 
 .UpdateFormRowInput.Age {
@@ -40,4 +40,11 @@
 	border: 1px rgb(218, 217, 217) solid;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+}
+
+.UpdateGenderSelect {
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+	width: 120px;
 }
