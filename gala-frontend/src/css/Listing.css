@@ -95,6 +95,7 @@ div::-webkit-scrollbar {
 	padding: 5px 7px 5px 7px;
 	border-radius: 5px;
 	height: 20px;
+	white-space: nowrap;
 }
 
 .ListingDeleteArea {

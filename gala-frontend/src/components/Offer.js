@@ -83,7 +83,8 @@ function Offer() {
 									<div className='DatesEntryDescriptionTitle'>
 										<div className='ExploreEntryDescriptionTitleMain'>TENNIS LESSONS</div>
 										<div className='ExploreEntryDescriptionTitleSub'>
-											You bring the balls, I bring the racket.
+											I've played tennis for a few years, would be happy to give lessons at Penn
+											Park!
 										</div>
 									</div>
 									<div className='ExploreEntryDescriptionLogistics'>

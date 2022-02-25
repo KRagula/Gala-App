@@ -1,7 +1,10 @@
 import React from 'react';
+import { Link, Route } from 'react-router-dom';
 import '../css/MessagesEntry.css';
 import testImage from '../assets/kanishka.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+
+import ROUTE from '../configurations/route-frontend-config.js';
 
 function MessagesEntry(props) {
 	// Note: re-using a lot of components from Explore to improve reusability
@@ -56,7 +59,9 @@ function MessagesEntry(props) {
 									<div className='MessagesNewMessageText' />
 								)}
 							</div>
-							<div className='MessagesEntrySeeMore'>Click to message</div>
+							<Link to={ROUTE.MESSAGE} style={{ textDecoration: 'none' }}>
+								<div className='MessagesEntrySeeMore'>Click to message</div>
+							</Link>
 						</div>
 					</div>
 				</div>

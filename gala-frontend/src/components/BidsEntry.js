@@ -1,10 +1,13 @@
 import React from 'react';
+import { Link, Route } from 'react-router-dom';
 import '../css/BidsEntry.css';
 import testImage from '../assets/kanishka.jpeg';
 import testImage2 from '../assets/claire.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+
+import ROUTE from '../configurations/route-frontend-config.js';
 
 function BidsEntry(props) {
 	return (
@@ -49,7 +52,9 @@ function BidsEntry(props) {
 							</div>
 							<div className='BidsEntryBottomRightArea'>
 								<div className='BidsEntryBottomRightAreaRow'>
-									<div className='BidsEntryBottomRightAreaWidget Confirm'>Click to Confirm</div>
+									<Link to={ROUTE.CONFIRM} style={{ textDecoration: 'none' }}>
+										<div className='BidsEntryBottomRightAreaWidget Confirm'>Click to Confirm</div>
+									</Link>
 									<div className='BidsEntryBottomRightAreaWidget Deny'>Click to Deny</div>
 								</div>
 							</div>
@@ -109,9 +114,11 @@ function BidsEntry(props) {
 							<div className='BidsEntryBottomRightArea'>
 								<div className='BidsEntryBottomRightAreaRow'>
 									{props.isConfirmed ? (
-										<div className='BidsEntryBottomRightAreaWidget Confirm'>
-											<b>Click to Payment</b>
-										</div>
+										<Link to={ROUTE.PAYMENT} style={{ textDecoration: 'none' }}>
+											<div className='BidsEntryBottomRightAreaWidget Confirm'>
+												<b>Click to Payment</b>
+											</div>
+										</Link>
 									) : (
 										<div className='BidsEntryBottomRightAreaWidget Deny'>Click to Withdraw</div>
 									)}
