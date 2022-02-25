@@ -61,15 +61,26 @@ const getNearbyPosts = async (req, res, next) => {
 	//Verify request comes from logged in user?
 	const rangeSearch = req.body.range;
 	const addressCoords = await getCoordinates(req.body.address);
-
 	try {
-		const doc = await postTemplate.find({ cityAddress: req.body.cityAddress });
+		const doc = await postTemplate.find({
+			location: {
+				$nearSphere: {
+					$geometry: {
+						type: 'Point',
+						coordinates: addressCoords,
+					},
+					$maxDistance: 50000,
+					$minDistance: 0,
+				},
+			},
+		});
 		if (!doc) {
 			return res.json({});
 		} else {
 			return res.json(doc);
 		}
 	} catch (err) {
+		console.log(err);
 		return next(new ServerError(serverErrorTypes.mongodb, err));
 	}
 };
@@ -92,4 +103,5 @@ const getCoordinates = async address => {
 export default {
 	postNew: postNew,
 	getCityPosts: getCityPosts,
+	getNearbyPosts: getNearbyPosts,
 };

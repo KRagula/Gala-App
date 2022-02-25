@@ -40,7 +40,7 @@ app.post('/credential/login', credentialRoutes.login);
 /** EXPERIENCE ENDPOINTS **/
 app.post('/experience/make-post', postRoutes.postNew);
 app.post('/experience/get-city-posts', postRoutes.getCityPosts);
-
+app.post('/experience/get-nearby-posts', postRoutes.getNearbyPosts);
 /** ERROR HANDLING **/
 app.use(errorHandlers.errorLogger);
 app.use(errorHandlers.errorResponder);
