@@ -42,12 +42,12 @@
 	border-radius: 8px;
 	padding: 1% 1% 1% 1%;
 	padding: 10px;
-	background-color: rgb(141, 115, 212);
+	background-color: rgb(110, 0, 110);
 }
 
 .SignupButton:hover {
 	transition-duration: 0.4s;
-	background-color: rgb(109, 89, 165);
+	background-color: rgb(90, 0, 90);
 }
 
 .LoginButton {
