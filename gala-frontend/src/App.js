@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 import Homepage from './components/Homepage';
 import Signup from './components/Signup';
 import Login from './components/Login';
@@ -26,6 +27,7 @@ function App() {
 	return (
 		<React.Fragment>
 			<BrowserRouter>
+				<ScrollToTop />
 				<Routes>
 					<Route exact path={ROUTE.HOME} element={<Homepage />} />
 					<Route exact path={ROUTE.SIGNUP} element={<Signup />} />
