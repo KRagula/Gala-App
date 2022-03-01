@@ -32,6 +32,11 @@ function Confirm() {
 		easing: 'easeInOutExpo',
 	});
 
+	function sendEmail() {
+		fetch('http://127.0.0.1:8080/bidConfirm'); //query string url
+		// .catch(err => console.error(err));
+	}
+
 	return (
 		<React.Fragment>
 			<UserHeader />
@@ -97,7 +102,11 @@ function Confirm() {
 									</div>
 								</div>
 								<div className='OfferBidOptionArea'>
-									<div className='OfferBidOptionButton Submit'>Confirm</div>
+									{/* <div className='OfferBidOptionButton Submit'>Confirm</div> */}
+									<button className='OfferBidOptionButton Submit' onClick={sendEmail}>
+										{' '}
+										Confirm{' '}
+									</button>
 									<div className='OfferBidOptionButton GoBack'>Go Back</div>
 								</div>
 							</div>

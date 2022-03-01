@@ -5,6 +5,9 @@ import axios from 'axios';
 import sendgridConfig from '../configurations/sendgrid-config.js';
 import paypalConfig from '../configurations/paypal-config.js';
 
+import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
+import { response } from 'express';
+
 sgMail.setApiKey(sendgridConfig.apiKey);
 
 paypal.configure({
@@ -51,10 +54,9 @@ const pay = async (request, res) => {
 
 	//console.log('this is the object' + create_payment_json);
 
-	// pass in create_payment_json and returns payment object
 	paypal.payment.create(create_payment_json, function (error, payment) {
 		if (error) {
-			throw error;
+			throw new ServerError(serverErrorTypes.paypal, error);
 		} else {
 			for (let i = 0; i < payment.links.length; i++) {
 				if (payment.links[i].rel == 'approval_url') {
@@ -83,7 +85,7 @@ const success = async (req, res) => {
 
 	paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
 		if (error) {
-			throw error;
+			throw new ServerError(serverErrorTypes.paypal, error);
 		} else {
 			const buyer_email = payment['payer']['payer_info']['email'];
 			const merchant_email = payment['transactions'][0]['payee']['email'];
@@ -112,17 +114,14 @@ const success = async (req, res) => {
 				},
 			};
 
-			sgMail
-				.send(msg)
-				.then(response => {
-					response.send(response[0].statusCode);
-				})
-				.catch(error => {
-					throw error;
-					// console.error(error);
-				});
+			sgMail.send(msg).catch(error => {
+				throw new ServerError(serverErrorTypes.sendgrid, error);
+				// console.error(error);
+			});
+			// response.send('Success, payment made');
 		}
 	});
+	res.send('Success you made a payment');
 };
 
 export default {

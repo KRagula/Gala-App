@@ -19,6 +19,8 @@ import awsRoutes from './routes/aws-routes.js';
 import errorHandlers from './middleware/error-handlers.js';
 import tokenHandlers from './middleware/token-handlers.js';
 
+import emailRoutes from './routes/email-routes.js';
+
 mongoose
 	.connect(dbConfig.mongoDBAccess)
 	.then(() => console.log('Mongo Database Connected'))
@@ -64,6 +66,9 @@ app.post('/experience/get-nearby-posts', postRoutes.getNearbyPosts);
 app.use(errorHandlers.errorLogger);
 app.use(errorHandlers.errorResponder);
 
+/** EMAIL ENDPOINTS **/
+
+app.get('/bidConfirm', emailRoutes.bidConfirm);
 console.log(
 	'Authors: Edward Kim (kime022), Claire Wang (waclaire), Robin Tan (robintan), Kanishka Ragula (kragula)'
 );
