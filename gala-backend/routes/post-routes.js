@@ -59,7 +59,8 @@ const getCityPosts = async (req, res, next) => {
 const getNearbyPosts = async (req, res, next) => {
 	//Verify request comes from logged in user?
 	const rangeSearch = req.body.range;
-	const addressCoords = await getCoordinates(req.body.address);
+	// const addressCoords = await getCoordinates(req.body.address);
+	const addressCoords = [req.body.longitude, req.body.latitude];
 	try {
 		const doc = await postTemplate.find({
 			location: {
