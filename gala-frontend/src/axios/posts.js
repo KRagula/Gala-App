@@ -18,3 +18,14 @@ export const createPost = postData => {
 			console.log(error);
 		});
 };
+
+export const getNearbyPosts = locationData => {
+	axios
+		.post(`${serverConfig.backendURL}/experience/get-nearby-posts`, locationData, {
+			withCredentials: true,
+		})
+		.then(res => res)
+		.catch(err => {
+			// do something later
+		});
+};
