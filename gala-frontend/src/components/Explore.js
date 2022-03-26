@@ -40,8 +40,19 @@ function Explore() {
 
 	const [exploreEntryData, setExploreEntryData] = useState([]);
 
-	const showPosition = position => {
-		console.log(position);
+	// let data = {};
+
+	const showPosition = async position => {
+		// console.log(position);
+		const positionData = {
+			latitude: position.coords.latitude,
+			longitude: position.coords.longitude,
+			range: 200000,
+		};
+		console.log(positionData);
+		const data = await getNearbyPosts(positionData).then(result => result.data);
+		console.log(data);
+		// );
 	};
 
 	const getEntryData = async () => {
@@ -50,12 +61,10 @@ function Explore() {
 		} else {
 			document.innerHTML = 'Geolocation is not supported by this browser.';
 		}
-		console.log('hello');
-		const data = await getNearbyPosts();
-		console.log(data);
 	};
 
 	getEntryData();
+	// console.log(data);
 
 	return (
 		<React.Fragment>
