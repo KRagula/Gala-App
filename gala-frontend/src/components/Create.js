@@ -96,8 +96,8 @@ function Create() {
 			timeStart: startDate,
 			timeEnd: endDate,
 			price: priceExp,
-			tags: tagsList.toString(),
-			hostEmail: 'fillerUseCookies@gmail.com',
+			tags: tagsList,
+			hostEmail: 'fillerUseCookies@gmail.com', //TODO: USE HOST ID
 		};
 		createPost(newPost);
 	};

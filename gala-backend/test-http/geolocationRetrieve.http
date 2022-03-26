@@ -2,6 +2,7 @@ POST http://localhost:8080/experience/get-nearby-posts
 Content-Type: application/json
 
 {
-		"address": "4200 Pine St., Philadelphia, PA 19104",
+		"latitude":37.7889,
+		"longitude":-122.3995,
 		"range": 201609.34
 }

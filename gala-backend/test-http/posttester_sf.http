@@ -11,6 +11,6 @@ Content-Type: application/json
 		"timeStart": "Tue Feb 01 2022 00:00:00 GMT+0000 (GMT)",
 		"timeEnd": "Wed Feb 02 2022 00:00:00 GMT+0000 (GMT)",
 		"price": "50",
-		"tags": "party, fun, concert",
+		"tags": ["party", "fun", "concert"],
 		"hostEmail": "kragula@seas.upenn.edu"
 }

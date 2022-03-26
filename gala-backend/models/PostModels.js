@@ -38,7 +38,7 @@ const postTemplate = new mongoose.Schema({
 		required: true,
 	},
 	tags: {
-		type: String,
+		type: Array,
 		required: true,
 	},
 	hostEmail: {
