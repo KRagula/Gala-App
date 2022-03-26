@@ -9,6 +9,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Pagination from '@material-ui/lab/Pagination';
 
+import { getNearbyPosts } from '../axios/posts';
+
 const { Anime } = ReactAnime;
 
 function Explore() {
@@ -35,6 +37,25 @@ function Explore() {
 		opacity: 100,
 		easing: 'easeInOutExpo',
 	});
+
+	const [exploreEntryData, setExploreEntryData] = useState([]);
+
+	const showPosition = position => {
+		console.log(position);
+	};
+
+	const getEntryData = async () => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition);
+		} else {
+			document.innerHTML = 'Geolocation is not supported by this browser.';
+		}
+		console.log('hello');
+		const data = await getNearbyPosts();
+		console.log(data);
+	};
+
+	getEntryData();
 
 	return (
 		<React.Fragment>

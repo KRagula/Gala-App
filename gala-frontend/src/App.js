@@ -46,6 +46,8 @@ function App() {
 						exact
 						path={ROUTE.LISTING}
 						element={<Listing role={'engager'} status={'ongoing'} />}
+						// element={<Listing role={'creator'} status={'ongoing'} />}
+						// element={<Listing role={'observer'} />}
 					/>
 					<Route exact path={ROUTE.OFFER} element={<Offer />} />
 					<Route exact path={ROUTE.CONFIRM} element={<Confirm />} />
