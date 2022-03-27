@@ -31,7 +31,14 @@ const uploadFile = async (req, res, next) => {
 			const path = files.file[0].path;
 			const buffer = fs.readFileSync(path);
 			const type = await fileTypeFromBuffer(buffer);
-			const fileName = `${awsConfig.s3FolderProfilePictures}/${Date.now().toString()}`;
+
+			let folder = '';
+			if (fields.fileusage == 'profilePicture') {
+				folder = awsConfig.s3FolderProfilePictures;
+			} else {
+				throw new Error();
+			}
+			const fileName = `${folder}/${Date.now().toString()}`;
 			const data = await uploadFileHelper(buffer, fileName, type);
 			return res.status(200).send(data);
 		} catch (err) {
@@ -40,6 +47,19 @@ const uploadFile = async (req, res, next) => {
 	});
 };
 
+const deleteFile = async (req, res, next) => {
+	const params = {
+		Bucket: awsConfig.s3Bucket,
+		Key: req.body.name,
+	};
+
+	s3.deleteObject(params, function (err, data) {
+		if (err) console.log(err, err.stack); // error
+		else console.log('deleted'); // deleted
+	});
+};
+
 export default {
 	uploadFile: uploadFile,
+	deleteFile: deleteFile,
 };

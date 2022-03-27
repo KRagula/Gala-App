@@ -7,6 +7,14 @@ import '../css/Signup.css';
 
 const { Anime } = ReactAnime;
 
+const validateEmail = email => {
+	return String(email)
+		.toLowerCase()
+		.match(
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		);
+};
+
 function Signup() {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
@@ -14,20 +22,31 @@ function Signup() {
 	const [password, setPassword] = useState('');
 	const [selectedImage, setSelectedImage] = useState(null);
 
-	const onSubmit = event => {
+	const onSubmit = async event => {
 		event.preventDefault();
+
+		if (!firstName || !lastName || !email || !password) {
+			alert('Please Fill In All Text Fields!');
+			return;
+		}
+
+		if (!validateEmail(email)) {
+			alert('Invalid Email!');
+			return;
+		}
+
 		const registered = {
 			firstName: firstName,
 			lastName: lastName,
 			email: email,
 			password: password,
 		};
-		signup(registered);
 
-		// TODO: Change so that this is intitiated only after successful signup
 		if (selectedImage) {
-			uploadFile(selectedImage);
+			const res = await uploadFile(selectedImage);
+			registered.profilePicture = res.data.Location;
 		}
+		signup(registered);
 	};
 
 	// controller state
