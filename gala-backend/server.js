@@ -21,6 +21,8 @@ import tokenHandlers from './middleware/token-handlers.js';
 
 import emailRoutes from './routes/email-routes.js';
 
+import bidRoutes from './routes/bid-routes.js';
+
 mongoose
 	.connect(dbConfig.mongoDBAccess)
 	.then(() => console.log('Mongo Database Connected'))
@@ -62,6 +64,9 @@ app.post('/credential/login', credentialRoutes.login);
 app.post('/experience/make-post', postRoutes.postNew);
 app.post('/experience/get-city-posts', postRoutes.getCityPosts);
 app.post('/experience/get-nearby-posts', postRoutes.getNearbyPosts);
+app.get('/experience/bids-sent/:username', bidRoutes.getBidsSent);
+app.get('/experience/bids-received/:username', bidRoutes.getBidsReceived);
+
 /** ERROR HANDLING **/
 app.use(errorHandlers.errorLogger);
 app.use(errorHandlers.errorResponder);
