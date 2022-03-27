@@ -52,7 +52,7 @@ const getBidsReceived = async (req, res, next) => {
 				// console.log('this is bids', bids);
 			}
 			// console.log('this is json_ids', doc[0]['_id'].toString());
-			return res.json(bidsReceived);
+			return res.json(bidsReceived.flat());
 		}
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
