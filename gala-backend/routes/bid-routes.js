@@ -25,7 +25,6 @@ const getBidsSent = async (req, res, next) => {
 		} else {
 			const json_doc = JSON.stringify(doc);
 			const json_obj = JSON.parse(json_doc);
-			// let highest_bid = 0;
 			//calculates the highest bid
 			for (let j = 0; j < json_obj.length; j += 1) {
 				const post_id = mongoose.Types.ObjectId(json_obj[j]['postId']['_id']);
@@ -37,6 +36,7 @@ const getBidsSent = async (req, res, next) => {
 					.limit(1);
 				json_obj[j]['highestBid'] = JSON.parse(JSON.stringify(highest_bid))[0]['bidAmount'];
 			}
+			//gets user info of the host of the post
 			for (let i = 0; i < json_obj.length; i += 1) {
 				if (json_obj[i]['postId']) {
 					let host_email = json_obj[i]['postId']['hostEmail'];
@@ -86,7 +86,6 @@ const getBidsReceived = async (req, res, next) => {
 				//GET USER INFO: get bidderEmail from query result, and then query to find relevant user info
 				for (let j = 0; j < bids_json.length; j += 1) {
 					const bidder_email = bids_json[j]['bidderEmail'];
-					console.log('this is bidder_email', bidder_email);
 					const user_query = await userTemplate
 						.find({ email: bidder_email })
 						.select('firstName lastName profilePicture');
