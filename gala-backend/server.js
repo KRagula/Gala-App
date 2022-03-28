@@ -15,6 +15,7 @@ import credentialRoutes from './routes/credential-routes.js';
 import paymentRoutes from './routes/payment-routes.js';
 import postRoutes from './routes/post-routes.js';
 import awsRoutes from './routes/aws-routes.js';
+import profileRoutes from './routes/profile-routes.js';
 
 import errorHandlers from './middleware/error-handlers.js';
 import tokenHandlers from './middleware/token-handlers.js';
@@ -50,6 +51,7 @@ app.use(cookieParser());
 
 /** AWS ENDPOINTS **/
 app.post('/aws/fileupload', awsRoutes.uploadFile);
+app.delete('/aws/filedelete', awsRoutes.deleteFile);
 
 /** PAYMENT ENDPOINTS **/
 app.post('/payment/pay', paymentRoutes.pay);
@@ -66,6 +68,10 @@ app.post('/experience/get-city-posts', postRoutes.getCityPosts);
 app.post('/experience/get-nearby-posts', postRoutes.getNearbyPosts);
 app.get('/experience/bids-sent/:username', bidRoutes.getBidsSent);
 app.get('/experience/bids-received/:username', bidRoutes.getBidsReceived);
+
+/** PROFILE ENDPOINTS **/
+app.get('/profile/:profileid', profileRoutes.getProfile);
+
 
 /** ERROR HANDLING **/
 app.use(errorHandlers.errorLogger);

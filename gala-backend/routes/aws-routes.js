@@ -21,6 +21,16 @@ const uploadFileHelper = (buffer, name, type) => {
 	return s3.upload(params).promise();
 };
 
+const userFileUploadHelper = async (data, email) => {
+	console.log('email', email);
+	const filter = { email: email };
+	const update = {
+		profilePictureLink: data.Location,
+		profilePictureName: data.key,
+	};
+	await userTemplate.findOneAndUpdate(filter, update, { new: true });
+};
+
 const uploadFile = async (req, res, next) => {
 	const form = new multiparty.Form();
 	form.parse(req, async (error, fields, files) => {
@@ -31,8 +41,21 @@ const uploadFile = async (req, res, next) => {
 			const path = files.file[0].path;
 			const buffer = fs.readFileSync(path);
 			const type = await fileTypeFromBuffer(buffer);
-			const fileName = `${awsConfig.s3FolderProfilePictures}/${Date.now().toString()}`;
+
+			let folder = '';
+			if (fields.fileusage == 'profilePicture') {
+				folder = awsConfig.s3FolderProfilePictures;
+			} else {
+				throw new Error();
+			}
+
+			const fileName = `${folder}/${Date.now().toString()}`;
 			const data = await uploadFileHelper(buffer, fileName, type);
+
+			if (data && fields.fileusage == 'profilePicture') {
+				await userFileUploadHelper(data, fields.user);
+			}
+
 			return res.status(200).send(data);
 		} catch (err) {
 			return next(new ServerError(serverErrorTypes.awsS3, err));
@@ -40,6 +63,19 @@ const uploadFile = async (req, res, next) => {
 	});
 };
 
+const deleteFile = async (req, res, next) => {
+	const params = {
+		Bucket: awsConfig.s3Bucket,
+		Key: req.body.name,
+	};
+
+	s3.deleteObject(params, function (err, data) {
+		if (err) console.log(err, err.stack); // error
+		else console.log('deleted'); // deleted
+	});
+};
+
 export default {
 	uploadFile: uploadFile,
+	deleteFile: deleteFile,
 };

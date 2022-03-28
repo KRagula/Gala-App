@@ -7,20 +7,18 @@ export const fileUsage = {
 	profilePicture: 'profilePicture',
 };
 
-export const uploadFile = file => {
+export const uploadFile = async (file, email) => {
 	const formData = new FormData();
 	formData.append('file', file);
+	formData.append('fileusage', fileUsage.profilePicture);
+	formData.append('user', email);
 
-	axios
+	return axios
 		.post(`${serverConfig.backendURL}${routeAWS.fileUpload}`, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},
 		})
-		.then(res => {
-			console.log(res);
-		})
-		.catch(err => {
-			console.log(err);
-		});
+		.then(res => res)
+		.catch(err => err);
 };
