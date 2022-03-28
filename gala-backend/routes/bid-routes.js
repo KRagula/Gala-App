@@ -13,9 +13,6 @@ import mongoose from 'mongoose';
 */
 
 const getBidsSent = async (req, res, next) => {
-	// console.log(typeof req.params.username);
-	// console.log(req.body);
-	// console.log(req.params);
 	//Verify request comes from logged in user?
 	let bids_sent_data = [];
 	try {
@@ -39,31 +36,17 @@ const getBidsSent = async (req, res, next) => {
 					.select('bidAmount')
 					.limit(1);
 				json_obj[j]['highestBid'] = JSON.parse(JSON.stringify(highest_bid))[0]['bidAmount'];
-				// console.log('this is json highest bid', json_obj['highestBid']);
-				// console.log('this is the highest_bid', highest_bid);
 			}
-			// console.log('this is json_obj', json_obj);
-			// console.log('this is bids sent data', bids_sent_data);
 			for (let i = 0; i < json_obj.length; i += 1) {
 				if (json_obj[i]['postId']) {
 					let host_email = json_obj[i]['postId']['hostEmail'];
-					// console.log('this is host email', host_email);
 					const user_query = await userTemplate
 						.find({ email: host_email })
 						.select('firstName lastName profilePicture');
-					// console.log('this is json_obj', json_obj);
-					// console.log('this is host email', host_email);
 					json_obj[i]['user_profile'] = user_query;
-					// console.log('this is json_obj after', json_obj);
-					// console.log('this is i', i);
-					// console.log('this is bids sent element', json_obj[i]);
 					bids_sent_data.push(json_obj[i]);
-					//console.log('this is the user query', user_query);
 				}
 			}
-			// console.log('this is bids_sent_data', bids_sent_data);
-			// console.log('this is json_doc', json_obj[0]['postId']['hostEmail']);
-			// console.log('this is data', bids_sent_data);
 			return res.json(bids_sent_data);
 		}
 	} catch (err) {
@@ -71,35 +54,59 @@ const getBidsSent = async (req, res, next) => {
 	}
 };
 
-//first need to get all posts this user has via email
-//then get all bids results that match the postIds of the posts the user has
-//return
+/*TO DO
+1. Get PostID of all Bids where PostID (of bid) = postId (of post) where hostEmail = username (email) X
+2. Get Post info (title, auction price, highest bid, usersBid) of all posts in which postID (of bid) = postID (of post) X
+3. Get User info (name, rating, picture) of all bidderEmail (of bid) of bids found in #1 X
+4. Get highestBid of bids found in #1
+*/
+
 const getBidsReceived = async (req, res, next) => {
-	// console.log(typeof req.params.username);
-	// console.log(req.body);
-	// console.log(req.params);
 	//Verify request comes from logged in user?
 	try {
-		const doc = await postTemplate.find({ hostEmail: req.params.username }).select('_id').lean();
-		// console.log('this is doc', doc);
+		//this gets the postids of the posts that the host has
+		const doc = await postTemplate.find({ hostEmail: req.params.username }).select('_id');
+		// Now doc represents an array of data on all the posts (including postIds) the host has.
 		if (!doc) {
 			return res.json({});
 		} else {
 			let bidsReceived = [];
+			//iterate through all posts
 			for (let i = 0; i < doc.length; i += 1) {
 				const id = doc[i]['_id'].toString();
 				const objectId = mongoose.Types.ObjectId(id);
-				// console.log('this is object id', objectId);
-				// console.log(objectId);
+				//this gets all the posts + bids on posts with postId (from post table) = postId (from bid table)
 				const bids = await bidTemplate.find({ postId: objectId }).populate({
 					path: 'postId',
 				});
-				bidsReceived.push(bids);
-				// console.log('this is bids', bids);
+
+				//convert this query result to json for easier parsing
+				const bids_json = JSON.parse(JSON.stringify(bids));
+
+				//GET USER INFO: get bidderEmail from query result, and then query to find relevant user info
+				for (let j = 0; j < bids_json.length; j += 1) {
+					const bidder_email = bids_json[j]['bidderEmail'];
+					console.log('this is bidder_email', bidder_email);
+					const user_query = await userTemplate
+						.find({ email: bidder_email })
+						.select('firstName lastName profilePicture');
+					bids_json[j]['user_profile'] = user_query;
+				}
+
+				bidsReceived.push(bids_json);
 			}
-			//Need to
-			//extract title, auction price, highest Big
-			// console.log('this is json_ids', doc[0]['_id'].toString());
+			bidsReceived = bidsReceived.flat();
+			//GET HIGHEST BID: for each post calculated the highest bidAmount
+			for (let k = 0; k < bidsReceived.length; k += 1) {
+				const post_id = mongoose.Types.ObjectId(bidsReceived[k]['postId']['_id']);
+				//find highest_bid per post
+				const highest_bid = await bidTemplate
+					.find({ postId: post_id })
+					.sort({ bidAmount: -1 })
+					.select('bidAmount')
+					.limit(1);
+				bidsReceived[k]['highestBid'] = JSON.parse(JSON.stringify(highest_bid))[0]['bidAmount'];
+			}
 			return res.json(bidsReceived.flat());
 		}
 	} catch (err) {
