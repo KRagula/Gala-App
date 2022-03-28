@@ -9,7 +9,7 @@ const bidTemplate = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	bidderAmount: {
+	bidAmount: {
 		type: Number,
 		required: true,
 	},

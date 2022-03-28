@@ -113,7 +113,23 @@ const getBidsReceived = async (req, res, next) => {
 	}
 };
 
+const offerBid = async (req, res, next) => {
+	const newBid = new bidTemplate({
+		postId: mongoose.Types.ObjectId(req.body.postId),
+		bidderEmail: req.body.bidderEmail,
+		bidAmount: req.body.bidAmount,
+	});
+
+	try {
+		await newBid.save();
+		return res.json({ statusMessage: 'New Bid Created' });
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+};
+
 export default {
 	getBidsSent: getBidsSent,
 	getBidsReceived: getBidsReceived,
+	offerBid: offerBid,
 };
