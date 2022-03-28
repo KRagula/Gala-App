@@ -20,7 +20,7 @@ export const createPost = postData => {
 };
 
 export const getNearbyPosts = locationData => {
-	axios
+	return axios
 		.post(`${serverConfig.backendURL}/experience/get-nearby-posts`, locationData, {
 			withCredentials: true,
 		})
