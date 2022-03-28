@@ -29,8 +29,8 @@ export const login = credentials => {
 		});
 };
 
-export const signup = registered => {
-	axios
+export const signup = async registered => {
+	return axios
 		.post(`${serverConfig.backendURL}${routeCredential.signup}`, registered, {
 			withCredentials: true,
 		})
@@ -42,7 +42,7 @@ export const signup = registered => {
 				// document.cookie('lastname', response.data.lastname)
 				//console.log(response.getResponseHeader('Set-Cookie'))
 				//console.log(response.headers.cookie)
-				window.location = ROUTE.EXPLORE;
+				return true;
 			}
 		})
 		.catch(error => {
@@ -52,5 +52,6 @@ export const signup = registered => {
 				document.getElementById('errorArea').innerHTML =
 					'Service Unavailable, please try again later';
 			}
+			return false;
 		});
 };

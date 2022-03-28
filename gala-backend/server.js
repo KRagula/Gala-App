@@ -48,6 +48,7 @@ app.use(cookieParser());
 
 /** AWS ENDPOINTS **/
 app.post('/aws/fileupload', awsRoutes.uploadFile);
+app.delete('/aws/filedelete', awsRoutes.deleteFile);
 
 /** PAYMENT ENDPOINTS **/
 app.post('/payment/pay', paymentRoutes.pay);

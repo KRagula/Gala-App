@@ -4,6 +4,7 @@ import Header from './Header';
 import { signup } from '../axios/credentials.js';
 import { uploadFile } from '../axios/aws.js';
 import '../css/Signup.css';
+import ROUTE from '../configurations/route-frontend-config.js';
 
 const { Anime } = ReactAnime;
 
@@ -42,11 +43,13 @@ function Signup() {
 			password: password,
 		};
 
-		if (selectedImage) {
-			const res = await uploadFile(selectedImage);
-			registered.profilePicture = res.data.Location;
+		const res = await signup(registered);
+
+		if (selectedImage && res) {
+			await uploadFile(selectedImage, email);
 		}
-		signup(registered);
+
+		if (res) window.location = ROUTE.EXPLORE;
 	};
 
 	// controller state

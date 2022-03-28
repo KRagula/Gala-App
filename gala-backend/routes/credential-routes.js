@@ -20,7 +20,8 @@ const signup = async (req, res, next) => {
 		email: req.body.email,
 		password: securePassword,
 		salt: saltPassword,
-		profilePicture: req.body.profilePicture,
+		profilePictureLink: req.body.profilePictureLink,
+		profilePictureName: req.body.profilePictureName,
 	});
 
 	let signupData;

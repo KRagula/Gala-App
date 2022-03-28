@@ -27,7 +27,11 @@ const userTemplate = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	profilePicture: {
+	profilePictureLink: {
+		type: String,
+		required: false,
+	},
+	profilePictureName: {
 		type: String,
 		required: false,
 	},
