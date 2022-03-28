@@ -2,14 +2,21 @@ import axios from 'axios';
 import bidTemplate from '../models/BidModels.js';
 import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
 import postTemplate from '../models/PostModels.js';
+import userTemplate from '../models/UserModel.js';
 import mongoose from 'mongoose';
 
 //returns: [postinfo of all bids sent]
+/* TO DO 
+1. Extract Listing info (title, auction price, highest bid, usersBid)
+2. Extract User info (name, rating, picture)
+*/
+
 const getBidsSent = async (req, res, next) => {
 	// console.log(typeof req.params.username);
 	// console.log(req.body);
 	// console.log(req.params);
 	//Verify request comes from logged in user?
+	let bids_sent_data = [];
 	try {
 		//this gets bid X posts for bids where postId (the post the email bid on from bid Table) = postId (from post Table)
 		const doc = await bidTemplate.find({ bidderEmail: req.params.username }).populate({
@@ -18,7 +25,32 @@ const getBidsSent = async (req, res, next) => {
 		if (!doc) {
 			return res.json({});
 		} else {
-			return res.json(doc);
+			const json_doc = JSON.stringify(doc);
+			const json_obj = JSON.parse(json_doc);
+			let highest_bid = 0;
+			//calculates the highest bid
+			// for (let j = 0; j < json_obj.length; j += 1) {
+			//     highest_bid = Math.max(highest_bid, json_obj['bidAmount']);
+			// }
+			// console.log('this is bids sent data', bids_sent_data);
+			for (let i = 0; i < json_obj.length; i += 1) {
+				if (json_obj[i]['postId']) {
+					let host_email = json_obj[i]['postId']['hostEmail'];
+					// console.log('this is host email', host_email);
+					const user_query = await userTemplate
+						.find({ email: host_email })
+						.select('firstName lastName profilePicture');
+					// console.log('this is host email', host_email);
+					json_obj[i]['user_profile'] = user_query;
+					// console.log('this is i', i);
+					// console.log('this is bids sent element', json_obj[i]);
+					bids_sent_data.push(json_obj[i]);
+					//console.log('this is the user query', user_query);
+				}
+			}
+			// console.log('this is json_doc', json_obj[0]['postId']['hostEmail']);
+			// console.log('this is data', bids_sent_data);
+			return res.json(bids_sent_data);
 		}
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
@@ -51,6 +83,8 @@ const getBidsReceived = async (req, res, next) => {
 				bidsReceived.push(bids);
 				// console.log('this is bids', bids);
 			}
+			//Need to
+			//extract title, auction price, highest Big
 			// console.log('this is json_ids', doc[0]['_id'].toString());
 			return res.json(bidsReceived.flat());
 		}
