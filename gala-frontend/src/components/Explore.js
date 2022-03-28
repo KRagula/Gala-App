@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, setState } from 'react';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ExploreEntry from './ExploreEntry';
@@ -16,6 +16,60 @@ const { Anime } = ReactAnime;
 function Explore() {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
+
+	const [entryData, setEntryData] = useState([]);
+	const [showExploreEntries, setShowExploreEntries] = useState(false);
+
+	const onRetrievePosition = async position => {
+		const positionData = {
+			latitude: position.coords.latitude,
+			longitude: position.coords.longitude,
+			range: 200000,
+		};
+
+		const nearbyPosts = await getNearbyPosts(positionData);
+		console.log(nearbyPosts);
+		setEntryData(
+			nearbyPosts.data.map(item => {
+				const titleCleaned = item.title.toUpperCase();
+				const priceCleaned = '$' + parseFloat(item.price).toFixed(2);
+				const startDateObject = new Date(item.timeStart);
+				const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
+					minimumIntegerDigits: 2,
+					useGrouping: false,
+				});
+				const day = startDateObject
+					.getUTCDate()
+					.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+				const year = startDateObject.getUTCFullYear();
+				const startDateCleaned = month + '/' + day + '/' + year;
+
+				return {
+					title: titleCleaned,
+					description: item.description,
+					price: priceCleaned,
+					city: item.cityAddress,
+					state: item.stateAddress,
+					startDate: startDateCleaned,
+					tags: item.tags,
+				};
+			})
+		);
+
+		setShowExploreEntries(true);
+	};
+
+	const getEntryData = async () => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(onRetrievePosition);
+		} else {
+			document.innerHTML = 'Geolocation is not supported by this browser.';
+		}
+	};
+
+	if (showExploreEntries === false) {
+		getEntryData();
+	}
 
 	// controller state
 	const [control, setControl] = useState(null);
@@ -37,34 +91,6 @@ function Explore() {
 		opacity: 100,
 		easing: 'easeInOutExpo',
 	});
-
-	const [exploreEntryData, setExploreEntryData] = useState([]);
-
-	// let data = {};
-
-	const showPosition = async position => {
-		// console.log(position);
-		const positionData = {
-			latitude: position.coords.latitude,
-			longitude: position.coords.longitude,
-			range: 200000,
-		};
-		console.log(positionData);
-		const data = await getNearbyPosts(positionData).then(result => result.data);
-		console.log(data);
-		// );
-	};
-
-	const getEntryData = async () => {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(showPosition);
-		} else {
-			document.innerHTML = 'Geolocation is not supported by this browser.';
-		}
-	};
-
-	getEntryData();
-	// console.log(data);
 
 	return (
 		<React.Fragment>
@@ -116,9 +142,15 @@ function Explore() {
 						</div>
 					</div>
 					<div className='ExploreEntryArea'>
-						<ExploreEntry />
-						<ExploreEntry />
-						<ExploreEntry />
+						{showExploreEntries ? (
+							<React.Fragment>
+								{entryData.map(data => {
+									return <ExploreEntry data={data} />;
+								})}
+							</React.Fragment>
+						) : (
+							<div>not received anything yet</div>
+						)}
 					</div>
 					<div className='ExplorePaginationArea'>
 						<Pagination count={10} />
