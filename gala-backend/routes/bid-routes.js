@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 /* TO DO 
 1. Extract Listing info (title, auction price, highest bid, usersBid)
 2. Extract User info (name, rating, picture)
+3. Get Max Bid (which is of all the bids with the same post ID, which one has the highest bidAmount)
 */
 
 const getBidsSent = async (req, res, next) => {
@@ -27,11 +28,21 @@ const getBidsSent = async (req, res, next) => {
 		} else {
 			const json_doc = JSON.stringify(doc);
 			const json_obj = JSON.parse(json_doc);
-			let highest_bid = 0;
+			// let highest_bid = 0;
 			//calculates the highest bid
-			// for (let j = 0; j < json_obj.length; j += 1) {
-			//     highest_bid = Math.max(highest_bid, json_obj['bidAmount']);
-			// }
+			for (let j = 0; j < json_obj.length; j += 1) {
+				const post_id = mongoose.Types.ObjectId(json_obj[j]['postId']['_id']);
+				//find highest_bid per post
+				const highest_bid = await bidTemplate
+					.find({ postId: post_id })
+					.sort({ bidAmount: -1 })
+					.select('bidAmount')
+					.limit(1);
+				json_obj[j]['highestBid'] = JSON.parse(JSON.stringify(highest_bid))[0]['bidAmount'];
+				// console.log('this is json highest bid', json_obj['highestBid']);
+				// console.log('this is the highest_bid', highest_bid);
+			}
+			// console.log('this is json_obj', json_obj);
 			// console.log('this is bids sent data', bids_sent_data);
 			for (let i = 0; i < json_obj.length; i += 1) {
 				if (json_obj[i]['postId']) {
@@ -40,14 +51,17 @@ const getBidsSent = async (req, res, next) => {
 					const user_query = await userTemplate
 						.find({ email: host_email })
 						.select('firstName lastName profilePicture');
+					// console.log('this is json_obj', json_obj);
 					// console.log('this is host email', host_email);
 					json_obj[i]['user_profile'] = user_query;
+					// console.log('this is json_obj after', json_obj);
 					// console.log('this is i', i);
 					// console.log('this is bids sent element', json_obj[i]);
 					bids_sent_data.push(json_obj[i]);
 					//console.log('this is the user query', user_query);
 				}
 			}
+			// console.log('this is bids_sent_data', bids_sent_data);
 			// console.log('this is json_doc', json_obj[0]['postId']['hostEmail']);
 			// console.log('this is data', bids_sent_data);
 			return res.json(bids_sent_data);
