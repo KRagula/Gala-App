@@ -8,6 +8,7 @@ import '../css/Explore.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Pagination from '@material-ui/lab/Pagination';
+import { ShimmerCategoryItem } from 'react-shimmer-effects';
 
 import { getNearbyPosts } from '../axios/posts';
 
@@ -16,6 +17,7 @@ const { Anime } = ReactAnime;
 function Explore() {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
+	const [range, setRange] = useState(10);
 
 	const [entryData, setEntryData] = useState([]);
 	const [showExploreEntries, setShowExploreEntries] = useState(false);
@@ -24,7 +26,7 @@ function Explore() {
 		const positionData = {
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude,
-			range: 200000,
+			range: range * 1609.34,
 		};
 
 		const nearbyPosts = await getNearbyPosts(positionData);
@@ -149,11 +151,33 @@ function Explore() {
 								})}
 							</React.Fragment>
 						) : (
-							<div>not received anything yet</div>
+							<div>
+								<ShimmerCategoryItem
+									hasImage
+									imageType='circular'
+									imageWidth={100}
+									imageHeight={100}
+									text
+									cta
+								/>
+								<ShimmerCategoryItem
+									hasImage
+									imageType='circular'
+									imageWidth={100}
+									imageHeight={100}
+									text
+									cta
+								/>
+								<ShimmerCategoryItem
+									hasImage
+									imageType='circular'
+									imageWidth={100}
+									imageHeight={100}
+									text
+									cta
+								/>
+							</div>
 						)}
-					</div>
-					<div className='ExplorePaginationArea'>
-						<Pagination count={10} />
 					</div>
 				</div>
 			</div>
