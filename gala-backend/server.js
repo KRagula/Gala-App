@@ -66,7 +66,8 @@ app.post('/experience/get-city-posts', postRoutes.getCityPosts);
 app.post('/experience/get-nearby-posts', postRoutes.getNearbyPosts);
 app.get('/experience/bids-sent/:username', bidRoutes.getBidsSent);
 app.get('/experience/bids-received/:username', bidRoutes.getBidsReceived);
-app.post('/experience/offer-bid', bidRoutes.offerBid);
+app.post('/experience/offer-bid/:postId', bidRoutes.offerBid);
+app.get('/experience/offer-bid/:postId', bidRoutes.postInfo);
 
 /** ERROR HANDLING **/
 app.use(errorHandlers.errorLogger);

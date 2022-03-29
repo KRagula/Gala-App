@@ -115,9 +115,10 @@ const getBidsReceived = async (req, res, next) => {
 
 const offerBid = async (req, res, next) => {
 	const newBid = new bidTemplate({
-		postId: mongoose.Types.ObjectId(req.body.postId),
+		postId: mongoose.Types.ObjectId(req.params.postId),
 		bidderEmail: req.body.bidderEmail,
 		bidAmount: req.body.bidAmount,
+		status: 'Waiting for response',
 	});
 
 	try {
@@ -128,8 +129,22 @@ const offerBid = async (req, res, next) => {
 	}
 };
 
+const postInfo = async (req, res, next) => {
+	try {
+		const doc = await postTemplate.find({ _id: mongoose.Types.ObjectId(req.params.postId) });
+		if (!doc) {
+			return res.json({});
+		} else {
+			return res.json(doc);
+		}
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+};
+
 export default {
 	getBidsSent: getBidsSent,
 	getBidsReceived: getBidsReceived,
 	offerBid: offerBid,
+	postInfo: postInfo,
 };
