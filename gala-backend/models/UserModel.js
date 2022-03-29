@@ -35,6 +35,10 @@ const userTemplate = new mongoose.Schema({
 		type: String,
 		required: false,
 	},
+	rating: {
+		type: Number,
+		required: true,
+	},
 });
 
 export default mongoose.model(dbConfig.mongoDBTableUser, userTemplate);

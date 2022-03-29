@@ -4,11 +4,20 @@ import '../css/UserHeader.css';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
+const cleanCookiesSignout = () => {
+	document.cookie.split(';').forEach(function (c) {
+		document.cookie = c
+			.replace(/^ +/, '')
+			.replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+	});
+	window.location = ROUTE.HOME;
+};
+
 function UserHeader() {
 	function setHeaderValue() {
 		const firstname = document.cookie
 			.split('; ')
-			.find(row => row.startsWith('firstname='))
+			.find(row => row.startsWith('first-name='))
 			.split('=')[1];
 		console.log('Test if Runs');
 		document.getElementById('nameWelcome').innerHTML = 'Welcome back, ' + firstname;
@@ -34,9 +43,9 @@ function UserHeader() {
 					<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
 						<div className='ProfileButton'>Profile</div>
 					</Link>
-					<Link to={ROUTE.HOME} style={{ textDecoration: 'none' }}>
-						<div className='SignoutButton'>Sign Out</div>
-					</Link>
+					<div className='SignoutButton' onClick={cleanCookiesSignout}>
+						Sign Out
+					</div>
 				</div>
 			</div>
 		</React.Fragment>
