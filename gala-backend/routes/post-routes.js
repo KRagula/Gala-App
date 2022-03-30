@@ -25,7 +25,11 @@ const postNew = async (req, res, next) => {
 		timeEnd: req.body.timeEnd,
 		price: Number(req.body.price.replace(/[^0-9.-]+/g, '')),
 		tags: req.body.tags,
-		hostEmail: req.body.hostEmail,
+		hostEmail: decodeURIComponent(req.body.hostEmail),
+		timeCreated: new Date(),
+		rating: req.body.rating,
+		creatorName: req.body.creatorName,
+		creatorId: decodeURI(req.body.creatorId),
 		location: {
 			type: 'Point',
 			coordinates: [coordinates[0], coordinates[1]],
