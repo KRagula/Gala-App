@@ -84,6 +84,23 @@ function Create() {
 		}
 	};
 
+	const creatorEmail = document.cookie
+		.split('; ')
+		.find(row => row.startsWith('email='))
+		.split('=')[1];
+	const creatorRating = document.cookie
+		.split('; ')
+		.find(row => row.startsWith('rating='))
+		.split('=')[1];
+	const creatorName = document.cookie
+		.split('; ')
+		.find(row => row.startsWith('first-name='))
+		.split('=')[1];
+	const creatorId = document.cookie
+		.split('; ')
+		.find(row => row.startsWith('docid='))
+		.split('=')[1];
+
 	const onSubmit = event => {
 		//event.preventDefault(); Take out once we can redirect to a post
 		const newPost = {
@@ -97,7 +114,10 @@ function Create() {
 			timeEnd: endDate,
 			price: priceExp,
 			tags: tagsList,
-			hostEmail: 'fillerUseCookies@gmail.com', //TODO: USE HOST ID
+			hostEmail: creatorEmail, //TODO: USE HOST ID
+			rating: creatorRating,
+			creatorName: creatorName,
+			creatorId: creatorId,
 		};
 		createPost(newPost);
 	};

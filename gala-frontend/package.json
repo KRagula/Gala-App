@@ -30,6 +30,7 @@
 		"react-icons": "^4.3.1",
 		"react-router-dom": "^6.2.1",
 		"react-scripts": "^4.0.3",
+		"react-shimmer-effects": "^1.0.2",
 		"react-text-mask": "^5.4.3",
 		"sendbird": "^3.1.7",
 		"sendbird-uikit": "^2.5.3",

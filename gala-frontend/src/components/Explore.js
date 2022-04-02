@@ -8,6 +8,7 @@ import '../css/Explore.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Pagination from '@material-ui/lab/Pagination';
+import { ShimmerCategoryItem } from 'react-shimmer-effects';
 
 import { getNearbyPosts } from '../axios/posts';
 
@@ -16,19 +17,26 @@ const { Anime } = ReactAnime;
 function Explore() {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
+	const [range, setRange] = useState(10);
 
 	const [entryData, setEntryData] = useState([]);
+	const [entryDataCleaned, setEntryDataCleaned] = useState([]);
 	const [showExploreEntries, setShowExploreEntries] = useState(false);
 
 	const onRetrievePosition = async position => {
 		const positionData = {
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude,
-			range: 200000,
+			range: range * 1609.34,
 		};
 
 		const nearbyPosts = await getNearbyPosts(positionData);
 		console.log(nearbyPosts);
+		if (typeof nearbyPosts === 'undefined') {
+			setShowExploreEntries(true);
+			return;
+		}
+
 		setEntryData(
 			nearbyPosts.data.map(item => {
 				const titleCleaned = item.title.toUpperCase();
@@ -44,6 +52,21 @@ function Explore() {
 				const year = startDateObject.getUTCFullYear();
 				const startDateCleaned = month + '/' + day + '/' + year;
 
+				let textHash =
+					titleCleaned +
+					'#' +
+					priceCleaned +
+					'#' +
+					item.description +
+					'#' +
+					item.cityAddress +
+					'#' +
+					item.stateAddress;
+				item.tags.forEach(tag => {
+					textHash = textHash + '#' + tag;
+				});
+				textHash = textHash.toLowerCase();
+
 				return {
 					title: titleCleaned,
 					description: item.description,
@@ -52,10 +75,15 @@ function Explore() {
 					state: item.stateAddress,
 					startDate: startDateCleaned,
 					tags: item.tags,
+					startDateObject: startDateObject,
+					priceValue: item.price,
+					textHash: textHash,
 				};
 			})
 		);
+		console.log(entryData);
 
+		setEntryDataCleaned(entryData);
 		setShowExploreEntries(true);
 	};
 
@@ -70,6 +98,43 @@ function Explore() {
 	if (showExploreEntries === false) {
 		getEntryData();
 	}
+
+	const handleToolbarSearch = () => {
+		const searchText = document.getElementById('ExploreToolbarSearch').value.trim();
+		const entryDataProcessed = entryData.filter(item => {
+			return item.textHash.includes(searchText.toLowerCase());
+		});
+		console.log(entryDataProcessed);
+		setEntryDataCleaned(entryDataProcessed);
+	};
+
+	const handleSorting = () => {
+		const sortType = document.getElementById('ExploreToolbarSelect').value;
+		let entryDataProcessed = entryData;
+		switch (sortType) {
+			case 'earliest':
+				entryDataProcessed = entryDataCleaned.sort((a, b) => {
+					return a.startDateObject - b.startDateObject;
+				});
+				break;
+			case 'latest':
+				entryDataProcessed = entryDataCleaned.sort((a, b) => {
+					return b.startDateObject - a.startDateObject;
+				});
+				break;
+			case 'lowest':
+				entryDataProcessed = entryDataCleaned.sort((a, b) => {
+					return a.priceValue - b.priceValue;
+				});
+				break;
+			case 'highest':
+				entryDataProcessed = entryDataCleaned.sort((a, b) => {
+					return b.priceValue - a.priceValue;
+				});
+				break;
+		}
+		setEntryDataCleaned(entryDataProcessed.slice());
+	};
 
 	// controller state
 	const [control, setControl] = useState(null);
@@ -107,7 +172,11 @@ function Explore() {
 					</div>
 					<div className='ExploreToolbarArea'>
 						<div className='ExploreToolbarLeftArea'>
-							<input className='ExploreToolbarSearch' placeholder='Search by keyword'></input>
+							<input
+								className='ExploreToolbarSearch'
+								id='ExploreToolbarSearch'
+								placeholder='Search by keyword'
+								onChange={handleToolbarSearch}></input>
 							<div className='DatePickerArea'>
 								<DatePicker selected={startDate} onChange={date => setStartDate(date)} />
 								<div className='DatePickerBetweenText'>to</div>
@@ -127,33 +196,63 @@ function Explore() {
 								<option value='ten_miles'>10 miles</option>
 								<option value='fifty_miles'>50 miles</option>
 							</select>
-							<select name='explore-sort' id='explore-sort' className='ExploreToolbarSelect'>
+							<select
+								id='ExploreToolbarSelect'
+								className='ExploreToolbarSelect'
+								onChange={handleSorting}>
 								<option value='none' selected disabled hidden>
 									Sort by
 								</option>
 								<option value='most_recent'>Most recent</option>
 								<option value='least_recent'>Least recent</option>
-								<option value='most_recent'>Earliest</option>
-								<option value='least_recent'>Latest</option>
-								<option value='most_recent'>Highest $$</option>
-								<option value='least_recent'>Lowest $$</option>
-								<option value='for_you'>For you</option>
+								<option value='earliest'>Earliest</option>
+								<option value='latest'>Latest</option>
+								<option value='lowest'>Lowest $$</option>
+								<option value='highest'>Highest $$</option>
 							</select>
 						</div>
 					</div>
 					<div className='ExploreEntryArea'>
 						{showExploreEntries ? (
-							<React.Fragment>
-								{entryData.map(data => {
-									return <ExploreEntry data={data} />;
-								})}
-							</React.Fragment>
+							<div>
+								{entryDataCleaned.length > 0 ? (
+									<React.Fragment>
+										{entryDataCleaned.map(data => {
+											return <ExploreEntry data={data} />;
+										})}
+									</React.Fragment>
+								) : (
+									<div> No entries found.</div>
+								)}
+							</div>
 						) : (
-							<div>not received anything yet</div>
+							<div>
+								<ShimmerCategoryItem
+									hasImage
+									imageType='circular'
+									imageWidth={100}
+									imageHeight={100}
+									text
+									cta
+								/>
+								<ShimmerCategoryItem
+									hasImage
+									imageType='circular'
+									imageWidth={100}
+									imageHeight={100}
+									text
+									cta
+								/>
+								<ShimmerCategoryItem
+									hasImage
+									imageType='circular'
+									imageWidth={100}
+									imageHeight={100}
+									text
+									cta
+								/>
+							</div>
 						)}
-					</div>
-					<div className='ExplorePaginationArea'>
-						<Pagination count={10} />
 					</div>
 				</div>
 			</div>

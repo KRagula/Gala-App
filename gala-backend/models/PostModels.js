@@ -45,6 +45,22 @@ const postTemplate = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	rating: {
+		type: Number,
+		required: true,
+	},
+	creatorName: {
+		type: String,
+		required: true,
+	},
+	creatorId: {
+		type: String,
+		required: true,
+	},
+	timeCreated: {
+		type: Date,
+		required: true,
+	},
 	location: {
 		type: {
 			type: String, // Don't do `{ location: { type: String } }`

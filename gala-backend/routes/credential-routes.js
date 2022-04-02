@@ -28,8 +28,17 @@ const signup = async (req, res, next) => {
 	try {
 		const userDoc = await userTemplate.findOne({ email: req.body.email });
 		if (userDoc) return next(new UserExistsError(req.body.email));
-		signupData = await signedUpUser.save();
+		let idVal;
+		signupData = await signedUpUser.save(postId => {});
+		console.log(signupData);
+		const options = {
+			maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+		};
 
+		res.cookie('first-name', req.body.firstName, options);
+		res.cookie('email', req.body.email, options);
+		res.cookie('docid', signedUpUser._id, options);
+		res.cookie('rating', 5, options);
 		return res.json({
 			firstname: signedUpUser.firstName,
 			lastname: signedUpUser.lastName,
@@ -61,7 +70,13 @@ const login = async (req, res, next) => {
 			//   var lastNameCookie = 'lastname=' + response2.lastName
 
 			res.cookie('first-name', doc.firstName, options);
-			res.cookie('last-name', doc.lastName, options);
+			res.cookie('email', doc.email, options);
+			res.cookie('docid', doc._id, options);
+			if (doc.rating) {
+				res.cookie('rating', doc.rating, options);
+			} else {
+				res.cookie('rating', 5, options);
+			}
 			res.json({ firstname: doc.firstName, lastname: doc.lastName, data: 'data' });
 		} else return next(new InvalidCredentialError());
 	});
