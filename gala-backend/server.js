@@ -72,7 +72,6 @@ app.get('/experience/bids-received/:username', bidRoutes.getBidsReceived);
 /** PROFILE ENDPOINTS **/
 app.get('/profile/:profileid', profileRoutes.getProfile);
 
-
 /** ERROR HANDLING **/
 app.use(errorHandlers.errorLogger);
 app.use(errorHandlers.errorResponder);
