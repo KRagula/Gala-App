@@ -28,6 +28,8 @@ function Explore() {
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude,
 			range: range * 1609.34,
+			startDate: startDate,
+			endDate: endDate,
 		};
 
 		const nearbyPosts = await getNearbyPosts(positionData);
