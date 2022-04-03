@@ -22,6 +22,8 @@ const signup = async (req, res, next) => {
 		salt: saltPassword,
 		profilePictureLink: req.body.profilePictureLink,
 		profilePictureName: req.body.profilePictureName,
+		rating: 5,
+		numRatings: 1,
 	});
 
 	let signupData;
