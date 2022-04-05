@@ -1,4 +1,4 @@
-import React, { useState, setState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ExploreEntry from './ExploreEntry';
@@ -15,6 +15,10 @@ import { getNearbyPosts } from '../axios/posts';
 const { Anime } = ReactAnime;
 
 function Explore() {
+	useEffect(() => {
+		getEntryData();
+	}, []);
+
 	const [startDate, setStartDate] = useState(new Date());
 	// default week window
 	const [endDate, setEndDate] = useState(new Date(new Date().setDate(startDate.getDate() + 7)));
@@ -24,81 +28,94 @@ function Explore() {
 	const [entryDataCleaned, setEntryDataCleaned] = useState([]);
 	const [showExploreEntries, setShowExploreEntries] = useState(false);
 
-	const onRetrievePosition = async position => {
+	const onRetrievePosition = async (position, entryDataParams) => {
+		let startDateQuery = startDate;
+		let endDateQuery = endDate;
+		let rangeQuery = range;
+		if (typeof entryDataParams !== 'undefined') {
+			if (entryDataParams[0] === 'startDate') {
+				startDateQuery = entryDataParams[1];
+			} else if (entryDataParams[0] === 'endDate') {
+				endDateQuery = entryDataParams[1];
+			} else if (entryDataParams[0] === 'range') {
+				rangeQuery = entryDataParams[1];
+			}
+		}
+
 		const positionData = {
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude,
-			range: range * 1609.34,
-			startDate: startDate,
-			endDate: endDate,
+			range: rangeQuery * 1609.34,
+			startDate: startDateQuery,
+			endDate: endDateQuery,
 		};
 
 		const nearbyPosts = await getNearbyPosts(positionData);
+		console.log(nearbyPosts);
 		if (typeof nearbyPosts === 'undefined') {
 			setShowExploreEntries(true);
 			return;
 		}
 
-		setEntryData(
-			nearbyPosts.data.map(item => {
-				const titleCleaned = item.title.toUpperCase();
-				const priceCleaned = '$' + parseFloat(item.price).toFixed(2);
-				const startDateObject = new Date(item.timeStart);
-				const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
-					minimumIntegerDigits: 2,
-					useGrouping: false,
-				});
-				const day = startDateObject
-					.getUTCDate()
-					.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-				const year = startDateObject.getUTCFullYear();
-				const startDateCleaned = month + '/' + day + '/' + year;
+		const entryDataToSet = nearbyPosts.data.map(item => {
+			const titleCleaned = item.title.toUpperCase();
+			const priceCleaned = '$' + parseFloat(item.price).toFixed(2);
+			const startDateObject = new Date(item.timeStart);
+			const timeCreatedObject = new Date(item.timeCreated);
+			const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
+				minimumIntegerDigits: 2,
+				useGrouping: false,
+			});
+			const day = startDateObject
+				.getUTCDate()
+				.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+			const year = startDateObject.getUTCFullYear();
+			const startDateCleaned = month + '/' + day + '/' + year;
 
-				let textHash =
-					titleCleaned +
-					'#' +
-					priceCleaned +
-					'#' +
-					item.description +
-					'#' +
-					item.cityAddress +
-					'#' +
-					item.stateAddress;
-				item.tags.forEach(tag => {
-					textHash = textHash + '#' + tag;
-				});
-				textHash = textHash.toLowerCase();
+			let textHash =
+				titleCleaned +
+				'#' +
+				priceCleaned +
+				'#' +
+				item.description +
+				'#' +
+				item.cityAddress +
+				'#' +
+				item.stateAddress;
+			item.tags.forEach(tag => {
+				textHash = textHash + '#' + tag;
+			});
+			textHash = textHash.toLowerCase();
 
-				return {
-					title: titleCleaned,
-					description: item.description,
-					price: priceCleaned,
-					city: item.cityAddress,
-					state: item.stateAddress,
-					startDate: startDateCleaned,
-					tags: item.tags,
-					startDateObject: startDateObject,
-					priceValue: item.price,
-					textHash: textHash,
-				};
-			})
-		);
+			return {
+				title: titleCleaned,
+				description: item.description,
+				price: priceCleaned,
+				city: item.cityAddress,
+				state: item.stateAddress,
+				startDate: startDateCleaned,
+				tags: item.tags,
+				startDateObject: startDateObject,
+				timeCreatedObject: timeCreatedObject,
+				priceValue: item.price,
+				textHash: textHash,
+			};
+		});
 
-		setEntryDataCleaned(entryData);
+		setEntryData(entryDataToSet);
+		setEntryDataCleaned(entryDataToSet);
 		setShowExploreEntries(true);
 	};
 
-	const getEntryData = async () => {
+	const getEntryData = async entryDataParams => {
 		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(onRetrievePosition);
+			navigator.geolocation.getCurrentPosition(position =>
+				onRetrievePosition(position, entryDataParams)
+			);
 		} else {
 			document.innerHTML = 'Geolocation is not supported by this browser.';
 		}
 	};
-
-	if (showExploreEntries === false) {
-		getEntryData();
-	}
 
 	const handleToolbarSearch = () => {
 		const searchText = document.getElementById('ExploreToolbarSearch').value.trim();
@@ -122,6 +139,17 @@ function Explore() {
 					return b.startDateObject - a.startDateObject;
 				});
 				break;
+			case 'most_recent':
+				entryDataProcessed = entryDataCleaned.sort((a, b) => {
+					return b.timeCreatedObject - a.timeCreatedObject;
+				});
+				break;
+			case 'least_recent':
+				console.log('hello');
+				entryDataProcessed = entryDataCleaned.sort((a, b) => {
+					return a.timeCreatedObject - b.timeCreatedObject;
+				});
+				break;
 			case 'lowest':
 				entryDataProcessed = entryDataCleaned.sort((a, b) => {
 					return a.priceValue - b.priceValue;
@@ -139,20 +167,20 @@ function Explore() {
 	const handleSetStartDate = date => {
 		setStartDate(date);
 		setShowExploreEntries(false);
-		getEntryData();
+		getEntryData(['startDate', date]);
 	};
 
 	const handleSetEndDate = date => {
 		setEndDate(date);
 		setShowExploreEntries(false);
-		getEntryData();
+		getEntryData(['endDate', date]);
 	};
 
 	const handleSetRange = e => {
 		const newRange = parseInt(e.target.value);
 		setRange(newRange);
 		setShowExploreEntries(false);
-		getEntryData();
+		getEntryData(['range', newRange]);
 	};
 
 	// controller state
@@ -220,13 +248,13 @@ function Explore() {
 								id='ExploreToolbarSelect'
 								className='ExploreToolbarSelect'
 								onChange={handleSorting}>
-								<option value='none' selected disabled hidden>
+								<option value='earliest' selected disabled hidden>
 									Sort by
 								</option>
-								<option value='most_recent'>Most recent</option>
-								<option value='least_recent'>Least recent</option>
 								<option value='earliest'>Earliest</option>
 								<option value='latest'>Latest</option>
+								<option value='most_recent'>Most Recent</option>
+								<option value='least_recent'>Least Recent</option>
 								<option value='lowest'>Lowest $$</option>
 								<option value='highest'>Highest $$</option>
 							</select>
