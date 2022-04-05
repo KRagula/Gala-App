@@ -70,10 +70,12 @@ app.get('/experience/bids-sent/:username', bidRoutes.getBidsSent);
 app.get('/experience/bids-received/:username', bidRoutes.getBidsReceived);
 app.post('/experience/offer-bid/:postId', bidRoutes.offerBid);
 app.get('/experience/offer-bid/:postId', bidRoutes.postInfo);
+//CONFIRM BID ROUTE
+app.put('/experience/confirm-bid/:bidId', bidRoutes.confirmBid);
+app.delete('/experience/delete-bid/:bidId', bidRoutes.deleteBid);
 
 /** PROFILE ENDPOINTS **/
 app.get('/profile/:profileid', profileRoutes.getProfile);
-
 
 /** ERROR HANDLING **/
 app.use(errorHandlers.errorLogger);
