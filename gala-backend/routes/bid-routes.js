@@ -119,6 +119,7 @@ const offerBid = async (req, res, next) => {
 		bidderEmail: req.body.bidderEmail,
 		bidAmount: req.body.bidAmount,
 		status: 'Waiting for response',
+		bidTime: req.body.bidTime,
 	});
 
 	try {
