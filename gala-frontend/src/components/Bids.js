@@ -6,19 +6,105 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import ReactAnime from 'react-animejs';
 import '../css/Bids.css';
-import { getBidsReceived } from '../axios/bids';
+import { getBidsReceived, getBidsSent } from '../axios/bids';
+import { ShimmerCategoryItem } from 'react-shimmer-effects';
 
 const { Anime } = ReactAnime;
 
 function Bids() {
-	const [entryDataReceived, setEntryDataReceived] = useState([]);
+	const [entryDataRec, setEntryDataRec] = useState([]);
+	const [entryDataRecCleaned, setEntryDataRecCleaned] = useState([]);
 	const [entryDataSent, setEntryDataSent] = useState([]);
-	const [showExploreEntries, setShowExploreEntries] = useState(false);
+	const [entryDataSentCleaned, setEntryDataSentCleaned] = useState([]);
+	const [showBidsEntries, setShowBidsEntries] = useState(false);
 
 	useEffect(async () => {
-		const test = await getBidsReceived();
-		console.log(test);
-		// todo for robin: console log this test and integrate with forntend
+		const entryDataRecRaw = await getBidsReceived();
+
+		const entryDataRecProcessed = entryDataRecRaw.data.map(item => {
+			const bidAmount = item.bidAmount;
+			const highestBid = item.highestBid;
+			const title = item.postId.title;
+			const auctionPrice = item.postId.price;
+			const bidderName = item.user_profile[0].firstName;
+			const bidderRating = 2.5; // todo after claire updates backend
+			const bidderImage = item.user_profile[0].profilePicture;
+			const timestampObject = new Date(); // todo after claire updates backend
+			const textHash =
+				bidAmount +
+				'#' +
+				highestBid +
+				'#' +
+				title +
+				'#' +
+				auctionPrice +
+				'#' +
+				bidderName +
+				'#' +
+				bidderRating +
+				'#' +
+				bidderImage;
+
+			return {
+				bidAmount: bidAmount,
+				highestBid: highestBid,
+				title: title,
+				auctionPrice: auctionPrice,
+				bidderName: bidderName,
+				bidderRating: bidderRating,
+				bidderImage: bidderImage,
+				timestampObject: timestampObject,
+				textHash: textHash,
+			};
+		});
+
+		setEntryDataRec(entryDataRecProcessed);
+		setEntryDataRecCleaned(entryDataRecProcessed);
+
+		const entryDataSentRaw = await getBidsSent();
+		console.log(entryDataSentRaw);
+
+		const entryDataSentProcessed = entryDataSentRaw.data.map(item => {
+			const bidAmount = item.bidAmount;
+			const highestBid = item.highestBid;
+			const title = item.postId.title;
+			const auctionPrice = item.postId.price;
+			const bidderName = item.user_profile[0].firstName;
+			const bidderRating = 2.5; // todo after claire updates backend
+			const bidderImage = item.user_profile[0].profilePicture;
+			const timestampObject = new Date(); // todo after claire updates backend
+			const textHash =
+				bidAmount +
+				'#' +
+				highestBid +
+				'#' +
+				title +
+				'#' +
+				auctionPrice +
+				'#' +
+				bidderName +
+				'#' +
+				bidderRating +
+				'#' +
+				bidderImage;
+
+			return {
+				bidAmount: bidAmount,
+				highestBid: highestBid,
+				title: title,
+				auctionPrice: auctionPrice,
+				bidderName: bidderName,
+				bidderRating: bidderRating,
+				bidderImage: bidderImage,
+				timestampObject: timestampObject,
+				textHash: textHash,
+			};
+		});
+
+		setEntryDataSent(entryDataSentProcessed);
+		setEntryDataSentCleaned(entryDataSentProcessed);
+
+		setShowBidsEntries(true);
 	}, []);
 
 	const [collapseFirst, setCollapseFirst] = useState(false);
@@ -98,8 +184,46 @@ function Bids() {
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
-									<BidsEntry isReceived={true} />
-									<BidsEntry isReceived={true} />
+									{showBidsEntries ? (
+										<div>
+											{entryDataRecCleaned.length > 0 ? (
+												<React.Fragment>
+													{entryDataRecCleaned.map(data => {
+														return <BidsEntry isReceived={true} data={data} />;
+													})}
+												</React.Fragment>
+											) : (
+												<div> No entries found.</div>
+											)}
+										</div>
+									) : (
+										<div>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+										</div>
+									)}
 								</div>
 							</div>
 						) : (
@@ -134,13 +258,47 @@ function Bids() {
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
-									<BidsEntry isReceived={true} />
-									<BidsEntry isReceived={true} />
-								</div>
-								<div className='BidsEntryArea'>
-									<BidsEntry isReceived={false} isConfirmed={true} />
-									<BidsEntry isReceived={false} isConfirmed={false} />
-									<BidsEntry isReceived={false} isConfirmed={false} />
+									{showBidsEntries ? (
+										<div>
+											{entryDataSentCleaned.length > 0 ? (
+												<React.Fragment>
+													{entryDataSentCleaned.map(data => {
+														console.log(data);
+														return <BidsEntry isReceived={false} data={data} isConfirmed={false} />; // todo: update hardcode isConfirmed
+													})}
+												</React.Fragment>
+											) : (
+												<div> No entries found.</div>
+											)}
+										</div>
+									) : (
+										<div>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+										</div>
+									)}
 								</div>
 							</div>
 						) : (
