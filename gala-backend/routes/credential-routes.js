@@ -9,6 +9,7 @@ import {
 	UserExistsError,
 	InvalidCredentialError,
 } from '../error/credential-errors.js';
+import serverConfig from '../configurations/server-config.js';
 
 const signup = async (req, res, next) => {
 	const saltPassword = await bcrypt.genSalt(10);
@@ -51,22 +52,6 @@ const signup = async (req, res, next) => {
 	}
 };
 
-const authUser = async (user, password, done) => {
-	let doc;
-	try {
-		doc = await userTemplate.findOne({ email: user });
-		if (!doc) return done(new InvalidCredentialError(), false); // User DNE
-	} catch (err) {
-		return next(new ServerError(serverErrorTypes.mongodb, err));
-	}
-
-	bcrypt.compare(password, doc.password, (err, same) => {
-		if (err) return next(new ServerError(serverErrorTypes.generic, err));
-		else if (same) return done(null, { id: doc._id.toString(), name: doc.email });
-		else return done(new InvalidCredentialError(), false);
-	});
-};
-
 const login = async (req, res, next) => {
 	let doc;
 	try {
@@ -79,35 +64,43 @@ const login = async (req, res, next) => {
 	bcrypt.compare(req.body.password, doc.password, (err, same) => {
 		if (err) return next(new ServerError(serverErrorTypes.generic, err));
 		else if (same) {
-			// Send JWT
-			const options = {
-				maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+			const payload = {
+				id: doc._id,
+				email: doc.email,
 			};
+
+			jwt.sign(payload, serverConfig.jwtSecret, { expiresIn: 86400 }, (err, token) => {
+				if (err) return next(new ServerError(serverErrorTypes.generic, err));
+
+				return res.json({
+					message: 'Success',
+					token: 'Bearer ' + token,
+					data: 'data',
+				});
+			});
 
 			//   var nameCookie = 'firstname=' + response2.firstName
 			//   var lastNameCookie = 'lastname=' + response2.lastName
-
-			res.cookie('first-name', doc.firstName, options);
-			res.cookie('email', doc.email, options);
-			res.cookie('docid', doc._id, options);
-			if (doc.rating) {
-				res.cookie('rating', doc.rating, options);
-			} else {
-				res.cookie('rating', 5, options);
-			}
-			res.json({ firstname: doc.firstName, lastname: doc.lastName, data: 'data' });
+			//
+			// res.cookie('first-name', doc.firstName, options);
+			// res.cookie('email', doc.email, options);
+			// res.cookie('docid', doc._id, options);
+			// if (doc.rating) {
+			// 	res.cookie('rating', doc.rating, options);
+			// } else {
+			// 	res.cookie('rating', 5, options);
+			// }
+			// res.json({ firstname: doc.firstName, lastname: doc.lastName, data: 'data' });
 		} else return next(new InvalidCredentialError());
 	});
 };
 
-const logout = async (req, res, next) => {
-	console.log('session out', req.session);
-	req.logOut();
+const isAuth = (req, res, next) => {
+	res.json({ isLoggedIn: true });
 };
 
 export default {
 	signup: signup,
 	login: login,
-	authUser: authUser,
-	logout: logout,
+	isAuth: isAuth,
 };

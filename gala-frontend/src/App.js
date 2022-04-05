@@ -22,10 +22,34 @@ import Update from './components/Update';
 import './css/App.css';
 
 import ROUTE from './configurations/route-frontend-config.js';
-import axios from 'axios';
+import { isAuth } from './axios/credentials.js';
 
 function App() {
-	useEffect(() => {}, []);
+	useEffect(async () => {
+		console.log('local', window.location.pathname);
+		const isLoggedIn = await isAuth();
+
+		console.log('logged', isLoggedIn);
+
+		const pathname = window.location.pathname;
+		if (
+			(pathname.localeCompare(ROUTE.HOME) == 0 ||
+				pathname.localeCompare(ROUTE.SIGNUP) == 0 ||
+				pathname.localeCompare(ROUTE.LOGIN) == 0) &&
+			isLoggedIn
+		) {
+			window.location = ROUTE.EXPLORE;
+		} else if (
+			!(
+				pathname.localeCompare(ROUTE.HOME) == 0 ||
+				pathname.localeCompare(ROUTE.SIGNUP) == 0 ||
+				pathname.localeCompare(ROUTE.LOGIN) == 0
+			) &&
+			!isLoggedIn
+		) {
+			window.location = ROUTE.LOGIN;
+		}
+	}, []);
 
 	return (
 		<React.Fragment>

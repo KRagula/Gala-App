@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { logout } from '../axios/credentials.js';
 import '../css/UserHeader.css';
 
 import ROUTE from '../configurations/route-frontend-config.js';
@@ -12,7 +11,7 @@ const cleanCookiesSignout = () => {
 			.replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
 	});
 
-	logout();
+	localStorage.removeItem('token');
 
 	window.location = ROUTE.HOME;
 };
