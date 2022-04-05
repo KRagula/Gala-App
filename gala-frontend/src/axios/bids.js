@@ -14,3 +14,15 @@ export const getBidsReceived = async () => {
 			// do something later
 		});
 };
+
+export const getBidsSent = async () => {
+	// todo: remove hardcode email
+	return await axios
+		.get(`${serverConfig.backendURL}/experience/bids-sent/kragula@seas.upenn.edu`, {
+			withCredentials: true,
+		})
+		.then(res => res)
+		.catch(err => {
+			// do something later
+		});
+};

@@ -83,7 +83,7 @@ function BidsEntry(props) {
 								<div className='ExploreEntryDescriptionTitleMain'>SKYDIVING LESSONS</div>
 								<div className='BidsEntryDescriptionTitleSub'>Auction Price: $100.00</div>
 								<div className='BidsEntryDescriptionTitleSub'>
-									Highest Bid: <b>$110.00</b>
+									Highest Bid: <b>{props.data.highestBid}</b>
 								</div>
 							</div>
 						</div>
@@ -96,7 +96,7 @@ function BidsEntry(props) {
 										</div>
 										Your Bid:
 										<div className='BidsEntryBottomLeftAreaRowPrice'>
-											<b>$105.00</b>
+											<b>{props.data.bidAmount}</b>
 										</div>
 									</div>
 								</div>
