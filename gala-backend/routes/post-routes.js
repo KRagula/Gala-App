@@ -63,6 +63,9 @@ const getCityPosts = async (req, res, next) => {
 const getNearbyPosts = async (req, res, next) => {
 	//Verify request comes from logged in user?
 	const rangeSearch = req.body.range;
+	let startDate = req.body.startDate;
+	let endDate = req.body.endDate;
+	console.log(req.body);
 	// const addressCoords = await getCoordinates(req.body.address);
 	const addressCoords = [req.body.longitude, req.body.latitude];
 	try {
@@ -73,7 +76,7 @@ const getNearbyPosts = async (req, res, next) => {
 						type: 'Point',
 						coordinates: addressCoords,
 					},
-					$maxDistance: 50000,
+					$maxDistance: Number(rangeSearch),
 					$minDistance: 0,
 				},
 			},
@@ -81,7 +84,19 @@ const getNearbyPosts = async (req, res, next) => {
 		if (!doc) {
 			return res.json({});
 		} else {
-			return res.json(doc);
+			console.log(doc);
+			if (req.body.startDate && req.body.endDate) {
+				let startDateCast = new Date(req.body.startDate);
+				let endDateCast = new Date(req.body.endDate);
+				let returnList = doc.filter(currentElement => {
+					return (
+						startDateCast - 1 <= currentElement.timeStart && endDateCast >= currentElement.timeEnd
+					);
+				});
+				return res.json(returnList);
+			} else {
+				return res.json(doc);
+			}
 		}
 	} catch (err) {
 		console.log(err);

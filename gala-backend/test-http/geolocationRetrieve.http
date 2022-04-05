@@ -4,5 +4,7 @@ Content-Type: application/json
 {
 		"latitude":37.7889,
 		"longitude":-122.3995,
-		"range": 201609.34
+		"range": 201609.34,
+		"startDate": "2022-01-20T04:44:50.111Z",
+		"endDate": "2022-03-20T04:44:50.111Z"
 }
