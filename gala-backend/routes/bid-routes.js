@@ -113,6 +113,7 @@ const getBidsReceived = async (req, res, next) => {
 	}
 };
 
+//OFFER BID POST + GET ROUTES
 const offerBid = async (req, res, next) => {
 	const newBid = new bidTemplate({
 		postId: mongoose.Types.ObjectId(req.params.postId),
@@ -143,9 +144,33 @@ const postInfo = async (req, res, next) => {
 	}
 };
 
+//CONFIRM BID ROUTES
+const confirmBid = async (req, res, next) => {
+	const bidId = mongoose.Types.ObjectId(req.params.bidId);
+	const update = { status: 'Confirmed' };
+	try {
+		const doc = await bidTemplate.findOneAndUpdate({ _id: bidId }, update);
+		return res.json({ statusMessage: 'Bid Confirmed' });
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+};
+
+const deleteBid = async (req, res, next) => {
+	const bidId = mongoose.Types.ObjectId(req.params.bidId);
+	try {
+		const doc = await bidTemplate.deleteOne({ _id: bidId });
+		return res.json({ statusMessage: 'Bid Deleted' });
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+};
+
 export default {
 	getBidsSent: getBidsSent,
 	getBidsReceived: getBidsReceived,
 	offerBid: offerBid,
 	postInfo: postInfo,
+	confirmBid: confirmBid,
+	deleteBid: deleteBid,
 };
