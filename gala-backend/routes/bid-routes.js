@@ -42,7 +42,7 @@ const getBidsSent = async (req, res, next) => {
 					let host_email = json_obj[i]['postId']['hostEmail'];
 					const user_query = await userTemplate
 						.find({ email: host_email })
-						.select('firstName lastName profilePicture');
+						.select('firstName profilePicture rating');
 					json_obj[i]['user_profile'] = user_query;
 					bids_sent_data.push(json_obj[i]);
 				}
@@ -88,7 +88,7 @@ const getBidsReceived = async (req, res, next) => {
 					const bidder_email = bids_json[j]['bidderEmail'];
 					const user_query = await userTemplate
 						.find({ email: bidder_email })
-						.select('firstName lastName profilePicture');
+						.select('firstName profilePicture rating');
 					bids_json[j]['user_profile'] = user_query;
 				}
 
