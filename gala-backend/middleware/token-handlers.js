@@ -1,5 +1,7 @@
-const tokenCheckStandard = (req, res, next) => {};
+const checkAuthenticated = (req, res, next) => {
+	passport.authenticate('jwt', { session: false });
+};
 
 export default {
-	tokenCheckStandard: tokenCheckStandard,
+	checkAuthenticated: checkAuthenticated,
 };

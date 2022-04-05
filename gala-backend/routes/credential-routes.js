@@ -51,6 +51,22 @@ const signup = async (req, res, next) => {
 	}
 };
 
+const authUser = async (user, password, done) => {
+	let doc;
+	try {
+		doc = await userTemplate.findOne({ email: user });
+		if (!doc) return done(new InvalidCredentialError(), false); // User DNE
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
+	bcrypt.compare(password, doc.password, (err, same) => {
+		if (err) return next(new ServerError(serverErrorTypes.generic, err));
+		else if (same) return done(null, { id: doc._id.toString(), name: doc.email });
+		else return done(new InvalidCredentialError(), false);
+	});
+};
+
 const login = async (req, res, next) => {
 	let doc;
 	try {
@@ -84,7 +100,14 @@ const login = async (req, res, next) => {
 	});
 };
 
+const logout = async (req, res, next) => {
+	console.log('session out', req.session);
+	req.logOut();
+};
+
 export default {
 	signup: signup,
 	login: login,
+	authUser: authUser,
+	logout: logout,
 };

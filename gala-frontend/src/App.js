@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Homepage from './components/Homepage';
@@ -22,8 +22,11 @@ import Update from './components/Update';
 import './css/App.css';
 
 import ROUTE from './configurations/route-frontend-config.js';
+import axios from 'axios';
 
 function App() {
+	useEffect(() => {}, []);
+
 	return (
 		<React.Fragment>
 			<BrowserRouter>

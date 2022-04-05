@@ -15,7 +15,7 @@ const Login = () => {
 	const onSubmit = event => {
 		event.preventDefault();
 		const credentials = {
-			email: email,
+			username: email,
 			password: password,
 		};
 		login(credentials);

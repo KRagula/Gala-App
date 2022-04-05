@@ -55,3 +55,13 @@ export const signup = async registered => {
 			return false;
 		});
 };
+
+export const logout = async () => {
+	axios.delete(
+		`${serverConfig.backendURL}/credential/logout`,
+		{},
+		{
+			withCredentials: true,
+		}
+	);
+};
