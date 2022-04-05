@@ -16,7 +16,8 @@ const { Anime } = ReactAnime;
 
 function Explore() {
 	const [startDate, setStartDate] = useState(new Date());
-	const [endDate, setEndDate] = useState(new Date());
+	// default week window
+	const [endDate, setEndDate] = useState(new Date(new Date().setDate(startDate.getDate() + 7)));
 	const [range, setRange] = useState(10);
 
 	const [entryData, setEntryData] = useState([]);
@@ -33,7 +34,6 @@ function Explore() {
 		};
 
 		const nearbyPosts = await getNearbyPosts(positionData);
-		console.log(nearbyPosts);
 		if (typeof nearbyPosts === 'undefined') {
 			setShowExploreEntries(true);
 			return;
@@ -83,7 +83,6 @@ function Explore() {
 				};
 			})
 		);
-		console.log(entryData);
 
 		setEntryDataCleaned(entryData);
 		setShowExploreEntries(true);
@@ -106,7 +105,6 @@ function Explore() {
 		const entryDataProcessed = entryData.filter(item => {
 			return item.textHash.includes(searchText.toLowerCase());
 		});
-		console.log(entryDataProcessed);
 		setEntryDataCleaned(entryDataProcessed);
 	};
 
@@ -136,6 +134,25 @@ function Explore() {
 				break;
 		}
 		setEntryDataCleaned(entryDataProcessed.slice());
+	};
+
+	const handleSetStartDate = date => {
+		setStartDate(date);
+		setShowExploreEntries(false);
+		getEntryData();
+	};
+
+	const handleSetEndDate = date => {
+		setEndDate(date);
+		setShowExploreEntries(false);
+		getEntryData();
+	};
+
+	const handleSetRange = e => {
+		const newRange = parseInt(e.target.value);
+		setRange(newRange);
+		setShowExploreEntries(false);
+		getEntryData();
 	};
 
 	// controller state
@@ -180,23 +197,24 @@ function Explore() {
 								placeholder='Search by keyword'
 								onChange={handleToolbarSearch}></input>
 							<div className='DatePickerArea'>
-								<DatePicker selected={startDate} onChange={date => setStartDate(date)} />
+								<DatePicker selected={startDate} onChange={date => handleSetStartDate(date)} />
 								<div className='DatePickerBetweenText'>to</div>
-								<DatePicker selected={endDate} onChange={date => setEndDate(date)} />
+								<DatePicker selected={endDate} onChange={date => handleSetEndDate(date)} />
 							</div>
 						</div>
 						<div className='ExploreToolbarRightArea'>
 							<select
 								name='explore-distance'
 								id='explore-distance'
-								className='ExploreToolbarSelect'>
+								className='ExploreToolbarSelect'
+								onChange={e => handleSetRange(e)}>
 								<option value='none' selected disabled hidden>
 									Distance
 								</option>
-								<option value='one_mile'>1 mile</option>
-								<option value='five_miles'>5 miles</option>
-								<option value='ten_miles'>10 miles</option>
-								<option value='fifty_miles'>50 miles</option>
+								<option value={1}>1 mile</option>
+								<option value={5}>5 miles</option>
+								<option value={10}>10 miles</option>
+								<option value={50}>50 miles</option>
 							</select>
 							<select
 								id='ExploreToolbarSelect'
