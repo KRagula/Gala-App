@@ -11,6 +11,10 @@ import { getBidsReceived } from '../axios/bids';
 const { Anime } = ReactAnime;
 
 function Bids() {
+	const [entryDataReceived, setEntryDataReceived] = useState([]);
+	const [entryDataSent, setEntryDataSent] = useState([]);
+	const [showExploreEntries, setShowExploreEntries] = useState(false);
+
 	useEffect(async () => {
 		const test = await getBidsReceived();
 		console.log(test);
@@ -62,6 +66,7 @@ function Bids() {
 							<div className='DashboardDescriptionText'>Confirm or withdraw a bid</div>
 						</div>
 					</div>
+
 					<div className='BidsCollapsableArea'>
 						<div className='BidsCollapseBar'>
 							<div className='BidsCollapseText'>Bids Received</div>
@@ -76,9 +81,26 @@ function Bids() {
 							)}
 						</div>
 						{!collapseFirst ? (
-							<div className='BidsEntryArea'>
-								<BidsEntry isReceived={true} />
-								<BidsEntry isReceived={true} />
+							<div>
+								<div className='BidsToolbarArea'>
+									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<select
+										name='received-bids-sort'
+										id='received-bids-sort'
+										className='BidsToolbarSelect'>
+										<option value='none' selected disabled hidden>
+											Sort by
+										</option>
+										<option value='highest'>Highest $$</option>
+										<option value='lowest'>Lowest $$</option>
+										<option value='most_recent'>Most recent</option>
+										<option value='least_recent'>Least recent</option>
+									</select>
+								</div>
+								<div className='BidsEntryArea'>
+									<BidsEntry isReceived={true} />
+									<BidsEntry isReceived={true} />
+								</div>
 							</div>
 						) : (
 							<div />
@@ -98,10 +120,28 @@ function Bids() {
 							)}
 						</div>
 						{!collapseSecond ? (
-							<div className='BidsEntryArea'>
-								<BidsEntry isReceived={false} isConfirmed={true} />
-								<BidsEntry isReceived={false} isConfirmed={false} />
-								<BidsEntry isReceived={false} isConfirmed={false} />
+							<div>
+								<div className='BidsToolbarArea'>
+									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<select name='sent-bids-sort' id='sent-bids-sort' className='BidsToolbarSelect'>
+										<option value='none' selected disabled hidden>
+											Sort by
+										</option>
+										<option value='highest'>Highest $$</option>
+										<option value='lowest'>Lowest $$</option>
+										<option value='most_recent'>Most recent</option>
+										<option value='least_recent'>Least recent</option>
+									</select>
+								</div>
+								<div className='BidsEntryArea'>
+									<BidsEntry isReceived={true} />
+									<BidsEntry isReceived={true} />
+								</div>
+								<div className='BidsEntryArea'>
+									<BidsEntry isReceived={false} isConfirmed={true} />
+									<BidsEntry isReceived={false} isConfirmed={false} />
+									<BidsEntry isReceived={false} isConfirmed={false} />
+								</div>
 							</div>
 						) : (
 							<div />
