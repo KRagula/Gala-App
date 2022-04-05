@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import BidsEntry from './BidsEntry';
@@ -6,10 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import ReactAnime from 'react-animejs';
 import '../css/Bids.css';
+import { getBidsReceived } from '../axios/bids';
 
 const { Anime } = ReactAnime;
 
 function Bids() {
+	useEffect(async () => {
+		const test = await getBidsReceived();
+		console.log(test);
+		// todo for robin: console log this test and integrate with forntend
+	}, []);
+
 	const [collapseFirst, setCollapseFirst] = useState(false);
 	const [collapseSecond, setCollapseSecond] = useState(false);
 
