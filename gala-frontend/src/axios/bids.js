@@ -8,6 +8,9 @@ export const getBidsReceived = async () => {
 	return await axios
 		.get(`${serverConfig.backendURL}/experience/bids-received/kragula@seas.upenn.edu`, {
 			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
 		})
 		.then(res => res)
 		.catch(err => {
@@ -20,6 +23,9 @@ export const getBidsSent = async () => {
 	return await axios
 		.get(`${serverConfig.backendURL}/experience/bids-sent/kragula@seas.upenn.edu`, {
 			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
 		})
 		.then(res => res)
 		.catch(err => {
