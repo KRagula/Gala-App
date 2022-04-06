@@ -9,7 +9,7 @@ const verifyJWT = (req, res, next) => {
 			if (err) return res.json({ isLoggedIn: false, message: 'Failed To Authenticate' });
 			req.user = {};
 			req.user.id = decoded.id;
-			req.user.username = decoded.username;
+			req.user.email = decoded.email;
 			next();
 		});
 	} else {

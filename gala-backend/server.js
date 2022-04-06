@@ -79,6 +79,7 @@ app.delete('/experience/delete-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.d
 
 /** PROFILE ENDPOINTS **/
 app.get('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.getProfile);
+app.put('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.editProfile);
 
 /** EMAIL ENDPOINTS **/
 app.get('/bidConfirm', tokenHandlers.verifyJWT, emailRoutes.bidConfirm);

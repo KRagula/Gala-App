@@ -26,11 +26,7 @@ import { isAuth } from './axios/credentials.js';
 
 function App() {
 	useEffect(async () => {
-		console.log('local', window.location.pathname);
 		const isLoggedIn = await isAuth();
-
-		console.log('logged', isLoggedIn);
-
 		const pathname = window.location.pathname;
 		if (
 			(pathname.localeCompare(ROUTE.HOME) == 0 ||

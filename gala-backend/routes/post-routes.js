@@ -65,7 +65,7 @@ const getNearbyPosts = async (req, res, next) => {
 	const rangeSearch = req.body.range;
 	let startDate = req.body.startDate;
 	let endDate = req.body.endDate;
-	console.log(req.body);
+	// console.log(req.body);
 	// const addressCoords = await getCoordinates(req.body.address);
 	const addressCoords = [req.body.longitude, req.body.latitude];
 	try {
@@ -84,7 +84,7 @@ const getNearbyPosts = async (req, res, next) => {
 		if (!doc) {
 			return res.json({});
 		} else {
-			console.log(doc);
+			// console.log(doc);
 			if (req.body.startDate && req.body.endDate) {
 				let startDateCast = new Date(req.body.startDate);
 				let endDateCast = new Date(req.body.endDate);
