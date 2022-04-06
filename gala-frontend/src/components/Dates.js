@@ -22,7 +22,6 @@ function Dates() {
 
 	useEffect(async () => {
 		const entryDataRaw = await getDates();
-		console.log(entryDataRaw);
 
 		const entryDataUpcomingProcessed = entryDataRaw.data.upcomingDates.map(item => {
 			const titleCleaned = item.postId.title.toUpperCase();
@@ -43,7 +42,7 @@ function Dates() {
 			const startDateCleaned = month + '/' + day + '/' + year;
 			const status = item.dateStatus;
 			const firstName = item.hostInfo.firstName;
-			const rating = item.hostInfo.rating;
+			const profileRating = item.hostInfo.rating;
 			// todo after claire updates backend
 			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
 			let textHash =
@@ -72,10 +71,10 @@ function Dates() {
 				state: stateAddress,
 				distance: distance,
 				startDateObject: startDateObject,
-				startDateCleand: startDateCleaned,
+				startDateCleaned: startDateCleaned,
 				status: status,
 				firstName: firstName,
-				rating: rating,
+				profileRating: profileRating,
 				profileImage: profileImage,
 				textHash: textHash,
 			};
@@ -103,7 +102,7 @@ function Dates() {
 			const startDateCleaned = month + '/' + day + '/' + year;
 			const status = '';
 			const firstName = item.hostInfo.firstName;
-			const rating = item.hostInfo.rating;
+			const profileRating = item.hostInfo.rating;
 			// todo after claire updates backend
 			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
 			let textHash =
@@ -132,10 +131,10 @@ function Dates() {
 				state: stateAddress,
 				distance: distance,
 				startDateObject: startDateObject,
-				startDateCleand: startDateCleaned,
+				startDateCleaned: startDateCleaned,
 				status: status,
 				firstName: firstName,
-				rating: rating,
+				profileRating: profileRating,
 				profileImage: profileImage,
 				textHash: textHash,
 			};
@@ -192,7 +191,7 @@ function Dates() {
 				state: stateAddress,
 				distance: distance,
 				startDateObject: startDateObject,
-				startDateCleand: startDateCleaned,
+				startDateCleaned: startDateCleaned,
 				status: status,
 				firstName: firstName,
 				profileRating: profileRating,
@@ -229,54 +228,52 @@ function Dates() {
 		}
 	};
 
-	// const handleSorting = isReceived => {
-	// 	var sortType = 'highest';
-	// 	if (isReceived) {
-	// 		if (document.getElementById('BidsReceivedToolbarSort') !== null) {
-	// 			sortType = document.getElementById('BidsReceivedToolbarSort').value;
-	// 		}
-	// 	} else {
-	// 		if (document.getElementById('BidsSentToolbarSort') !== null) {
-	// 			sortType = document.getElementById('BidsSentToolbarSort').value;
-	// 		}
-	// 	}
+	const handleSorting = sectionType => {
+		var sortType = 'latest';
+		if (sectionType === 'upcoming') {
+			if (document.getElementById('DatesUpcomingToolbarSort') !== null) {
+				sortType = document.getElementById('DatesUpcomingToolbarSort').value;
+			}
+		} else if (sectionType === 'created') {
+			if (document.getElementById('DatesCreatedToolbarSort') !== null) {
+				sortType = document.getElementById('DatesCreatedToolbarSort').value;
+			}
+		} else if (sectionType === 'past') {
+			if (document.getElementById('DatesPastToolbarSort') !== null) {
+				sortType = document.getElementById('DatesPastToolbarSort').value;
+			}
+		}
 
-	// 	var entryDataProcessed;
-	// 	if (isReceived) {
-	// 		entryDataProcessed = entryDataRecCleaned;
-	// 	} else {
-	// 		entryDataProcessed = entryDataSentCleaned;
-	// 	}
+		var entryDataProcessed;
+		if (sectionType === 'upcoming') {
+			entryDataProcessed = entryDataUpcomingCleaned;
+		} else if (sectionType === 'created') {
+			entryDataProcessed = entryDataCreatedCleaned;
+		} else if (sectionType === 'past') {
+			entryDataProcessed = entryDataPastCleaned;
+		}
 
-	// 	switch (sortType) {
-	// 		case 'highest':
-	// 			entryDataProcessed = entryDataProcessed.sort((a, b) => {
-	// 				return b.bidAmountNum - a.bidAmountNum;
-	// 			});
-	// 			break;
-	// 		case 'lowest':
-	// 			entryDataProcessed = entryDataProcessed.sort((a, b) => {
-	// 				return a.bidAmountNum - b.bidAmountNum;
-	// 			});
-	// 			break;
-	// 		case 'most_recent':
-	// 			entryDataProcessed = entryDataProcessed.sort((a, b) => {
-	// 				return b.timestampObject - a.timestampObject;
-	// 			});
-	// 			break;
-	// 		case 'least_recent':
-	// 			entryDataProcessed = entryDataProcessed.sort((a, b) => {
-	// 				return a.timestampObject - b.timestampObject;
-	// 			});
-	// 			break;
-	// 	}
+		switch (sortType) {
+			case 'latest':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return b.startDateObject - a.startDateObject;
+				});
+				break;
+			case 'earliest':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return a.startDateObject - b.startDateObject;
+				});
+				break;
+		}
 
-	// 	if (isReceived) {
-	// 		setEntryDataRecCleaned(entryDataProcessed.slice());
-	// 	} else {
-	// 		setEntryDataSentCleaned(entryDataProcessed.slice());
-	// 	}
-	// };
+		if (sectionType === 'upcoming') {
+			setEntryDataUpcomingCleaned(entryDataProcessed.slice());
+		} else if (sectionType === 'created') {
+			setEntryDataCreatedCleaned(entryDataProcessed.slice());
+		} else if (sectionType === 'past') {
+			setEntryDataPastCleaned(entryDataProcessed.slice());
+		}
+	};
 
 	const [collapseFirst, setCollapseFirst] = useState(false);
 	const [collapseSecond, setCollapseSecond] = useState(false);
@@ -351,14 +348,14 @@ function Dates() {
 										placeholder='Search by keyword'
 										onChange={e => handleToolbarSearch('upcoming')}></input>
 									<select
-										name='upcoming-dates-sort'
-										id='upcoming-dates-sort'
-										className='BidsToolbarSelect'>
-										<option value='most_recent' selected disabled hidden>
+										id='DatesUpcomingToolbarSort'
+										className='BidsToolbarSelect'
+										onChange={e => handleSorting('upcoming')}>
+										<option value='latest' selected disabled hidden>
 											Sort by
 										</option>
-										<option value='most_recent'>Most recent</option>
-										<option value='least_recent'>Least recent</option>
+										<option value='latest'>Latest</option>
+										<option value='earliest'>Earliest</option>
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
@@ -436,14 +433,14 @@ function Dates() {
 										placeholder='Search by keyword'
 										onChange={e => handleToolbarSearch('created')}></input>
 									<select
-										name='created-dates-sort'
-										id='created-dates-sort'
-										className='BidsToolbarSelect'>
-										<option value='most_recent' selected disabled hidden>
+										id='DatesCreatedToolbarSort'
+										className='BidsToolbarSelect'
+										onChange={e => handleSorting('created')}>
+										<option value='latest' selected disabled hidden>
 											Sort by
 										</option>
-										<option value='most_recent'>Most recent</option>
-										<option value='least_recent'>Least recent</option>
+										<option value='latest'>Latest</option>
+										<option value='earliest'>Earliest</option>
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
@@ -514,12 +511,15 @@ function Dates() {
 										className='BidsToolbarSearch'
 										placeholder='Search by keyword'
 										onChange={e => handleToolbarSearch('past')}></input>
-									<select name='past-dates-sort' id='past-dates-sort' className='BidsToolbarSelect'>
-										<option value='most_recent' selected disabled hidden>
+									<select
+										id='DatesPastToolbarSort'
+										className='BidsToolbarSelect'
+										onChange={e => handleSorting('past')}>
+										<option value='latest' selected disabled hidden>
 											Sort by
 										</option>
-										<option value='most_recent'>Most recent</option>
-										<option value='least_recent'>Least recent</option>
+										<option value='latest'>Latest</option>
+										<option value='earliest'>Earliest</option>
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
