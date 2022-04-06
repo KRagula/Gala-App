@@ -7,6 +7,9 @@ export const createPost = postData => {
 	axios
 		.post(`${serverConfig.backendURL}${routeExperience.makePost}`, postData, {
 			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
 		})
 		.then(response => {
 			if (response.data.statusMessage == 'Saved') {
@@ -23,6 +26,9 @@ export const getNearbyPosts = locationData => {
 	return axios
 		.post(`${serverConfig.backendURL}/experience/get-nearby-posts`, locationData, {
 			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
 		})
 		.then(res => res)
 		.catch(err => {

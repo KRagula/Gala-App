@@ -17,6 +17,7 @@ export const uploadFile = async (file, email) => {
 		.post(`${serverConfig.backendURL}${routeAWS.fileUpload}`, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
+				'x-access-token': localStorage.getItem('token'),
 			},
 		})
 		.then(res => res)

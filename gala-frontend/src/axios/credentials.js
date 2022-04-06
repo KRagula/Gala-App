@@ -4,6 +4,18 @@ import serverConfig from '../configurations/server-config.js';
 import routeCredential from '../configurations/route-credential-config.js';
 import ROUTE from '../configurations/route-frontend-config.js';
 
+export const isAuth = async () => {
+	return axios
+		.get(`${serverConfig.backendURL}/credential/isauth`, {
+			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
+		})
+		.then(res => res.data.isLoggedIn)
+		.catch(() => false);
+};
+
 export const login = credentials => {
 	axios
 		.post(`${serverConfig.backendURL}${routeCredential.login}`, credentials, {
@@ -17,6 +29,8 @@ export const login = credentials => {
 				// document.cookie('lastname', response.data.lastname)
 				//console.log(response.getResponseHeader('Set-Cookie'))
 				//console.log(response.headers.cookie)
+
+				localStorage.setItem('token', response.data.token);
 				window.location = ROUTE.EXPLORE;
 			}
 		})

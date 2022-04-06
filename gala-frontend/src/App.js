@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Homepage from './components/Homepage';
@@ -22,8 +22,35 @@ import Update from './components/Update';
 import './css/App.css';
 
 import ROUTE from './configurations/route-frontend-config.js';
+import { isAuth } from './axios/credentials.js';
 
 function App() {
+	useEffect(async () => {
+		console.log('local', window.location.pathname);
+		const isLoggedIn = await isAuth();
+
+		console.log('logged', isLoggedIn);
+
+		const pathname = window.location.pathname;
+		if (
+			(pathname.localeCompare(ROUTE.HOME) == 0 ||
+				pathname.localeCompare(ROUTE.SIGNUP) == 0 ||
+				pathname.localeCompare(ROUTE.LOGIN) == 0) &&
+			isLoggedIn
+		) {
+			window.location = ROUTE.EXPLORE;
+		} else if (
+			!(
+				pathname.localeCompare(ROUTE.HOME) == 0 ||
+				pathname.localeCompare(ROUTE.SIGNUP) == 0 ||
+				pathname.localeCompare(ROUTE.LOGIN) == 0
+			) &&
+			!isLoggedIn
+		) {
+			window.location = ROUTE.LOGIN;
+		}
+	}, []);
+
 	return (
 		<React.Fragment>
 			<BrowserRouter>

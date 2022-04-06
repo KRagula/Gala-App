@@ -48,40 +48,45 @@ app.use(morgan('tiny'));
 app.use(compression());
 app.use(helmet());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 /** AWS ENDPOINTS **/
 app.post('/aws/fileupload', awsRoutes.uploadFile);
-app.delete('/aws/filedelete', awsRoutes.deleteFile);
+app.delete('/aws/filedelete', tokenHandlers.verifyJWT, awsRoutes.deleteFile);
 
 /** PAYMENT ENDPOINTS **/
-app.post('/payment/pay', paymentRoutes.pay);
-app.get('/payment/success', paymentRoutes.success);
-app.get('/payment/cancel', paymentRoutes.cancel);
+app.post('/payment/pay', tokenHandlers.verifyJWT, paymentRoutes.pay);
+app.get('/payment/success', tokenHandlers.verifyJWT, paymentRoutes.success);
+app.get('/payment/cancel', tokenHandlers.verifyJWT, paymentRoutes.cancel);
 
 /** CREDENTIAL ENDPOINTS **/
 app.post('/credential/signup', credentialRoutes.signup);
 app.post('/credential/login', credentialRoutes.login);
+app.get('/credential/isauth', tokenHandlers.verifyJWT, credentialRoutes.isAuth);
 
 /** EXPERIENCE ENDPOINTS **/
-app.post('/experience/make-post', postRoutes.postNew);
-app.post('/experience/get-city-posts', postRoutes.getCityPosts);
-app.post('/experience/get-nearby-posts', postRoutes.getNearbyPosts);
-app.get('/experience/bids-sent/:username', bidRoutes.getBidsSent);
-app.get('/experience/bids-received/:username', bidRoutes.getBidsReceived);
-app.post('/experience/offer-bid/:postId', bidRoutes.offerBid);
-app.get('/experience/offer-bid/:postId', bidRoutes.postInfo);
+app.post('/experience/make-post', tokenHandlers.verifyJWT, postRoutes.postNew);
+app.post('/experience/get-city-posts', tokenHandlers.verifyJWT, postRoutes.getCityPosts);
+app.post('/experience/get-nearby-posts', tokenHandlers.verifyJWT, postRoutes.getNearbyPosts);
+app.get('/experience/bids-sent/:username', tokenHandlers.verifyJWT, bidRoutes.getBidsSent);
+app.get('/experience/bids-received/:username', tokenHandlers.verifyJWT, bidRoutes.getBidsReceived);
+app.post('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.offerBid);
+app.get('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
+
+/** CONFIRM BID ENDPOINTS **/
+app.put('/experience/confirm-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.confirmBid);
+app.delete('/experience/delete-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.deleteBid);
 
 /** PROFILE ENDPOINTS **/
-app.get('/profile/:profileid', profileRoutes.getProfile);
+app.get('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.getProfile);
 
+/** EMAIL ENDPOINTS **/
+app.get('/bidConfirm', tokenHandlers.verifyJWT, emailRoutes.bidConfirm);
 
 /** ERROR HANDLING **/
 app.use(errorHandlers.errorLogger);
 app.use(errorHandlers.errorResponder);
 
-/** EMAIL ENDPOINTS **/
-
-app.get('/bidConfirm', emailRoutes.bidConfirm);
 console.log(
 	'Authors: Edward Kim (kime022), Claire Wang (waclaire), Robin Tan (robintan), Kanishka Ragula (kragula)'
 );

@@ -22,7 +22,6 @@ const uploadFileHelper = (buffer, name, type) => {
 };
 
 const userFileUploadHelper = async (data, email) => {
-	console.log('email', email);
 	const filter = { email: email };
 	const update = {
 		profilePictureLink: data.Location,
