@@ -45,7 +45,16 @@ const editProfile = async (req, res, next) => {
 			funFact: req.body.funFact,
 			interests: req.body.interests,
 		};
-		await userTemplate.findOneAndUpdate(filter, update, { new: true });
+		const doc = await userTemplate.findOneAndUpdate(filter, update, { new: true });
+
+		const options = {
+			maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+		};
+		res.cookie('firstName', doc.firstName, options);
+		res.cookie('lastName', doc.lastName, options);
+		res.cookie('email', doc.email, options);
+		res.cookie('userId', doc._id.toString(), options);
+		res.json({ msg: 'success' });
 	} else {
 		return next(new InvalidCredentialError());
 	}

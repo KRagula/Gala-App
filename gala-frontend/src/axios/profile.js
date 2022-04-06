@@ -16,3 +16,17 @@ export const getProfile = async () => {
 			console.log(error);
 		});
 };
+
+export const editProfile = async profileInfo => {
+	return axios
+		.put(`${serverConfig.backendURL}/profile/${Cookies.get('userId')}`, profileInfo, {
+			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
+		})
+		.then(res => res.data)
+		.catch(error => {
+			console.log(error);
+		});
+};
