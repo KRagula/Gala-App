@@ -7,6 +7,7 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import ROUTE from '../configurations/route-frontend-config.js';
 
 function DatesEntry(props) {
+	console.log(props);
 	return (
 		<React.Fragment>
 			<div className='DatesEntryPaper'>

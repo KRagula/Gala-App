@@ -207,6 +207,77 @@ function Dates() {
 		setShowDatesEntries(true);
 	}, []);
 
+	const handleToolbarSearch = sectionType => {
+		if (sectionType === 'upcoming') {
+			const searchText = document.getElementById('DatesUpcomingToolbarSearch').value.trim();
+			const entryDataProcessed = entryDataUpcoming.filter(item => {
+				return item.textHash.includes(searchText.toLowerCase());
+			});
+			setEntryDataUpcomingCleaned(entryDataProcessed);
+		} else if (sectionType === 'created') {
+			const searchText = document.getElementById('DatesCreatedToolbarSearch').value.trim();
+			const entryDataProcessed = entryDataCreated.filter(item => {
+				return item.textHash.includes(searchText.toLowerCase());
+			});
+			setEntryDataCreatedCleaned(entryDataProcessed);
+		} else if (sectionType === 'past') {
+			const searchText = document.getElementById('DatesPastToolbarSearch').value.trim();
+			const entryDataProcessed = entryDataPast.filter(item => {
+				return item.textHash.includes(searchText.toLowerCase());
+			});
+			setEntryDataPastCleaned(entryDataProcessed);
+		}
+	};
+
+	// const handleSorting = isReceived => {
+	// 	var sortType = 'highest';
+	// 	if (isReceived) {
+	// 		if (document.getElementById('BidsReceivedToolbarSort') !== null) {
+	// 			sortType = document.getElementById('BidsReceivedToolbarSort').value;
+	// 		}
+	// 	} else {
+	// 		if (document.getElementById('BidsSentToolbarSort') !== null) {
+	// 			sortType = document.getElementById('BidsSentToolbarSort').value;
+	// 		}
+	// 	}
+
+	// 	var entryDataProcessed;
+	// 	if (isReceived) {
+	// 		entryDataProcessed = entryDataRecCleaned;
+	// 	} else {
+	// 		entryDataProcessed = entryDataSentCleaned;
+	// 	}
+
+	// 	switch (sortType) {
+	// 		case 'highest':
+	// 			entryDataProcessed = entryDataProcessed.sort((a, b) => {
+	// 				return b.bidAmountNum - a.bidAmountNum;
+	// 			});
+	// 			break;
+	// 		case 'lowest':
+	// 			entryDataProcessed = entryDataProcessed.sort((a, b) => {
+	// 				return a.bidAmountNum - b.bidAmountNum;
+	// 			});
+	// 			break;
+	// 		case 'most_recent':
+	// 			entryDataProcessed = entryDataProcessed.sort((a, b) => {
+	// 				return b.timestampObject - a.timestampObject;
+	// 			});
+	// 			break;
+	// 		case 'least_recent':
+	// 			entryDataProcessed = entryDataProcessed.sort((a, b) => {
+	// 				return a.timestampObject - b.timestampObject;
+	// 			});
+	// 			break;
+	// 	}
+
+	// 	if (isReceived) {
+	// 		setEntryDataRecCleaned(entryDataProcessed.slice());
+	// 	} else {
+	// 		setEntryDataSentCleaned(entryDataProcessed.slice());
+	// 	}
+	// };
+
 	const [collapseFirst, setCollapseFirst] = useState(false);
 	const [collapseSecond, setCollapseSecond] = useState(false);
 	const [collapseThird, setCollapseThird] = useState(false);
@@ -274,7 +345,11 @@ function Dates() {
 						{!collapseFirst ? (
 							<div>
 								<div className='BidsToolbarArea'>
-									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<input
+										id='DatesUpcomingToolbarSearch'
+										className='BidsToolbarSearch'
+										placeholder='Search by keyword'
+										onChange={e => handleToolbarSearch('upcoming')}></input>
 									<select
 										name='upcoming-dates-sort'
 										id='upcoming-dates-sort'
@@ -289,9 +364,9 @@ function Dates() {
 								<div className='BidsEntryArea'>
 									{showDatesEntries ? (
 										<div>
-											{entryDataCreatedCleaned.length > 0 ? (
+											{entryDataUpcomingCleaned.length > 0 ? (
 												<React.Fragment>
-													{entryDataCreatedCleaned.map(data => {
+													{entryDataUpcomingCleaned.map(data => {
 														return (
 															<DatesEntry
 																isUpcoming={true}
@@ -333,8 +408,6 @@ function Dates() {
 											/>
 										</div>
 									)}
-									<DatesEntry isUpcoming={true} isOngoing={true} />
-									<DatesEntry isUpcoming={true} isOngoing={false} />
 								</div>
 							</div>
 						) : (
@@ -357,7 +430,11 @@ function Dates() {
 						{!collapseSecond ? (
 							<div>
 								<div className='BidsToolbarArea'>
-									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<input
+										id='DatesCreatedToolbarSearch'
+										className='BidsToolbarSearch'
+										placeholder='Search by keyword'
+										onChange={e => handleToolbarSearch('created')}></input>
 									<select
 										name='created-dates-sort'
 										id='created-dates-sort'
@@ -370,7 +447,46 @@ function Dates() {
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
-									<DatesEntry isUpcoming={false} isOwn={true} />
+									{showDatesEntries ? (
+										<div>
+											{entryDataCreatedCleaned.length > 0 ? (
+												<React.Fragment>
+													{entryDataCreatedCleaned.map(data => {
+														return <DatesEntry isUpcoming={false} isOwn={true} data={data} />;
+													})}
+												</React.Fragment>
+											) : (
+												<div> No entries found.</div>
+											)}
+										</div>
+									) : (
+										<div>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+										</div>
+									)}
 								</div>
 							</div>
 						) : (
@@ -393,7 +509,11 @@ function Dates() {
 						{!collapseThird ? (
 							<div>
 								<div className='BidsToolbarArea'>
-									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<input
+										id='DatesPastToolbarSearch'
+										className='BidsToolbarSearch'
+										placeholder='Search by keyword'
+										onChange={e => handleToolbarSearch('past')}></input>
 									<select name='past-dates-sort' id='past-dates-sort' className='BidsToolbarSelect'>
 										<option value='most_recent' selected disabled hidden>
 											Sort by
@@ -403,9 +523,46 @@ function Dates() {
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
-									<DatesEntry isUpcoming={false} />
-									<DatesEntry isUpcoming={false} />
-									<DatesEntry isUpcoming={false} />
+									{showDatesEntries ? (
+										<div>
+											{entryDataPastCleaned.length > 0 ? (
+												<React.Fragment>
+													{entryDataPastCleaned.map(data => {
+														return <DatesEntry isUpcoming={false} data={data} />;
+													})}
+												</React.Fragment>
+											) : (
+												<div> No entries found.</div>
+											)}
+										</div>
+									) : (
+										<div>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+										</div>
+									)}
 								</div>
 							</div>
 						) : (
