@@ -163,7 +163,7 @@ function Dates() {
 			const startDateCleaned = month + '/' + day + '/' + year;
 			const status = item.dateStatus;
 			const firstName = item.hostInfo.firstName;
-			const rating = item.hostInfo.rating;
+			const profileRating = item.hostInfo.rating;
 			// todo after claire updates backend
 			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
 			let textHash =
@@ -195,7 +195,7 @@ function Dates() {
 				startDateCleand: startDateCleaned,
 				status: status,
 				firstName: firstName,
-				rating: rating,
+				profileRating: profileRating,
 				profileImage: profileImage,
 				textHash: textHash,
 			};
@@ -287,6 +287,52 @@ function Dates() {
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
+									{showDatesEntries ? (
+										<div>
+											{entryDataCreatedCleaned.length > 0 ? (
+												<React.Fragment>
+													{entryDataCreatedCleaned.map(data => {
+														return (
+															<DatesEntry
+																isUpcoming={true}
+																isOngoing={data.status === 'Ongoing'}
+																data={data}
+															/>
+														);
+													})}
+												</React.Fragment>
+											) : (
+												<div> No entries found.</div>
+											)}
+										</div>
+									) : (
+										<div>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+										</div>
+									)}
 									<DatesEntry isUpcoming={true} isOngoing={true} />
 									<DatesEntry isUpcoming={true} isOngoing={false} />
 								</div>
