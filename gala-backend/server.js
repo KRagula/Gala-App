@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
-import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 
@@ -52,7 +51,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 /** AWS ENDPOINTS **/
-app.post('/aws/fileupload', tokenHandlers.verifyJWT, awsRoutes.uploadFile);
+app.post('/aws/fileupload', awsRoutes.uploadFile);
 app.delete('/aws/filedelete', tokenHandlers.verifyJWT, awsRoutes.deleteFile);
 
 /** PAYMENT ENDPOINTS **/
