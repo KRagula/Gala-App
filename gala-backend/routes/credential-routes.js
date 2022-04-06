@@ -35,7 +35,7 @@ const signup = async (req, res, next) => {
 		signupData = await signedUpUser.save(postId => {});
 		console.log(signupData);
 		const options = {
-			maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+			maxAge: 10000 * 60 * 60,
 		};
 
 		res.cookie('first-name', req.body.firstName, options);
@@ -72,25 +72,25 @@ const login = async (req, res, next) => {
 			jwt.sign(payload, serverConfig.jwtSecret, { expiresIn: 86400 }, (err, token) => {
 				if (err) return next(new ServerError(serverErrorTypes.generic, err));
 
+				const options = {
+					maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+				};
+				res.cookie('firstName', doc.firstName, options);
+				res.cookie('lastName', doc.lastName, options);
+				res.cookie('email', doc.email, options);
+				res.cookie('userId', doc._id.toString(), options);
+				if (doc.rating) {
+					res.cookie('rating', doc.rating, options);
+				} else {
+					res.cookie('rating', 5, options);
+				}
+
 				return res.json({
 					message: 'Success',
 					token: 'Bearer ' + token,
 					data: 'data',
 				});
 			});
-
-			//   var nameCookie = 'firstname=' + response2.firstName
-			//   var lastNameCookie = 'lastname=' + response2.lastName
-			//
-			// res.cookie('first-name', doc.firstName, options);
-			// res.cookie('email', doc.email, options);
-			// res.cookie('docid', doc._id, options);
-			// if (doc.rating) {
-			// 	res.cookie('rating', doc.rating, options);
-			// } else {
-			// 	res.cookie('rating', 5, options);
-			// }
-			// res.json({ firstname: doc.firstName, lastname: doc.lastName, data: 'data' });
 		} else return next(new InvalidCredentialError());
 	});
 };

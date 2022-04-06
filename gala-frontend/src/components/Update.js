@@ -1,4 +1,4 @@
-import React, { useState, useImage } from 'react';
+import React, { useState, useImage, useEffect } from 'react';
 import { Link, Route } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
@@ -12,6 +12,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { createPost } from '../axios/posts.js';
+import { getProfile } from '../axios/profile.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -29,10 +30,19 @@ const defaultMaskOptions = {
 const MAX_NUM_TAGS = 10;
 
 function Update() {
-	const [interestsList, setInterestsList] = useState(['food', 'dancing', 'bowling']);
+	const [interestsList, setInterestsList] = useState([]);
 	const [showTagInsn, setShowTagInsn] = useState(false);
-
+	const [profileInfo, setProfileInfo] = useState({});
 	const [selectedImage, setSelectedImage] = useState(null);
+
+	useEffect(async () => {
+		const res = await getProfile();
+		setProfileInfo(res);
+
+		if (res.interests) {
+			setInterestsList(res.interests);
+		}
+	}, []);
 
 	const ageMask = createNumberMask({
 		...defaultMaskOptions,
@@ -68,6 +78,10 @@ function Update() {
 		if (index > -1) {
 			setInterestsList(interestsList.filter(val => val !== tagVal));
 		}
+	};
+
+	const onSubmitClick = () => {
+		console.log('HERE');
 	};
 
 	// controller state
@@ -110,7 +124,7 @@ function Update() {
 							<input
 								className='UpdateFormRowInput Name'
 								placeholder='First Name'
-								defaultValue='Kanishka'
+								defaultValue={profileInfo.firstName}
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -118,7 +132,7 @@ function Update() {
 							<input
 								className='UpdateFormRowInput Name'
 								placeholder='Last Name'
-								defaultValue='Ragula'
+								defaultValue={profileInfo.lastName}
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow Proof'>
@@ -140,7 +154,11 @@ function Update() {
 								</div>
 							) : (
 								<div className='UpdateFormProfilePictureWrapper'>
-									<img className='UpdateFormProfilePicture' alt={defaultImage} src={testImage} />
+									<img
+										className='UpdateFormProfilePicture'
+										alt={defaultImage}
+										src={profileInfo.profilePictureLink}
+									/>
 								</div>
 							)}
 						</div>
@@ -149,7 +167,7 @@ function Update() {
 							<input
 								className='UpdateFormRowInput LongText'
 								placeholder='Headline about yourself'
-								defaultValue="Hi! I'm Kanishka and I'm an investment banker."
+								defaultValue={profileInfo.headline}
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -158,7 +176,7 @@ function Update() {
 								className='UpdateFormRowInput Age'
 								mask={ageMask}
 								placeholder='Age'
-								value='20'
+								value={profileInfo.age ? profileInfo.age : ''}
 							/>
 						</div>
 						<div className='CreateFormRow'>
@@ -167,8 +185,8 @@ function Update() {
 								<option value='unspecified' selected disabled>
 									Unspecified
 								</option>
-								<option value='man'>Man</option>
-								<option value='woman'>Woman</option>
+								<option value='male'>Man</option>
+								<option value='female'>Woman</option>
 								<option value='other'>Other</option>
 							</select>
 						</div>
@@ -177,7 +195,7 @@ function Update() {
 							<input
 								className='UpdateFormRowInput LongText'
 								placeholder='Headline about yourself'
-								defaultValue='I have a twin brother.'
+								defaultValue={profileInfo.funFact}
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -219,7 +237,9 @@ function Update() {
 						</div>
 						<div className='CreateFormButtonArea'>
 							<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
-								<div className='CreateFormButton Submit'>Submit</div>
+								<div className='CreateFormButton Submit' onClick={onSubmitClick}>
+									Submit
+								</div>
 							</Link>
 							<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
 								<div className='CreateFormButton Clear'>Back</div>
