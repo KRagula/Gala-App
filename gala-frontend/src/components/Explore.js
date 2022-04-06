@@ -126,7 +126,7 @@ function Explore() {
 
 	const handleSorting = () => {
 		const sortType = document.getElementById('ExploreToolbarSelect').value;
-		let entryDataProcessed = entryData;
+		let entryDataProcessed = entryDataCleaned;
 		switch (sortType) {
 			case 'earliest':
 				entryDataProcessed = entryDataCleaned.sort((a, b) => {
@@ -144,7 +144,6 @@ function Explore() {
 				});
 				break;
 			case 'least_recent':
-				console.log('hello');
 				entryDataProcessed = entryDataCleaned.sort((a, b) => {
 					return a.timeCreatedObject - b.timeCreatedObject;
 				});

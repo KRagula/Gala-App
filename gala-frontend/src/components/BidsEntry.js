@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import '../css/BidsEntry.css';
-import testImage from '../assets/kanishka.jpeg';
-import testImage2 from '../assets/claire.jpeg';
+import defaultImage from '../assets/default.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -17,24 +16,38 @@ function BidsEntry(props) {
 				<div className='BidsEntryPaper'>
 					<div className='ExploreEntryProfileAreaWrapper'>
 						<div className='ExploreEntryProfileArea'>
-							<img src={testImage} className='ExploreEntryProfileImage' />
-							<div className='ExploreEntryProfileText'>Kanishka</div>
+							<img
+								src={props.data.profileImage}
+								alt={defaultImage}
+								className='ExploreEntryProfileImage'
+							/>
+							<div className='ExploreEntryProfileText'>{props.data.profileName}</div>
 							<div className='ExploreEntryProfileStars'>
-								<FaStar fontSize='11px' color='#424242' />
-								<FaStar fontSize='11px' color='#424242' />
-								<FaStarHalfAlt fontSize='11px' color='#424242' />
-								<FaRegStar fontSize='11px' color='#424242' />
-								<FaRegStar fontSize='11px' color='#424242' />
+								{[...Array(5)].map((x, i) => {
+									return props.data.profileRating >= i + 1 ? (
+										<FaStar fontSize='11px' color='#424242' />
+									) : (
+										<React.Fragment>
+											{props.data.profileRating > i ? (
+												<FaStarHalfAlt fontSize='11px' color='#424242' />
+											) : (
+												<FaRegStar fontSize='11px' color='#424242' />
+											)}
+										</React.Fragment>
+									);
+								})}
 							</div>
 						</div>
 					</div>
 					<div className='ExploreEntryRightArea'>
 						<div className='ExploreEntryDescriptionArea'>
 							<div className='BidsEntryDescriptionTitle'>
-								<div className='ExploreEntryDescriptionTitleMain'>PITBULL CONCERT</div>
-								<div className='BidsEntryDescriptionTitleSub'>Auction Price: $50.00</div>
+								<div className='ExploreEntryDescriptionTitleMain'>{props.data.title}</div>
 								<div className='BidsEntryDescriptionTitleSub'>
-									Highest Bid: <b>$60.00</b>
+									Auction Price: ${props.data.auctionPrice}
+								</div>
+								<div className='BidsEntryDescriptionTitleSub'>
+									Highest Bid: <b>${props.data.highestBid}</b>
 								</div>
 							</div>
 						</div>
@@ -44,9 +57,9 @@ function BidsEntry(props) {
 									<div className='BidsEntryBottomLeftAreaRowChevron'>
 										<FontAwesomeIcon icon={faChevronRight} />
 									</div>
-									Kanishka's Bid:
+									{props.data.profileName}'s Bid:
 									<div className='BidsEntryBottomLeftAreaRowPrice'>
-										<b>$55.00</b>
+										<b>${props.data.bidAmount}</b>
 									</div>
 								</div>
 							</div>
@@ -66,24 +79,38 @@ function BidsEntry(props) {
 				<div className='BidsEntryPaper'>
 					<div className='ExploreEntryProfileAreaWrapper'>
 						<div className='ExploreEntryProfileArea'>
-							<img src={testImage2} className='ExploreEntryProfileImage' />
-							<div className='ExploreEntryProfileText'>Claire</div>
+							<img
+								src={props.data.profileImage}
+								alt={defaultImage}
+								className='ExploreEntryProfileImage'
+							/>
+							<div className='ExploreEntryProfileText'>{props.data.profileName}</div>
 							<div className='ExploreEntryProfileStars'>
-								<FaStar fontSize='11px' color='#424242' />
-								<FaStar fontSize='11px' color='#424242' />
-								<FaStar fontSize='11px' color='#424242' />
-								<FaStar fontSize='11px' color='#424242' />
-								<FaStarHalfAlt fontSize='11px' color='#424242' />
+								{[...Array(5)].map((x, i) => {
+									return props.data.profileRating >= i + 1 ? (
+										<FaStar fontSize='11px' color='#424242' />
+									) : (
+										<React.Fragment>
+											{props.data.profileRating > i ? (
+												<FaStarHalfAlt fontSize='11px' color='#424242' />
+											) : (
+												<FaRegStar fontSize='11px' color='#424242' />
+											)}
+										</React.Fragment>
+									);
+								})}
 							</div>
 						</div>
 					</div>
 					<div className='ExploreEntryRightArea'>
 						<div className='ExploreEntryDescriptionArea'>
 							<div className='BidsEntryDescriptionTitle'>
-								<div className='ExploreEntryDescriptionTitleMain'>SKYDIVING LESSONS</div>
-								<div className='BidsEntryDescriptionTitleSub'>Auction Price: $100.00</div>
+								<div className='ExploreEntryDescriptionTitleMain'>{props.data.title}</div>
 								<div className='BidsEntryDescriptionTitleSub'>
-									Highest Bid: <b>{props.data.highestBid}</b>
+									Auction Price: ${props.data.auctionPrice}
+								</div>
+								<div className='BidsEntryDescriptionTitleSub'>
+									Highest Bid: <b>${props.data.highestBid}</b>
 								</div>
 							</div>
 						</div>
@@ -96,7 +123,7 @@ function BidsEntry(props) {
 										</div>
 										Your Bid:
 										<div className='BidsEntryBottomLeftAreaRowPrice'>
-											<b>{props.data.bidAmount}</b>
+											<b>${props.data.bidAmount}</b>
 										</div>
 									</div>
 								</div>

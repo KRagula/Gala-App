@@ -24,13 +24,14 @@ function Bids() {
 		const entryDataRecProcessed = entryDataRecRaw.data.map(item => {
 			const bidAmount = item.bidAmount;
 			const highestBid = item.highestBid;
-			const title = item.postId.title;
+			const title = item.postId.title.toUpperCase();
 			const auctionPrice = item.postId.price;
-			const bidderName = item.user_profile[0].firstName;
-			const bidderRating = 2.5; // todo after claire updates backend
-			const bidderImage = item.user_profile[0].profilePicture;
+			const profileName = item.user_profile[0].firstName;
+			const profileRating = Math.round(2.5 * 2) / 2; // todo after claire updates backend
+			// const profileImage = item.user_profile[0].profilePicture; // todo after claire updates backend
+			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
 			const timestampObject = new Date(); // todo after claire updates backend
-			const textHash =
+			let textHash =
 				bidAmount +
 				'#' +
 				highestBid +
@@ -39,20 +40,21 @@ function Bids() {
 				'#' +
 				auctionPrice +
 				'#' +
-				bidderName +
+				profileName +
 				'#' +
-				bidderRating +
+				profileRating +
 				'#' +
-				bidderImage;
+				profileImage;
+			textHash = textHash.toLowerCase();
 
 			return {
 				bidAmount: bidAmount,
 				highestBid: highestBid,
 				title: title,
 				auctionPrice: auctionPrice,
-				bidderName: bidderName,
-				bidderRating: bidderRating,
-				bidderImage: bidderImage,
+				profileName: profileName,
+				profileRating: profileRating,
+				profileImage: profileImage,
 				timestampObject: timestampObject,
 				textHash: textHash,
 			};
@@ -62,18 +64,17 @@ function Bids() {
 		setEntryDataRecCleaned(entryDataRecProcessed);
 
 		const entryDataSentRaw = await getBidsSent();
-		console.log(entryDataSentRaw);
 
 		const entryDataSentProcessed = entryDataSentRaw.data.map(item => {
 			const bidAmount = item.bidAmount;
 			const highestBid = item.highestBid;
-			const title = item.postId.title;
+			const title = item.postId.title.toUpperCase();
 			const auctionPrice = item.postId.price;
-			const bidderName = item.user_profile[0].firstName;
-			const bidderRating = 2.5; // todo after claire updates backend
-			const bidderImage = item.user_profile[0].profilePicture;
+			const profileName = item.user_profile[0].firstName;
+			const profileRating = 2.5; // todo after claire updates backend
+			const profileImage = item.user_profile[0].profilePicture;
 			const timestampObject = new Date(); // todo after claire updates backend
-			const textHash =
+			let textHash =
 				bidAmount +
 				'#' +
 				highestBid +
@@ -82,20 +83,22 @@ function Bids() {
 				'#' +
 				auctionPrice +
 				'#' +
-				bidderName +
+				profileName +
 				'#' +
-				bidderRating +
+				profileRating +
 				'#' +
-				bidderImage;
+				profileImage;
+			textHash = textHash.toLowerCase();
+			console.log(textHash);
 
 			return {
 				bidAmount: bidAmount,
 				highestBid: highestBid,
 				title: title,
 				auctionPrice: auctionPrice,
-				bidderName: bidderName,
-				bidderRating: bidderRating,
-				bidderImage: bidderImage,
+				profileName: profileName,
+				profileRating: profileRating,
+				profileImage: profileImage,
 				timestampObject: timestampObject,
 				textHash: textHash,
 			};
@@ -106,6 +109,71 @@ function Bids() {
 
 		setShowBidsEntries(true);
 	}, []);
+
+	const handleToolbarSearch = isReceived => {
+		if (isReceived) {
+			const searchText = document.getElementById('BidsReceivedToolbarSearch').value.trim();
+			const entryDataProcessed = entryDataRec.filter(item => {
+				return item.textHash.includes(searchText.toLowerCase());
+			});
+			setEntryDataRecCleaned(entryDataProcessed);
+		} else {
+			const searchText = document.getElementById('BidsSentToolbarSearch').value.trim();
+			const entryDataProcessed = entryDataSent.filter(item => {
+				return item.textHash.includes(searchText.toLowerCase());
+			});
+			setEntryDataSentCleaned(entryDataProcessed);
+		}
+	};
+
+	const handleSorting = isReceived => {
+		var sortType = 'highest';
+		if (isReceived) {
+			if (document.getElementById('BidsReceivedToolbarSort') !== null) {
+				sortType = document.getElementById('BidsReceivedToolbarSort').value;
+			}
+		} else {
+			if (document.getElementById('BidsSentToolbarSort') !== null) {
+				sortType = document.getElementById('BidsSentToolbarSort').value;
+			}
+		}
+
+		var entryDataProcessed;
+		if (isReceived) {
+			entryDataProcessed = entryDataRecCleaned;
+		} else {
+			entryDataProcessed = entryDataSentCleaned;
+		}
+
+		switch (sortType) {
+			case 'highest':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return b.bidAmount - a.bidAmount;
+				});
+				break;
+			case 'lowest':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return a.bidAmount - b.bidAmount;
+				});
+				break;
+			case 'most_recent':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return b.timestampObject - a.timestampObject;
+				});
+				break;
+			case 'least_recent':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return a.timestampObject - b.timestampObject;
+				});
+				break;
+		}
+
+		if (isReceived) {
+			setEntryDataRecCleaned(entryDataProcessed.slice());
+		} else {
+			setEntryDataSentCleaned(entryDataProcessed.slice());
+		}
+	};
 
 	const [collapseFirst, setCollapseFirst] = useState(false);
 	const [collapseSecond, setCollapseSecond] = useState(false);
@@ -169,12 +237,16 @@ function Bids() {
 						{!collapseFirst ? (
 							<div>
 								<div className='BidsToolbarArea'>
-									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<input
+										id='BidsReceivedToolbarSearch'
+										className='BidsToolbarSearch'
+										placeholder='Search by keyword'
+										onChange={e => handleToolbarSearch(true)}></input>
 									<select
-										name='received-bids-sort'
-										id='received-bids-sort'
-										className='BidsToolbarSelect'>
-										<option value='none' selected disabled hidden>
+										id='BidsReceivedToolbarSort'
+										className='BidsToolbarSelect'
+										onChange={e => handleSorting(true)}>
+										<option value='highest' selected disabled hidden>
 											Sort by
 										</option>
 										<option value='highest'>Highest $$</option>
@@ -246,9 +318,16 @@ function Bids() {
 						{!collapseSecond ? (
 							<div>
 								<div className='BidsToolbarArea'>
-									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
-									<select name='sent-bids-sort' id='sent-bids-sort' className='BidsToolbarSelect'>
-										<option value='none' selected disabled hidden>
+									<input
+										id='BidsSentToolbarSearch'
+										className='BidsToolbarSearch'
+										placeholder='Search by keyword'
+										onChange={e => handleToolbarSearch(false)}></input>
+									<select
+										id='BidsSentToolbarSort'
+										className='BidsToolbarSelect'
+										onChange={e => handleSorting(false)}>
+										<option value='highest' selected disabled hidden>
 											Sort by
 										</option>
 										<option value='highest'>Highest $$</option>
