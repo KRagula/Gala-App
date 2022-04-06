@@ -5,13 +5,14 @@ import routeAWS from '../configurations/route-aws-config.js';
 
 export const fileUsage = {
 	profilePicture: 'profilePicture',
+	experienceFile: 'experienceFile',
 };
 
-export const uploadFile = async (file, email) => {
+export const uploadFile = async (file, id, type) => {
 	const formData = new FormData();
 	formData.append('file', file);
-	formData.append('fileusage', fileUsage.profilePicture);
-	formData.append('user', email);
+	formData.append('fileusage', type);
+	formData.append('user', id);
 
 	return axios
 		.post(`${serverConfig.backendURL}${routeAWS.fileUpload}`, formData, {

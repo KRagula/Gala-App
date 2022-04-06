@@ -34,7 +34,9 @@ const UserHeader = () => {
 					</div>
 				</div>
 				<div className='HeaderRightArea'>
-					<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
+					<Link
+						to={`${ROUTE.PROFILE}?id=${Cookies.get('userId')}`}
+						style={{ textDecoration: 'none' }}>
 						<div className='ProfileButton'>Profile</div>
 					</Link>
 					<div className='SignoutButton' onClick={cleanCookiesSignout}>

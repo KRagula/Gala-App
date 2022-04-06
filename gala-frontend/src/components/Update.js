@@ -13,7 +13,7 @@ import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { editProfile, getProfile } from '../axios/profile.js';
-import { uploadFile } from '../axios/aws.js';
+import { uploadFile, fileUsage } from '../axios/aws.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -44,7 +44,7 @@ function Update() {
 	const [profileInfo, setProfileInfo] = useState({});
 
 	useEffect(async () => {
-		const res = await getProfile();
+		const res = await getProfile(Cookies.get('userId'));
 		setProfileInfo(res);
 
 		setFirstName(res.firstName);
@@ -110,13 +110,12 @@ function Update() {
 			interests: interestsList,
 		};
 
-		console.log(formattedProfileInfo);
 		const res = await editProfile(formattedProfileInfo);
 		if (res && selectedImage) {
-			await uploadFile(selectedImage, Cookies.get('email'));
+			await uploadFile(selectedImage, Cookies.get('userId'), fileUsage.profilePicture);
 		}
 
-		if (res) window.location = ROUTE.PROFILE;
+		if (res) window.location = `${ROUTE.PROFILE}?id=${Cookies.get('userId')}`;
 	};
 
 	// controller state
@@ -177,6 +176,7 @@ function Update() {
 							<input
 								type='file'
 								className='UpdateFormProfileInput'
+								accept='image/png, image/jpeg'
 								onChange={event => {
 									setSelectedImage(event.target.files[0]);
 								}}
@@ -308,7 +308,9 @@ function Update() {
 								style={{ textDecoration: 'none' }}>
 								Submit
 							</div>
-							<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
+							<Link
+								to={`${ROUTE.PROFILE}?id=${Cookies.get('userId')}`}
+								style={{ textDecoration: 'none' }}>
 								<div className='CreateFormButton Clear'>Back</div>
 							</Link>
 						</div>

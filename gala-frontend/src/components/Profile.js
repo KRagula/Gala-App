@@ -8,8 +8,10 @@ import testImage from '../assets/kanishka.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { getProfile } from '../axios/profile.js';
+import defaultImg from '../assets/default.jpeg';
 
 import ROUTE from '../configurations/route-frontend-config.js';
+import Cookies from 'js-cookie';
 
 const { Anime } = ReactAnime;
 
@@ -17,6 +19,7 @@ function Profile(props) {
 	// controller state
 	const [control, setControl] = useState(null);
 	const [profileInfo, setProfileInfo] = useState({});
+	const [name, setName] = useState('your');
 
 	// meta state
 	const [meta, setMeta] = useState({
@@ -27,10 +30,16 @@ function Profile(props) {
 	});
 
 	useEffect(async () => {
-		const res = await getProfile();
+		const queryParams = new URLSearchParams(window.location.search);
+		const res = await getProfile(queryParams.get('id'));
 		if (res.rating) {
 			res.rating = Math.round(res.rating * 2) / 2;
 		}
+
+		if (queryParams.get('id') != Cookies.get('userId')) {
+			setName(`${res.firstName}'s`);
+		}
+
 		setProfileInfo(res);
 	}, []);
 
@@ -44,11 +53,6 @@ function Profile(props) {
 		easing: 'easeInOutExpo',
 	});
 
-	var name = "Kanishka's";
-	if (props.role === 'creator') {
-		name = 'your';
-	}
-
 	return (
 		<React.Fragment>
 			<UserHeader />
@@ -59,14 +63,14 @@ function Profile(props) {
 						<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
 							<div className='DashboardTitleText'>Profile</div>
 							<div className='DashboardTitleDot' />
-							<div className='DashboardDescriptionText'>View {name} user profile</div>
+							<div className='DashboardDescriptionText'>Viewing {name} user profile</div>
 						</div>
 					</div>
 					<div className='ListingArea'>
 						<div className='ListingProfileAreaWrapper'>
 							<div className='ExploreEntryProfileArea'>
 								<img
-									src={profileInfo.profilePictureLink ? profileInfo.profilePictureLink : null}
+									src={profileInfo.profilePictureLink ? profileInfo.profilePictureLink : defaultImg}
 									className='ListingProfileImage'
 								/>
 								<div className='ListingProfileText'>
@@ -111,19 +115,21 @@ function Profile(props) {
 								<div className='ListingDataRowInfo'>
 									<div className='ListingDataTagArea'>
 										{profileInfo.interests
-											? profileInfo.interests.map((interest, i) => {
-													<div className='ListingTag'>{interest}</div>;
-											  })
+											? profileInfo.interests.map((interest, i) => (
+													<div className='ListingTag'>{interest}</div>
+											  ))
 											: null}
 									</div>
 								</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Gala Dates:</div>
-								<div className='ListingDataRowInfo'>{profileInfo.numDates}</div>
+								<div className='ListingDataRowInfo'>
+									{profileInfo.numDates ? profileInfo.numDates : 0}
+								</div>
 							</div>
 						</div>
-						{props.role === 'creator' ? (
+						{new URLSearchParams(window.location.search).get('id') == Cookies.get('userId') ? (
 							<div className='ProfileUpdateAreaWrapper'>
 								<Link to={ROUTE.UPDATE} style={{ textDecoration: 'none' }}>
 									<div className='ProfileUpdateArea'>Click to update profile</div>
