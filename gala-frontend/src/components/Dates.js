@@ -75,9 +75,24 @@ function Dates() {
 							)}
 						</div>
 						{!collapseFirst ? (
-							<div className='BidsEntryArea'>
-								<DatesEntry isUpcoming={true} isOngoing={true} />
-								<DatesEntry isUpcoming={true} isOngoing={false} />
+							<div>
+								<div className='BidsToolbarArea'>
+									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<select
+										name='upcoming-dates-sort'
+										id='upcoming-dates-sort'
+										className='BidsToolbarSelect'>
+										<option value='most_recent' selected disabled hidden>
+											Sort by
+										</option>
+										<option value='most_recent'>Most recent</option>
+										<option value='least_recent'>Least recent</option>
+									</select>
+								</div>
+								<div className='BidsEntryArea'>
+									<DatesEntry isUpcoming={true} isOngoing={true} />
+									<DatesEntry isUpcoming={true} isOngoing={false} />
+								</div>
 							</div>
 						) : (
 							<div />
@@ -97,8 +112,23 @@ function Dates() {
 							)}
 						</div>
 						{!collapseSecond ? (
-							<div className='BidsEntryArea'>
-								<DatesEntry isUpcoming={false} isOwn={true} />
+							<div>
+								<div className='BidsToolbarArea'>
+									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<select
+										name='created-dates-sort'
+										id='created-dates-sort'
+										className='BidsToolbarSelect'>
+										<option value='most_recent' selected disabled hidden>
+											Sort by
+										</option>
+										<option value='most_recent'>Most recent</option>
+										<option value='least_recent'>Least recent</option>
+									</select>
+								</div>
+								<div className='BidsEntryArea'>
+									<DatesEntry isUpcoming={false} isOwn={true} />
+								</div>
 							</div>
 						) : (
 							<div />
@@ -118,10 +148,22 @@ function Dates() {
 							)}
 						</div>
 						{!collapseThird ? (
-							<div className='BidsEntryArea'>
-								<DatesEntry isUpcoming={false} />
-								<DatesEntry isUpcoming={false} />
-								<DatesEntry isUpcoming={false} />
+							<div>
+								<div className='BidsToolbarArea'>
+									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<select name='past-dates-sort' id='past-dates-sort' className='BidsToolbarSelect'>
+										<option value='most_recent' selected disabled hidden>
+											Sort by
+										</option>
+										<option value='most_recent'>Most recent</option>
+										<option value='least_recent'>Least recent</option>
+									</select>
+								</div>
+								<div className='BidsEntryArea'>
+									<DatesEntry isUpcoming={false} />
+									<DatesEntry isUpcoming={false} />
+									<DatesEntry isUpcoming={false} />
+								</div>
 							</div>
 						) : (
 							<div />

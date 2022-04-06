@@ -73,6 +73,10 @@ app.get('/experience/bids-received/:username', tokenHandlers.verifyJWT, bidRoute
 app.post('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.offerBid);
 app.get('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
 
+/** CONFIRM BID ENDPOINTS **/
+app.put('/experience/confirm-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.confirmBid);
+app.delete('/experience/delete-bid/:bidId', tokenHandlers.verifyJWT,bidRoutes.deleteBid);
+
 /** PROFILE ENDPOINTS **/
 app.get('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.getProfile);
 

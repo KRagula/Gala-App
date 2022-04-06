@@ -37,11 +37,32 @@
 }
 
 .BidsEntryArea {
-	margin-top: 3%;
+	margin-top: 2%;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	height: 65%;
 	/* overflow-y: scroll;
   overflow-x: hidden; */
+}
+
+.BidsToolbarArea {
+	margin-top: 2%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.BidsToolbarSearch {
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+	width: 30%;
+}
+
+.BidsToolbarSelect {
+	margin-left: 8%;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #b1b1b1;
+	width: 15%;
 }

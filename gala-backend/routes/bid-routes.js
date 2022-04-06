@@ -42,7 +42,7 @@ const getBidsSent = async (req, res, next) => {
 					let host_email = json_obj[i]['postId']['hostEmail'];
 					const user_query = await userTemplate
 						.find({ email: host_email })
-						.select('firstName lastName profilePicture');
+						.select('firstName profilePicture rating');
 					json_obj[i]['user_profile'] = user_query;
 					bids_sent_data.push(json_obj[i]);
 				}
@@ -88,7 +88,7 @@ const getBidsReceived = async (req, res, next) => {
 					const bidder_email = bids_json[j]['bidderEmail'];
 					const user_query = await userTemplate
 						.find({ email: bidder_email })
-						.select('firstName lastName profilePicture');
+						.select('firstName profilePicture rating');
 					bids_json[j]['user_profile'] = user_query;
 				}
 
@@ -113,12 +113,14 @@ const getBidsReceived = async (req, res, next) => {
 	}
 };
 
+//OFFER BID POST + GET ROUTES
 const offerBid = async (req, res, next) => {
 	const newBid = new bidTemplate({
 		postId: mongoose.Types.ObjectId(req.params.postId),
 		bidderEmail: req.body.bidderEmail,
 		bidAmount: req.body.bidAmount,
 		status: 'Waiting for response',
+		bidTime: req.body.bidTime,
 	});
 
 	try {
@@ -142,9 +144,33 @@ const postInfo = async (req, res, next) => {
 	}
 };
 
+//CONFIRM BID ROUTES
+const confirmBid = async (req, res, next) => {
+	const bidId = mongoose.Types.ObjectId(req.params.bidId);
+	const update = { status: 'Confirmed' };
+	try {
+		const doc = await bidTemplate.findOneAndUpdate({ _id: bidId }, update);
+		return res.json({ statusMessage: 'Bid Confirmed' });
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+};
+
+const deleteBid = async (req, res, next) => {
+	const bidId = mongoose.Types.ObjectId(req.params.bidId);
+	try {
+		const doc = await bidTemplate.deleteOne({ _id: bidId });
+		return res.json({ statusMessage: 'Bid Deleted' });
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+};
+
 export default {
 	getBidsSent: getBidsSent,
 	getBidsReceived: getBidsReceived,
 	offerBid: offerBid,
 	postInfo: postInfo,
+	confirmBid: confirmBid,
+	deleteBid: deleteBid,
 };

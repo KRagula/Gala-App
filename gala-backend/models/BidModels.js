@@ -17,6 +17,10 @@ const bidTemplate = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	bidTime: {
+		type: Date,
+		required: true,
+	},
 });
 
 export default mongoose.model('bidTable', bidTemplate);
