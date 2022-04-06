@@ -3,9 +3,9 @@ import Cookies from 'js-cookie';
 
 import serverConfig from '../configurations/server-config.js';
 
-export const getProfile = async () => {
+export const getProfile = async userId => {
 	return axios
-		.get(`${serverConfig.backendURL}/profile/${Cookies.get('userId')}`, {
+		.get(`${serverConfig.backendURL}/profile/${userId}`, {
 			withCredentials: true,
 			headers: {
 				'x-access-token': localStorage.getItem('token'),
