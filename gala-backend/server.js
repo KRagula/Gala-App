@@ -23,6 +23,7 @@ import tokenHandlers from './middleware/token-handlers.js';
 import emailRoutes from './routes/email-routes.js';
 
 import bidRoutes from './routes/bid-routes.js';
+import dateRoutes from './routes/dates-routes.js';
 
 mongoose
 	.connect(dbConfig.mongoDBAccess)
@@ -72,10 +73,9 @@ app.get('/experience/bids-sent/:username', tokenHandlers.verifyJWT, bidRoutes.ge
 app.get('/experience/bids-received/:username', tokenHandlers.verifyJWT, bidRoutes.getBidsReceived);
 app.post('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.offerBid);
 app.get('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
-
-/** CONFIRM BID ENDPOINTS **/
 app.put('/experience/confirm-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.confirmBid);
 app.delete('/experience/delete-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.deleteBid);
+app.get('/experience/dates/:username', dateRoutes.getDates);
 
 /** PROFILE ENDPOINTS **/
 app.get('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.getProfile);
