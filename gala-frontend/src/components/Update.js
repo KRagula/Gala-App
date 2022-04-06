@@ -44,7 +44,7 @@ function Update() {
 	const [profileInfo, setProfileInfo] = useState({});
 
 	useEffect(async () => {
-		const res = await getProfile();
+		const res = await getProfile(Cookies.get('userId'));
 		setProfileInfo(res);
 
 		setFirstName(res.firstName);
@@ -110,7 +110,6 @@ function Update() {
 			interests: interestsList,
 		};
 
-		console.log(formattedProfileInfo);
 		const res = await editProfile(formattedProfileInfo);
 		if (res && selectedImage) {
 			await uploadFile(selectedImage, Cookies.get('email'));
@@ -308,7 +307,9 @@ function Update() {
 								style={{ textDecoration: 'none' }}>
 								Submit
 							</div>
-							<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
+							<Link
+								to={`${ROUTE.PROFILE}?id=${Cookies.get('userId')}`}
+								style={{ textDecoration: 'none' }}>
 								<div className='CreateFormButton Clear'>Back</div>
 							</Link>
 						</div>

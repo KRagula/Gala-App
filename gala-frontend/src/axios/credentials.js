@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import serverConfig from '../configurations/server-config.js';
 import routeCredential from '../configurations/route-credential-config.js';
