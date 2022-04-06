@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactAnime from 'react-animejs';
 import Header from './Header';
 import { signup } from '../axios/credentials.js';
-import { uploadFile } from '../axios/aws.js';
+import { uploadFile, fileUsage } from '../axios/aws.js';
 import '../css/Signup.css';
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -46,7 +46,7 @@ function Signup() {
 		const res = await signup(registered);
 
 		if (selectedImage && res) {
-			await uploadFile(selectedImage, email);
+			await uploadFile(selectedImage, res.id, fileUsage.profilePicture);
 		}
 
 		if (res) window.location = ROUTE.LOGIN;
@@ -138,6 +138,7 @@ function Signup() {
 						<input
 							type='file'
 							class='SignupInput'
+							accept='image/png, image/jpeg'
 							required
 							onChange={event => {
 								setSelectedImage(event.target.files[0]);

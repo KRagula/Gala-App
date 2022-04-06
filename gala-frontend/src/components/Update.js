@@ -13,7 +13,7 @@ import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { editProfile, getProfile } from '../axios/profile.js';
-import { uploadFile } from '../axios/aws.js';
+import { uploadFile, fileUsage } from '../axios/aws.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -112,10 +112,10 @@ function Update() {
 
 		const res = await editProfile(formattedProfileInfo);
 		if (res && selectedImage) {
-			await uploadFile(selectedImage, Cookies.get('email'));
+			await uploadFile(selectedImage, Cookies.get('userId'), fileUsage.profilePicture);
 		}
 
-		if (res) window.location = ROUTE.PROFILE;
+		if (res) window.location = `${ROUTE.PROFILE}?id=${Cookies.get('userId')}`;
 	};
 
 	// controller state
@@ -176,6 +176,7 @@ function Update() {
 							<input
 								type='file'
 								className='UpdateFormProfileInput'
+								accept='image/png, image/jpeg'
 								onChange={event => {
 									setSelectedImage(event.target.files[0]);
 								}}
