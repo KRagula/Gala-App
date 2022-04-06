@@ -22,10 +22,11 @@ function Bids() {
 		const entryDataRecRaw = await getBidsReceived();
 
 		const entryDataRecProcessed = entryDataRecRaw.data.map(item => {
-			const bidAmount = item.bidAmount;
-			const highestBid = item.highestBid;
+			const bidAmount = '$' + parseFloat(item.bidAmount).toFixed(2);
+			const bidAmountNum = item.bidAmount;
+			const highestBid = '$' + parseFloat(item.highestBid).toFixed(2);
 			const title = item.postId.title.toUpperCase();
-			const auctionPrice = item.postId.price;
+			const auctionPrice = '$' + parseFloat(item.postId.price).toFixed(2);
 			const profileName = item.user_profile[0].firstName;
 			const profileRating = Math.round(2.5 * 2) / 2; // todo after claire updates backend
 			// const profileImage = item.user_profile[0].profilePicture; // todo after claire updates backend
@@ -49,6 +50,7 @@ function Bids() {
 
 			return {
 				bidAmount: bidAmount,
+				bidAmountNum: bidAmountNum,
 				highestBid: highestBid,
 				title: title,
 				auctionPrice: auctionPrice,
@@ -66,13 +68,15 @@ function Bids() {
 		const entryDataSentRaw = await getBidsSent();
 
 		const entryDataSentProcessed = entryDataSentRaw.data.map(item => {
-			const bidAmount = item.bidAmount;
-			const highestBid = item.highestBid;
+			const bidAmount = '$' + parseFloat(item.bidAmount).toFixed(2);
+			const bidAmountNum = item.bidAmount;
+			const highestBid = '$' + parseFloat(item.highestBid).toFixed(2);
 			const title = item.postId.title.toUpperCase();
-			const auctionPrice = item.postId.price;
+			const auctionPrice = '$' + parseFloat(item.postId.price).toFixed(2);
 			const profileName = item.user_profile[0].firstName;
-			const profileRating = 2.5; // todo after claire updates backend
-			const profileImage = item.user_profile[0].profilePicture;
+			const profileRating = Math.round(2.5 * 2) / 2; // todo after claire updates backend
+			// const profileImage = item.user_profile[0].profilePicture; // todo after claire updates backend
+			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
 			const timestampObject = new Date(); // todo after claire updates backend
 			let textHash =
 				bidAmount +
@@ -89,10 +93,10 @@ function Bids() {
 				'#' +
 				profileImage;
 			textHash = textHash.toLowerCase();
-			console.log(textHash);
 
 			return {
 				bidAmount: bidAmount,
+				bidAmountNum: bidAmountNum,
 				highestBid: highestBid,
 				title: title,
 				auctionPrice: auctionPrice,
@@ -148,12 +152,12 @@ function Bids() {
 		switch (sortType) {
 			case 'highest':
 				entryDataProcessed = entryDataProcessed.sort((a, b) => {
-					return b.bidAmount - a.bidAmount;
+					return b.bidAmountNum - a.bidAmountNum;
 				});
 				break;
 			case 'lowest':
 				entryDataProcessed = entryDataProcessed.sort((a, b) => {
-					return a.bidAmount - b.bidAmount;
+					return a.bidAmountNum - b.bidAmountNum;
 				});
 				break;
 			case 'most_recent':
