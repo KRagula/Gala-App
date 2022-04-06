@@ -245,7 +245,11 @@ function Create() {
 						</div>
 						<div className='CreateFormRow Proof'>
 							<div className='CreateFormRowTitle'>Proof of Experience:</div>
-							<input type='file' className='CreateFormInputProof' required></input>
+							<input
+								type='file'
+								className='CreateFormInputProof'
+								accept='application/pdf'
+								required></input>
 						</div>
 						<div className='CreateFormRow'>
 							<div className='CreateFormRowTitle Tags'>Tags:</div>

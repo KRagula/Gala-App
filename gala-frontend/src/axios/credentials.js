@@ -49,17 +49,7 @@ export const signup = async registered => {
 		.post(`${serverConfig.backendURL}${routeCredential.signup}`, registered, {
 			withCredentials: true,
 		})
-		.then(response => {
-			if (response.data.data == 'data') {
-				// document.cookie = 'firstname=' + response.data.firstname + ';max-age=3600';
-				// document.cookie = 'lastname=' + response.data.lastname + ';max-age=3600';
-				// document.cookie('firstname', response.data.firstname)
-				// document.cookie('lastname', response.data.lastname)
-				//console.log(response.getResponseHeader('Set-Cookie'))
-				//console.log(response.headers.cookie)
-				return true;
-			}
-		})
+		.then(res => res.data)
 		.catch(error => {
 			if (error.response.status == '409') {
 				document.getElementById('errorArea').innerHTML = 'Error User Exists';

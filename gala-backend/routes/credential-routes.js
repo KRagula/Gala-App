@@ -27,13 +27,10 @@ const signup = async (req, res, next) => {
 		numRatings: 1,
 	});
 
-	let signupData;
 	try {
 		const userDoc = await userTemplate.findOne({ email: req.body.email });
 		if (userDoc) return next(new UserExistsError(req.body.email));
-		let idVal;
-		signupData = await signedUpUser.save(postId => {});
-		console.log(signupData);
+		const signupData = await signedUpUser.save();
 		const options = {
 			maxAge: 10000 * 60 * 60,
 		};
@@ -43,9 +40,7 @@ const signup = async (req, res, next) => {
 		res.cookie('docid', signedUpUser._id, options);
 		res.cookie('rating', 5, options);
 		return res.json({
-			firstname: signedUpUser.firstName,
-			lastname: signedUpUser.lastName,
-			data: 'data',
+			id: signupData._id.toString(),
 		});
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));

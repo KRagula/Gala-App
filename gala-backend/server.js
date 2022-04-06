@@ -52,7 +52,6 @@ app.use(express.urlencoded({ extended: true }));
 
 /** AWS ENDPOINTS **/
 app.post('/aws/fileupload', awsRoutes.uploadFile);
-app.delete('/aws/filedelete', tokenHandlers.verifyJWT, awsRoutes.deleteFile);
 
 /** PAYMENT ENDPOINTS **/
 app.post('/payment/pay', tokenHandlers.verifyJWT, paymentRoutes.pay);
