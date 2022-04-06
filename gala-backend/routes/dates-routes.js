@@ -22,7 +22,7 @@ const getDates = async (req, res, next) => {
 		const created = JSON.parse(JSON.stringify(doc));
 		const userInfo = await userTemplate
 			.findOne({ email: username })
-			.select('firstName profilePicture rating');
+			.select('firstName profilePictureLink rating');
 
 		for (let j = 0; j < created.length; j += 1) {
 			created[j]['hostInfo'] = userInfo;
@@ -43,7 +43,7 @@ const getDates = async (req, res, next) => {
 		for (let i = 0; i < upcoming_json.length; i += 1) {
 			const hostInfo = await userTemplate
 				.findOne({ email: upcoming_json[i]['postId']['hostEmail'] })
-				.select('firstName profilePicture rating');
+				.select('firstName profilePictureLink rating');
 			upcoming_json[i]['hostInfo'] = JSON.parse(JSON.stringify(hostInfo));
 			const end_time = upcoming_json[i]['postId']['timeEnd'];
 			const start_time = upcoming_json[i]['postId']['timeStart'];
