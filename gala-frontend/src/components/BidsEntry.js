@@ -44,10 +44,10 @@ function BidsEntry(props) {
 							<div className='BidsEntryDescriptionTitle'>
 								<div className='ExploreEntryDescriptionTitleMain'>{props.data.title}</div>
 								<div className='BidsEntryDescriptionTitleSub'>
-									Auction Price: ${props.data.auctionPrice}
+									Auction Price: {props.data.auctionPrice}
 								</div>
 								<div className='BidsEntryDescriptionTitleSub'>
-									Highest Bid: <b>${props.data.highestBid}</b>
+									Highest Bid: <b>{props.data.highestBid}</b>
 								</div>
 							</div>
 						</div>
@@ -59,7 +59,7 @@ function BidsEntry(props) {
 									</div>
 									{props.data.profileName}'s Bid:
 									<div className='BidsEntryBottomLeftAreaRowPrice'>
-										<b>${props.data.bidAmount}</b>
+										<b>{props.data.bidAmount}</b>
 									</div>
 								</div>
 							</div>
@@ -107,10 +107,10 @@ function BidsEntry(props) {
 							<div className='BidsEntryDescriptionTitle'>
 								<div className='ExploreEntryDescriptionTitleMain'>{props.data.title}</div>
 								<div className='BidsEntryDescriptionTitleSub'>
-									Auction Price: ${props.data.auctionPrice}
+									Auction Price: {props.data.auctionPrice}
 								</div>
 								<div className='BidsEntryDescriptionTitleSub'>
-									Highest Bid: <b>${props.data.highestBid}</b>
+									Highest Bid: <b>{props.data.highestBid}</b>
 								</div>
 							</div>
 						</div>
@@ -123,7 +123,7 @@ function BidsEntry(props) {
 										</div>
 										Your Bid:
 										<div className='BidsEntryBottomLeftAreaRowPrice'>
-											<b>${props.data.bidAmount}</b>
+											<b>{props.data.bidAmount}</b>
 										</div>
 									</div>
 								</div>
