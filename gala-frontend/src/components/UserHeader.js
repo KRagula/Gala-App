@@ -10,6 +10,9 @@ const cleanCookiesSignout = () => {
 			.replace(/^ +/, '')
 			.replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
 	});
+
+	localStorage.removeItem('token');
+
 	window.location = ROUTE.HOME;
 };
 

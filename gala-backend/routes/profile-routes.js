@@ -9,7 +9,9 @@ import {
 	InvalidCredentialError,
 } from '../error/credential-errors.js';
 
-const getProfile = async (req, res, next) => {};
+const getProfile = async (req, res, next) => {
+	req.params.profileid;
+};
 
 export default {
 	getProfile: getProfile,

@@ -49,7 +49,7 @@ function Signup() {
 			await uploadFile(selectedImage, email);
 		}
 
-		if (res) window.location = ROUTE.EXPLORE;
+		if (res) window.location = ROUTE.LOGIN;
 	};
 
 	// controller state
