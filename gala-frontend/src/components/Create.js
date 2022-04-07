@@ -85,7 +85,7 @@ function Create() {
 		}
 	};
 
-	const onSubmit = event => {
+	const onSubmit = async event => {
 		//event.preventDefault(); Take out once we can redirect to a post
 		const newPost = {
 			title: title,
@@ -115,7 +115,7 @@ function Create() {
 			alert('Please Fill In All Fields!');
 			return;
 		}
-		createPost(newPost);
+		await createPost(newPost);
 	};
 
 	// controller state

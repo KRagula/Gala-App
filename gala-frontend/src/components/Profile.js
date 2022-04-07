@@ -4,7 +4,6 @@ import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
 import '../css/Profile.css';
-import testImage from '../assets/kanishka.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { getProfile } from '../axios/profile.js';
@@ -33,6 +32,7 @@ function Profile(props) {
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
 		const res = await getProfile(queryParams.get('id'));
+		if (!res) return;
 		if (res.rating) {
 			res.rating = Math.round(res.rating * 2) / 2;
 		}

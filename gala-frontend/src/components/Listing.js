@@ -5,7 +5,7 @@ import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
 import BidsEntry from './BidsEntry.js';
 import '../css/Listing.css';
-import testImage from '../assets/kanishka.jpeg';
+import testImage from '../assets/default.jpeg';
 import testFile from '../assets/file-test.pdf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
@@ -44,11 +44,17 @@ function Listing(props) {
 
 	// For "Rate your date" box
 	const [dateRating, setDateRating] = useState(0);
+	const [listingData, setListingData] = useState({});
+	const [creatorData, setCreatorData] = useState({});
 
 	useEffect(async () => {
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
-		const res = await getPost();
+		const res = await getPost(queryParams.get('id'));
+		if (!res) return;
+
+		setListingData(res);
+		setCreatorData(res.creatorId);
 		console.log(res);
 	}, []);
 
@@ -119,47 +125,84 @@ function Listing(props) {
 					<div className='ListingArea'>
 						<div className='ListingProfileAreaWrapper'>
 							<div className='ExploreEntryProfileArea'>
-								<img src={testImage} className='ListingProfileImage' />
-								<div className='ListingProfileText'>Kanishka</div>
+								<img
+									src={creatorData.profilePictureLink ? creatorData.profilePictureLink : testImage}
+									className='ListingProfileImage'
+								/>
+								<div className='ListingProfileText'>{`${creatorData.firstName} ${creatorData.lastName}`}</div>
 								<div className='ListingProfileStars'>
-									<FaStar fontSize='12px' color='#424242' />
-									<FaStar fontSize='12px' color='#424242' />
-									<FaStarHalfAlt fontSize='12px' color='#424242' />
-									<FaRegStar fontSize='12px' color='#424242' />
-									<FaRegStar fontSize='12px' color='#424242' />
+									{[...Array(5)].map((x, i) => {
+										return Math.round(creatorData.rating * 2) / 2 >= i + 1 ? (
+											<FaStar fontSize='11px' color='#424242' />
+										) : (
+											<React.Fragment>
+												{Math.round(creatorData.rating * 2) / 2 > i ? (
+													<FaStarHalfAlt fontSize='11px' color='#424242' />
+												) : (
+													<FaRegStar fontSize='11px' color='#424242' />
+												)}
+											</React.Fragment>
+										);
+									})}
 								</div>
 							</div>
 						</div>
 						<div className='ListingDataPaper'>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Title:</div>
-								<div className='ListingDataRowInfo'>PITBULL CONCERT</div>
+								<div className='ListingDataRowInfo'>{listingData.title}</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Description:</div>
-								<div className='ListingDataRowInfo'>
-									Come to the Pitbull concert with me this Saturday at the Moda Center! Tickets and
-									drinks on me.
-								</div>
+								<div className='ListingDataRowInfo'>{listingData.description}</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Address:</div>
 								<div className='ListingDataRowInfo'>
-									<a href='https://www.google.com/maps' class='ListingAddress'>
-										3925 Walnut Street, Philadelphia, PA 19104
-									</a>
-									.
+									{listingData.streetAddress ? (
+										<a
+											href={`https://www.google.com/maps/place/${listingData.streetAddress}, ${listingData.cityAddress}, ${listingData.stateAddress} ${listingData.zipAddress}`}
+											class='ListingAddress'
+											target='_blank'>
+											{`${listingData.streetAddress}, ${listingData.cityAddress}, ${listingData.stateAddress} ${listingData.zipAddress}`}
+										</a>
+									) : null}
 								</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Time:</div>
 								<div className='ListingDataRowInfo'>
-									<b>02/28/2022 1:00pm</b> to <b>02/28/2022 3:00pm</b>.
+									{listingData.timeEnd && listingData.timeStart ? (
+										<>
+											<b>
+												{`${new Date(listingData.timeStart).toLocaleDateString([], {
+													hour: '2-digit',
+													minute: '2-digit',
+												})}`}
+											</b>{' '}
+											to{' '}
+											<b>
+												{new Date(listingData.timeEnd).toLocaleDateString([], {
+													hour: '2-digit',
+													minute: '2-digit',
+												})}
+											</b>
+										</>
+									) : null}
 								</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Auction Price:</div>
-								<div className='ListingDataRowInfo'>$50.00.</div>
+								<div className='ListingDataRowInfo'>
+									<i>
+										{listingData.price
+											? new Intl.NumberFormat('en-US', {
+													style: 'currency',
+													currency: 'USD',
+											  }).format(listingData.price)
+											: null}
+									</i>
+								</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Highest Bid:</div>
@@ -183,16 +226,9 @@ function Listing(props) {
 								<div className='ListingDataRowTitle'>Tags:</div>
 								<div className='ListingDataRowInfo'>
 									<div className='ListingDataTagArea'>
-										<div className='ListingTag'>concert</div>
-										<div className='ListingTag'>fun</div>
-										<div className='ListingTag'>music</div>
-										<div className='ListingTag'>food</div>
-										<div className='ListingTag'>dancing</div>
-										<div className='ListingTag'>disco</div>
-										<div className='ListingTag'>eating</div>
-										<div className='ListingTag'>drinking</div>
-										<div className='ListingTag'>active</div>
-										<div className='ListingTag'>pitbull</div>
+										{listingData.tags
+											? listingData.tags.map((tag, i) => <div className='ListingTag'>{tag}</div>)
+											: null}
 									</div>
 								</div>
 							</div>

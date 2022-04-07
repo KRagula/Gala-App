@@ -3,7 +3,7 @@ import axios from 'axios';
 import serverConfig from '../configurations/server-config.js';
 import routeExperience from '../configurations/route-experience-config.js';
 
-export const createPost = postData => {
+export const createPost = async postData => {
 	axios
 		.post(`${serverConfig.backendURL}${routeExperience.makePost}`, postData, {
 			withCredentials: true,
@@ -11,15 +11,8 @@ export const createPost = postData => {
 				'x-access-token': localStorage.getItem('token'),
 			},
 		})
-		.then(response => {
-			if (response.data.statusMessage == 'Saved') {
-				//Will eventually send post ID
-				//Need to redirect to the post page once created
-			}
-		})
-		.catch(error => {
-			console.log(error);
-		});
+		.then(res => res.data)
+		.catch(error => false);
 };
 
 export const getNearbyPosts = locationData => {
@@ -45,5 +38,5 @@ export const getPost = async listingId => {
 			},
 		})
 		.then(res => res.data)
-		.catch(err => {});
+		.catch(err => false);
 };
