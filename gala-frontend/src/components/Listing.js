@@ -240,7 +240,7 @@ const Listing = props => {
 									</div>
 								</div>
 							</div>
-							{props.role === 'creator' ? (
+							{creatorData.role === 'creator' ? (
 								<div className='ListingDeleteArea'>
 									<div className='ListingDelete'>Click to remove listing</div>
 								</div>
@@ -248,7 +248,7 @@ const Listing = props => {
 								<div />
 							)}
 						</div>
-						{props.role === 'creator' ? (
+						{creatorData.role === 'creator' ? (
 							<div className='ListingBidsCollapsableArea'>
 								<div className='BidsCollapseBar'>
 									<div className='BidsCollapseText'>Bids Received</div>
@@ -264,8 +264,8 @@ const Listing = props => {
 								</div>
 								{!collapseFirst ? (
 									<div className='BidsEntryArea'>
-										<BidsEntry isReceived={true} />
-										<BidsEntry isReceived={true} />
+										{/* <BidsEntry isReceived={true} />
+										<BidsEntry isReceived={true} /> */}
 									</div>
 								) : (
 									<div />
@@ -274,7 +274,7 @@ const Listing = props => {
 						) : (
 							<div />
 						)}
-						{props.role === 'engager' ? (
+						{creatorData.role === 'engager' ? (
 							<div className='ListingEngagedArea'>
 								<div className='ListingEngagedStatusArea'>
 									Status:
@@ -358,17 +358,23 @@ const Listing = props => {
 						) : (
 							<div />
 						)}
-						{props.role !== 'creator' ? (
+						{creatorData.role !== 'creator' ? (
 							<div>
-								{props.role === 'observer' ? (
+								{creatorData.role === 'observer' ? (
 									<div className='ListingMessageOptionArea'>
-										<div className='ListingMessageOption Red'>Click to offer a bid</div>
-										<div className='ListingMessageOption Blue'>Click to message</div>
+										<Link
+											to={`${ROUTE.OFFER}?id=${listingData._id}`}
+											style={{ textDecoration: 'none' }}>
+											<div className='ListingMessageOption Red'>Click to offer a bid</div>
+										</Link>
+										<Link to={`${ROUTE.MESSAGE}`} style={{ textDecoration: 'none' }}>
+											<div className='ListingMessageOption Blue'>Click to message</div>
+										</Link>
 									</div>
 								) : (
 									<div />
 								)}
-								{props.role === 'engager' && props.status !== 'completed' ? (
+								{creatorData.role === 'engager' && props.status !== 'completed' ? (
 									<div className='ListingMessageOptionArea'>
 										{props.status !== 'ongoing' ? (
 											<div className='ListingMessageOption Red'>Click to offer a bid</div>

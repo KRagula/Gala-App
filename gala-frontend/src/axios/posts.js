@@ -40,3 +40,7 @@ export const getPost = async listingId => {
 		.then(res => res.data)
 		.catch(err => false);
 };
+
+export const getBids = async listingId => {
+	return axios.get();
+};

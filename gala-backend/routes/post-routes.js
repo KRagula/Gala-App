@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import axios from 'axios';
 import postTemplate from '../models/PostModels.js';
+import bidTemplate from '../models/BidModels.js';
 import geoConfig from '../configurations/geo-config.js';
 
 import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
@@ -125,11 +126,29 @@ const getListing = async (req, res, next) => {
 	let doc;
 	try {
 		doc = await postTemplate.findById(req.params.listingId).populate('creatorId');
-		if (!doc) return next(new ServerError(serverErrorTypes.mongodb, err)); // User DNE
+		if (!doc) return next(new ServerError(serverErrorTypes.mongodb, err)); // Post DNE
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
 	}
 
+	doc = doc.toObject();
+	if (req.user.id == doc.creatorId._id.toString()) {
+		doc.creatorId.role = 'creator';
+	} else {
+		try {
+			const bidExists = await bidTemplate.findOne({
+				bidderId: mongoose.Types.ObjectId(req.user.id),
+				postId: mongoose.Types.ObjectId(req.params.listingId),
+			});
+			if (!bidExists) {
+				doc.creatorId.role = 'observer';
+			} else {
+				doc.creatorId.role = 'engager';
+			}
+		} catch (err) {
+			return next(new ServerError(serverErrorTypes.mongodb, err));
+		}
+	}
 	res.json(doc);
 };
 

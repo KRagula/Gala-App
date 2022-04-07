@@ -32,3 +32,7 @@ export const getBidsSent = async () => {
 			// do something later
 		});
 };
+
+export const sendBid = async postId => {
+	return axios.post(`${serverConfig.backendURL}/experience/offer-bid/${postId}`);
+};
