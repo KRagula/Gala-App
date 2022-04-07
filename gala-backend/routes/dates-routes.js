@@ -14,16 +14,17 @@ import mongoose from 'mongoose';
 
 const getDates = async (req, res, next) => {
 	//Verify request comes from logged in user?
-	const username = req.params.username;
+	const username = mongoose.Types.ObjectId(req.user.id);
+	console.log('this is the username', username);
 	try {
-		const doc = await postTemplate.find({ hostEmail: username });
+		const doc = await postTemplate.find({ creatorId: username });
 		let my_dates = {};
 		let created_list = [];
 		const created = JSON.parse(JSON.stringify(doc));
 		const userInfo = await userTemplate
-			.findOne({ email: username })
+			.findOne({ _id: username })
 			.select('firstName profilePictureLink rating');
-
+		console.log('this is userinfo', userInfo);
 		for (let j = 0; j < created.length; j += 1) {
 			created[j]['hostInfo'] = userInfo;
 			created_list.push(created[j]);
@@ -31,7 +32,7 @@ const getDates = async (req, res, next) => {
 		my_dates['createdDates'] = created_list;
 		//get all posts where your bid is confirmed on
 		const upcoming_query = await bidTemplate
-			.find({ bidderEmail: username, status: 'Confirmed' })
+			.find({ bidderId: username, status: 'Confirmed' })
 			.populate({
 				path: 'postId',
 			})
@@ -42,7 +43,7 @@ const getDates = async (req, res, next) => {
 		const upcoming_json = JSON.parse(JSON.stringify(upcoming_query));
 		for (let i = 0; i < upcoming_json.length; i += 1) {
 			const hostInfo = await userTemplate
-				.findOne({ email: upcoming_json[i]['postId']['hostEmail'] })
+				.findOne({ _id: mongoose.Types.ObjectId(upcoming_json[i]['postId']['creatorId']) })
 				.select('firstName profilePictureLink rating');
 			upcoming_json[i]['hostInfo'] = JSON.parse(JSON.stringify(hostInfo));
 			const end_time = upcoming_json[i]['postId']['timeEnd'];
