@@ -7,15 +7,14 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import ROUTE from '../configurations/route-frontend-config.js';
 
 function DatesEntry(props) {
-	console.log(props);
+	console.log(props.data);
 	return (
 		<React.Fragment>
 			<div className='DatesEntryPaper'>
 				<div className='ExploreEntryProfileAreaWrapper'>
 					<div className='ExploreEntryProfileArea'>
 						<img
-							src={props.data.profileImage}
-							alt={defaultImage}
+							src={props.data.profileImage ? props.data.profileImage : defaultImage}
 							className='ExploreEntryProfileImage'
 						/>
 						<div className='ExploreEntryProfileText'>{props.data.firstName}</div>

@@ -23,6 +23,8 @@ function Dates() {
 	useEffect(async () => {
 		const entryDataRaw = await getDates();
 
+		console.log('raw', entryDataRaw.data);
+
 		const entryDataUpcomingProcessed = entryDataRaw.data.upcomingDates.map(item => {
 			const titleCleaned = item.postId.title.toUpperCase();
 			const description = item.postId.description;
