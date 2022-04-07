@@ -23,8 +23,6 @@ function Dates() {
 	useEffect(async () => {
 		const entryDataRaw = await getDates();
 
-		console.log('raw', entryDataRaw.data);
-
 		const entryDataUpcomingProcessed = entryDataRaw.data.upcomingDates.map(item => {
 			const titleCleaned = item.postId.title.toUpperCase();
 			const description = item.postId.description;
@@ -45,7 +43,6 @@ function Dates() {
 			const status = item.dateStatus;
 			const firstName = item.hostInfo.firstName;
 			const profileRating = item.hostInfo.rating;
-			// todo after claire updates backend
 			const profileImage = item.hostInfo.profilePictureLink;
 			let textHash =
 				titleCleaned +
@@ -105,7 +102,6 @@ function Dates() {
 			const status = '';
 			const firstName = item.hostInfo.firstName;
 			const profileRating = item.hostInfo.rating;
-			// todo after claire updates backend
 			const profileImage = item.hostInfo.profilePictureLink;
 			let textHash =
 				titleCleaned +
@@ -165,7 +161,6 @@ function Dates() {
 			const status = item.dateStatus;
 			const firstName = item.hostInfo.firstName;
 			const profileRating = item.hostInfo.rating;
-			// todo after claire updates backend
 			const profileImage = item.hostInfo.profilePictureLink;
 			let textHash =
 				titleCleaned +
