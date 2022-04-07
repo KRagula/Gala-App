@@ -91,7 +91,24 @@ const getNearbyPosts = async (req, res, next) => {
 						startDateCast - 1 <= currentElement.timeStart && endDateCast >= currentElement.timeEnd
 					);
 				});
-				return res.json(returnList);
+				const newReturnList = returnList.map((elem, i) => {
+					var R = 3960; // Radius of the earth in miles
+					var dLat = (Math.PI / 180) * (req.body.latitude - elem.location.coordinates[1]); // deg2rad below
+					var dLon = (Math.PI / 180) * (req.body.longitude - elem.location.coordinates[0]);
+					var a =
+						Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+						Math.cos((Math.PI / 180) * req.body.latitude) *
+							Math.cos((Math.PI / 180) * elem.location.coordinates[1]) *
+							Math.sin(dLon / 2) *
+							Math.sin(dLon / 2);
+					var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+					var d = R * c; // Distance in miles
+					elem = elem.toObject();
+
+					elem.userDistance = d;
+					return elem;
+				});
+				return res.json(newReturnList);
 			} else {
 				return res.json(doc);
 			}
