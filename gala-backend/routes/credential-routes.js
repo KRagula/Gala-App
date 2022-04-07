@@ -74,11 +74,6 @@ const login = async (req, res, next) => {
 				res.cookie('lastName', doc.lastName, options);
 				res.cookie('email', doc.email, options);
 				res.cookie('userId', doc._id.toString(), options);
-				if (doc.rating) {
-					res.cookie('rating', doc.rating, options);
-				} else {
-					res.cookie('rating', 5, options);
-				}
 
 				return res.json({
 					message: 'Success',
