@@ -6,7 +6,7 @@ import routeExperience from '../configurations/route-experience-config.js';
 export const getBidsReceived = async () => {
 	// todo: remove hardcode email
 	return await axios
-		.get(`${serverConfig.backendURL}/experience/bids-received/kragula@seas.upenn.edu`, {
+		.get(`${serverConfig.backendURL}/experience/bids-received`, {
 			withCredentials: true,
 			headers: {
 				'x-access-token': localStorage.getItem('token'),
@@ -21,7 +21,7 @@ export const getBidsReceived = async () => {
 export const getBidsSent = async () => {
 	// todo: remove hardcode email
 	return await axios
-		.get(`${serverConfig.backendURL}/experience/bids-sent/kragula@seas.upenn.edu`, {
+		.get(`${serverConfig.backendURL}/experience/bids-sent`, {
 			withCredentials: true,
 			headers: {
 				'x-access-token': localStorage.getItem('token'),

@@ -5,10 +5,12 @@ const bidTemplate = new mongoose.Schema({
 	postId: {
 		type: mongoose.Types.ObjectId,
 		ref: dbConfig.mongoDBTablePosts,
+		required: true,
 	},
 	bidderId: {
 		type: mongoose.Types.ObjectId,
 		ref: dbConfig.mongoDBTableUser,
+		required: true,
 	},
 	bidAmount: {
 		type: Number,
