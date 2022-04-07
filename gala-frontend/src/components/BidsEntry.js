@@ -79,8 +79,7 @@ function BidsEntry(props) {
 					<div className='ExploreEntryProfileAreaWrapper'>
 						<div className='ExploreEntryProfileArea'>
 							<img
-								src={props.data.profileImage}
-								alt={defaultImage}
+								src={props.data.profileImage ? props.data.profileImage : defaultImage}
 								className='ExploreEntryProfileImage'
 							/>
 							<div className='ExploreEntryProfileText'>{props.data.profileName}</div>
