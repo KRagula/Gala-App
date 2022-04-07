@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
 import '../css/Offer.css';
-import testImage from '../assets/kanishka.jpeg';
-import testImage2 from '../assets/eddie.jpeg';
+import defaultImage from '../assets/default.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import { getPost } from '../axios/posts.js';
 
 const { Anime } = ReactAnime;
 
@@ -50,85 +50,137 @@ function Offer() {
 		easing: 'easeInOutExpo',
 	});
 
+	const [listingData, setListingData] = useState({});
+	const [creatorData, setCreatorData] = useState({});
+	const [display, setDisplay] = useState(false);
+
+	useEffect(async () => {
+		const queryParams = new URLSearchParams(window.location.search);
+		if (!queryParams.get('id')) return;
+		const res = await getPost(queryParams.get('id'));
+		if (!res) return;
+
+		setDisplay(true);
+		setListingData(res);
+		setCreatorData(res.creatorId);
+	}, []);
+
 	return (
 		<React.Fragment>
 			<UserHeader />
 			<div className='DashboardArea'>
 				<Navigation />
-				<div className='OfferAreaWrapper'>
-					<div className='DashboardTitleDescriptionAreaWrapper'>
-						<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
-							<div className='DashboardTitleText'>Offer</div>
-							<div className='DashboardTitleDot' />
-							<div className='DashboardDescriptionText'>Place a bid for this date</div>
+				{display ? (
+					<div className='OfferAreaWrapper'>
+						<div className='DashboardTitleDescriptionAreaWrapper'>
+							<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
+								<div className='DashboardTitleText'>Offer</div>
+								<div className='DashboardTitleDot' />
+								<div className='DashboardDescriptionText'>Place a bid for this date</div>
+							</div>
+						</div>
+						<div className='OfferArea'>
+							<div className='OfferListingInfo'>
+								<div className='OfferProfileAreaWrapper'>
+									<div className='ExploreEntryProfileArea'>
+										<img
+											src={
+												creatorData.profilePictureLink
+													? creatorData.profilePictureLink
+													: defaultImage
+											}
+											className='ExploreEntryProfileImage'
+										/>
+										<div className='ExploreEntryProfileText'>{creatorData.firstName}</div>
+										<div className='ExploreEntryProfileStars'>
+											{[...Array(5)].map((x, i) => {
+												return Math.round(creatorData.rating * 2) / 2 >= i + 1 ? (
+													<FaStar fontSize='11px' color='#424242' />
+												) : (
+													<React.Fragment>
+														{Math.round(creatorData.rating * 2) / 2 > i ? (
+															<FaStarHalfAlt fontSize='11px' color='#424242' />
+														) : (
+															<FaRegStar fontSize='11px' color='#424242' />
+														)}
+													</React.Fragment>
+												);
+											})}
+										</div>
+									</div>
+								</div>
+								<div className='DatesEntryRightArea'>
+									<div className='DatesEntryDescriptionArea'>
+										<div className='DatesEntryDescriptionTitle'>
+											<div className='ExploreEntryDescriptionTitleMain'>{listingData.title}</div>
+											<div className='ExploreEntryDescriptionTitleSub'>
+												{listingData.description}
+											</div>
+										</div>
+										<div className='ExploreEntryDescriptionLogistics'>
+											<div>
+												{listingData.cityAddress}, {listingData.stateAddress} (1 mi)
+											</div>
+											<div className='ExploreEntryDot' />
+											<div>
+												{`${new Date(listingData.timeStart).toLocaleDateString([], {
+													hour: '2-digit',
+													minute: '2-digit',
+												})}`}{' '}
+												to{' '}
+												{new Date(listingData.timeEnd).toLocaleDateString([], {
+													hour: '2-digit',
+													minute: '2-digit',
+												})}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className='OfferBidAreaWrapper'>
+								<div className='OfferBidArea'>
+									<div className='OfferBidInfoWrapper'>
+										<div className='OfferBidInfo'>
+											<div className='OfferBidInfoRow'>
+												<div>Auction Price:</div>
+												<div className='OfferBidInfoRowPrice'>
+													{listingData.price
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(listingData.price)
+														: null}
+												</div>
+											</div>
+											<div className='OfferBidInfoRow'>
+												<div>Highest Bid:</div>
+												<div className='OfferBidInfoRowPrice Bold'>$110.00</div>
+											</div>
+										</div>
+									</div>
+									<div className='OfferBidRequestWrapper'>
+										<div className='OfferBidRequest'>
+											<div className='OfferBidRequestPrompt'>Your Bid:</div>
+											<div>
+												<MaskedInput
+													className='OfferBidRequestInput'
+													mask={currencyMask}
+													placeholder='$0.00'
+												/>
+											</div>
+										</div>
+									</div>
+									<div className='OfferBidOptionArea'>
+										<div className='OfferBidOptionButton Submit'>Submit</div>
+										<div className='OfferBidOptionButton GoBack'>Go Back</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div className='OfferArea'>
-						<div className='OfferListingInfo'>
-							<div className='OfferProfileAreaWrapper'>
-								<div className='ExploreEntryProfileArea'>
-									<img src={testImage2} className='ExploreEntryProfileImage' />
-									<div className='ExploreEntryProfileText'>Eddie</div>
-									<div className='ExploreEntryProfileStars'>
-										<FaStar fontSize='11px' color='#424242' />
-										<FaStarHalfAlt fontSize='11px' color='#424242' />
-										<FaRegStar fontSize='11px' color='#424242' />
-										<FaRegStar fontSize='11px' color='#424242' />
-										<FaRegStar fontSize='11px' color='#424242' />
-									</div>
-								</div>
-							</div>
-							<div className='DatesEntryRightArea'>
-								<div className='DatesEntryDescriptionArea'>
-									<div className='DatesEntryDescriptionTitle'>
-										<div className='ExploreEntryDescriptionTitleMain'>TENNIS LESSONS</div>
-										<div className='ExploreEntryDescriptionTitleSub'>
-											I've played tennis for a few years, would be happy to give lessons at Penn
-											Park!
-										</div>
-									</div>
-									<div className='ExploreEntryDescriptionLogistics'>
-										<div>Philadelpia, PA (1 mi)</div>
-										<div className='ExploreEntryDot' />
-										<div>02/15/2022</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className='OfferBidAreaWrapper'>
-							<div className='OfferBidArea'>
-								<div className='OfferBidInfoWrapper'>
-									<div className='OfferBidInfo'>
-										<div className='OfferBidInfoRow'>
-											<div>Auction Price:</div>
-											<div className='OfferBidInfoRowPrice'>$100.00</div>
-										</div>
-										<div className='OfferBidInfoRow'>
-											<div>Highest Bid:</div>
-											<div className='OfferBidInfoRowPrice Bold'>$110.00</div>
-										</div>
-									</div>
-								</div>
-								<div className='OfferBidRequestWrapper'>
-									<div className='OfferBidRequest'>
-										<div className='OfferBidRequestPrompt'>Your Bid:</div>
-										<div>
-											<MaskedInput
-												className='OfferBidRequestInput'
-												mask={currencyMask}
-												placeholder='$0.00'
-											/>
-										</div>
-									</div>
-								</div>
-								<div className='OfferBidOptionArea'>
-									<div className='OfferBidOptionButton Submit'>Submit</div>
-									<div className='OfferBidOptionButton GoBack'>Go Back</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				) : (
+					'This Date Does Not Exist'
+				)}
 			</div>
 			<Anime
 				initial={timeline}
