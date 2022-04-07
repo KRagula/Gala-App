@@ -152,7 +152,12 @@ function Signup() {
 							/>
 						)}
 					</div>
-					<div class='SignupSubmitButton' onClick={onSubmit}>
+					<div
+						class='SignupSubmitButton'
+						onClick={onSubmit}
+						style={{
+							cursor: 'pointer',
+						}}>
 						Sign Up
 					</div>
 				</div>

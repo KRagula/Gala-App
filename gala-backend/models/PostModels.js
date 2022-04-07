@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import dbConfig from '../configurations/db-config.js';
 
 const postTemplate = new mongoose.Schema({
 	title: {
@@ -41,21 +42,13 @@ const postTemplate = new mongoose.Schema({
 		type: Array,
 		required: true,
 	},
-	hostEmail: {
+	proofExperienceLink: {
 		type: String,
-		required: true,
+		required: false,
 	},
-	rating: {
-		type: Number,
-		required: true,
-	},
-	creatorName: {
+	proofExperienceName: {
 		type: String,
-		required: true,
-	},
-	creatorId: {
-		type: String,
-		required: true,
+		required: false,
 	},
 	timeCreated: {
 		type: Date,
@@ -71,6 +64,11 @@ const postTemplate = new mongoose.Schema({
 			type: [Number],
 			required: true,
 		},
+	},
+	creatorId: {
+		type: mongoose.Types.ObjectId,
+		ref: dbConfig.mongoDBTableUser,
+		required: true,
 	},
 });
 

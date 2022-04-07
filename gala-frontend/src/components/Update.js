@@ -176,7 +176,7 @@ function Update() {
 							<input
 								type='file'
 								className='UpdateFormProfileInput'
-								accept='image/png, image/jpeg'
+								accept='image/jpeg, image/png'
 								onChange={event => {
 									setSelectedImage(event.target.files[0]);
 								}}
@@ -305,7 +305,7 @@ function Update() {
 							<div
 								className='CreateFormButton Submit'
 								onClick={onSubmitClick}
-								style={{ textDecoration: 'none' }}>
+								style={{ textDecoration: 'none', cursor: 'pointer' }}>
 								Submit
 							</div>
 							<Link

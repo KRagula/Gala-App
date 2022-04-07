@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import axios from 'axios';
 import postTemplate from '../models/PostModels.js';
 import geoConfig from '../configurations/geo-config.js';
@@ -25,11 +25,8 @@ const postNew = async (req, res, next) => {
 		timeEnd: req.body.timeEnd,
 		price: Number(req.body.price.replace(/[^0-9.-]+/g, '')),
 		tags: req.body.tags,
-		hostEmail: decodeURIComponent(req.body.hostEmail),
 		timeCreated: new Date(),
-		rating: req.body.rating,
-		creatorName: req.body.creatorName,
-		creatorId: decodeURI(req.body.creatorId),
+		creatorId: mongoose.Types.ObjectId(req.user.id),
 		location: {
 			type: 'Point',
 			coordinates: [coordinates[0], coordinates[1]],

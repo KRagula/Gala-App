@@ -39,7 +39,12 @@ const UserHeader = () => {
 						style={{ textDecoration: 'none' }}>
 						<div className='ProfileButton'>Profile</div>
 					</Link>
-					<div className='SignoutButton' onClick={cleanCookiesSignout}>
+					<div
+						className='SignoutButton'
+						onClick={cleanCookiesSignout}
+						style={{
+							cursor: 'pointer',
+						}}>
 						Sign Out
 					</div>
 				</div>
