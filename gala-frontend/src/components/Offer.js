@@ -177,12 +177,21 @@ function Offer() {
 								</div>
 							</div>
 						</div>
+						<Anime
+							initial={timeline}
+							control={control}
+							setMeta={setMeta}
+							animeConfig={{
+								autoplay: true,
+								duration: 4000,
+								easing: 'easeInOutSine',
+							}}></Anime>
 					</div>
 				) : (
 					'You cannot make an offer for this date'
 				)}
 			</div>
-			<Anime
+			{/* <Anime
 				initial={timeline}
 				control={control}
 				setMeta={setMeta}
@@ -190,7 +199,7 @@ function Offer() {
 					autoplay: true,
 					duration: 4000,
 					easing: 'easeInOutSine',
-				}}></Anime>
+				}}></Anime> */}
 		</React.Fragment>
 	);
 }
