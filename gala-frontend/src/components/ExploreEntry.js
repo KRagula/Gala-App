@@ -44,7 +44,7 @@ function ExploreEntry(props) {
 							<div>{props.data.price}</div>
 							<div className='ExploreEntryDot' />
 							<div>
-								{props.data.city}, {props.data.state} (5 mi)
+								{props.data.city}, {props.data.state} ({props.data.userDistance} mi)
 							</div>
 							<div className='ExploreEntryDot' />
 							<div>{props.data.startDate}</div>

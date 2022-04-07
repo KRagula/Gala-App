@@ -103,9 +103,11 @@ const getNearbyPosts = async (req, res, next) => {
 							Math.sin(dLon / 2);
 					var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 					var d = R * c; // Distance in miles
+					d = Math.round(d * 10) / 10; //Rounded for aesthetics
+
 					elem = elem.toObject();
 
-					elem.userDistance = d;
+					elem.userDistance = d.toString();
 					return elem;
 				});
 				return res.json(newReturnList);
