@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Route } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
@@ -10,6 +10,7 @@ import testFile from '../assets/file-test.pdf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { getPost } from '../axios/posts.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -43,6 +44,13 @@ function Listing(props) {
 
 	// For "Rate your date" box
 	const [dateRating, setDateRating] = useState(0);
+
+	useEffect(async () => {
+		const queryParams = new URLSearchParams(window.location.search);
+		if (!queryParams.get('id')) return;
+		const res = await getPost();
+		console.log(res);
+	}, []);
 
 	const handleOneStars = () => {
 		setShowThanksForFeedback(true);

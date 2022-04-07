@@ -35,3 +35,15 @@ export const getNearbyPosts = locationData => {
 			// do something later
 		});
 };
+
+export const getPost = async listingId => {
+	return axios
+		.get(`${serverConfig.backendURL}/experience/listing/${listingId}`, {
+			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
+		})
+		.then(res => res.data)
+		.catch(err => {});
+};
