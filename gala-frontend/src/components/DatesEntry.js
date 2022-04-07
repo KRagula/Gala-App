@@ -43,7 +43,7 @@ function DatesEntry(props) {
 							<div className='ExploreEntryDescriptionTitleSub'>{props.data.description}</div>
 						</div>
 						<div className='ExploreEntryDescriptionLogistics'>
-							<div>$20.00</div>
+							<div>{props.data.price}</div>
 							<div className='ExploreEntryDot' />
 							<div>
 								{props.data.city}, {props.data.state} ({props.data.distance} mi)

@@ -44,7 +44,7 @@ function Dates() {
 			const firstName = item.hostInfo.firstName;
 			const profileRating = item.hostInfo.rating;
 			// todo after claire updates backend
-			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
+			const profileImage = item.hostInfo.profilePictureLink;
 			let textHash =
 				titleCleaned +
 				'#' +
@@ -104,7 +104,7 @@ function Dates() {
 			const firstName = item.hostInfo.firstName;
 			const profileRating = item.hostInfo.rating;
 			// todo after claire updates backend
-			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
+			const profileImage = item.hostInfo.profilePictureLink;
 			let textHash =
 				titleCleaned +
 				'#' +
@@ -164,7 +164,7 @@ function Dates() {
 			const firstName = item.hostInfo.firstName;
 			const profileRating = item.hostInfo.rating;
 			// todo after claire updates backend
-			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
+			const profileImage = item.hostInfo.profilePictureLink;
 			let textHash =
 				titleCleaned +
 				'#' +
