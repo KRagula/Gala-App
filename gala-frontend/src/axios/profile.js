@@ -13,7 +13,7 @@ export const getProfile = async userId => {
 		})
 		.then(res => res.data)
 		.catch(error => {
-			console.log(error);
+			return false;
 		});
 };
 

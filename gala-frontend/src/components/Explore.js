@@ -100,6 +100,7 @@ function Explore() {
 				textHash: textHash,
 				creatorId: item.creatorId,
 				userDistance: item.userDistance,
+				id: item._id,
 			};
 		});
 

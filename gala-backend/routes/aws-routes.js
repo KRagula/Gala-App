@@ -5,6 +5,7 @@ import multiparty from 'multiparty';
 
 import awsConfig from '../configurations/aws-config.js';
 import userTemplate from '../models/UserModel.js';
+import postTemplate from '../models/PostModels.js';
 
 import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
 
@@ -44,6 +45,14 @@ const userPictureUploadHelper = async (data, id) => {
 
 const experienceFileUploadHelper = async (data, id) => {
 	const filter = { _id: id };
+	const update = {
+		proofExperienceLink: data.Location,
+		proofExperienceName: data.key,
+	};
+	const oldDoc = await postTemplate.findOneAndUpdate(filter, update);
+	if (oldDoc.proofExperienceLink) {
+		await deleteFileHelper(oldDoc.proofExperienceName);
+	}
 };
 
 const uploadFile = async (req, res, next) => {
@@ -67,7 +76,7 @@ const uploadFile = async (req, res, next) => {
 
 			if (data && fields.fileusage == 'profilePicture') {
 				await userPictureUploadHelper(data, fields.user);
-			} else if (data && fields.fileUsage == 'experienceFile') {
+			} else if (data && fields.fileusage == 'experienceFile') {
 				await experienceFileUploadHelper(data, fields.user);
 			}
 
