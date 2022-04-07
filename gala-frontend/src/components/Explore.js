@@ -51,7 +51,6 @@ function Explore() {
 		};
 
 		const nearbyPosts = await getNearbyPosts(positionData);
-		console.log(nearbyPosts);
 		if (typeof nearbyPosts === 'undefined') {
 			setShowExploreEntries(true);
 			return;

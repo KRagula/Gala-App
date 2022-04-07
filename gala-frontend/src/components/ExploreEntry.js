@@ -1,38 +1,49 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import '../css/ExploreEntry.css';
-import testImage from '../assets/kanishka.jpeg';
+import testImage from '../assets/default.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
 function ExploreEntry(props) {
+	console.log(props.data);
 	return (
 		<React.Fragment>
 			<div className='ExploreEntryPaper'>
 				<div className='ExploreEntryProfileAreaWrapper'>
-					<div className='ExploreEntryProfileArea'>
-						<img
-							src={props.data.creatorId.profilePictureLink}
-							className='ExploreEntryProfileImage'
-						/>
-						<div className='ExploreEntryProfileText'>{props.data.creatorId.firstName}</div>
-						<div className='ExploreEntryProfileStars'>
-							{[...Array(5)].map((x, i) => {
-								return Math.round(props.data.creatorId.rating * 2) / 2 >= i + 1 ? (
-									<FaStar fontSize='11px' color='#424242' />
-								) : (
-									<React.Fragment>
-										{Math.round(props.data.creatorId.rating * 2) / 2 > i ? (
-											<FaStarHalfAlt fontSize='11px' color='#424242' />
-										) : (
-											<FaRegStar fontSize='11px' color='#424242' />
-										)}
-									</React.Fragment>
-								);
-							})}
+					<Link
+						to={`${ROUTE.PROFILE}?id=${props.data.creatorId._id}`}
+						style={{ textDecoration: 'none' }}>
+						<div className='ExploreEntryProfileArea'>
+							<img
+								src={
+									props.data.creatorId.profilePictureLink
+										? props.data.creatorId.profilePictureLink
+										: testImage
+								}
+								className='ExploreEntryProfileImage'
+							/>
+							<div className='ExploreEntryProfileText' style={{ color: 'black' }}>
+								{props.data.creatorId.firstName}
+							</div>
+							<div className='ExploreEntryProfileStars'>
+								{[...Array(5)].map((x, i) => {
+									return Math.round(props.data.creatorId.rating * 2) / 2 >= i + 1 ? (
+										<FaStar fontSize='11px' color='#424242' />
+									) : (
+										<React.Fragment>
+											{Math.round(props.data.creatorId.rating * 2) / 2 > i ? (
+												<FaStarHalfAlt fontSize='11px' color='#424242' />
+											) : (
+												<FaRegStar fontSize='11px' color='#424242' />
+											)}
+										</React.Fragment>
+									);
+								})}
+							</div>
 						</div>
-					</div>
+					</Link>
 				</div>
 				<div className='ExploreEntryRightArea'>
 					<div className='ExploreEntryDescriptionArea'>

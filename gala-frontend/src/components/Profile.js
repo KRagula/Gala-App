@@ -19,7 +19,7 @@ function Profile(props) {
 	// controller state
 	const [control, setControl] = useState(null);
 	const [profileInfo, setProfileInfo] = useState({});
-	const [name, setName] = useState('your');
+	const [name, setName] = useState('');
 
 	// meta state
 	const [meta, setMeta] = useState({
@@ -31,6 +31,7 @@ function Profile(props) {
 
 	useEffect(async () => {
 		const queryParams = new URLSearchParams(window.location.search);
+		if (!queryParams.get('id')) return;
 		const res = await getProfile(queryParams.get('id'));
 		if (res.rating) {
 			res.rating = Math.round(res.rating * 2) / 2;
@@ -38,6 +39,8 @@ function Profile(props) {
 
 		if (queryParams.get('id') != Cookies.get('userId')) {
 			setName(`${res.firstName}'s`);
+		} else {
+			setName('your');
 		}
 
 		setProfileInfo(res);
