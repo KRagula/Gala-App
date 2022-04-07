@@ -34,8 +34,8 @@ const postNew = async (req, res, next) => {
 	});
 
 	try {
-		await newPost.save();
-		return res.json({ statusMessage: 'Saved' });
+		const doc = await newPost.save();
+		return res.json({ id: doc._id.toString() });
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
 	}
@@ -121,7 +121,20 @@ const getCoordinates = async address => {
 	return returnValue;
 };
 
+const getListing = async (req, res, next) => {
+	let doc;
+	try {
+		doc = await postTemplate.findById(req.params.listingId).populate('creatorId');
+		if (!doc) return next(new ServerError(serverErrorTypes.mongodb, err)); // User DNE
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
+	res.json(doc);
+};
+
 export default {
 	postNew: postNew,
 	getNearbyPosts: getNearbyPosts,
+	getListing: getListing,
 };

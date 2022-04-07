@@ -7,7 +7,6 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import ROUTE from '../configurations/route-frontend-config.js';
 
 function ExploreEntry(props) {
-	console.log(props.data);
 	return (
 		<React.Fragment>
 			<div className='ExploreEntryPaper'>
@@ -71,7 +70,9 @@ function ExploreEntry(props) {
 							</div>
 							<div className='ExploreEntrySeeMoreArea'>
 								<div className='ExploreEntrySeeMoreAreaWrapper'>
-									<Link to={ROUTE.LISTING} style={{ textDecoration: 'none' }}>
+									<Link
+										to={`${ROUTE.LISTING}?id=${props.data.id}`}
+										style={{ textDecoration: 'none' }}>
 										<div className='ExploreEntrySeeMore'>Click to see more</div>
 									</Link>
 								</div>
