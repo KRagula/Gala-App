@@ -58,6 +58,8 @@ app.post('/aws/fileupload', awsRoutes.uploadFile);
 app.post('/payment/pay', tokenHandlers.verifyJWT, paymentRoutes.pay);
 app.get('/payment/success', tokenHandlers.verifyJWT, paymentRoutes.success);
 app.get('/payment/cancel', tokenHandlers.verifyJWT, paymentRoutes.cancel);
+//just displays the post info for the payments page
+app.get('/payment/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
 
 /** CREDENTIAL ENDPOINTS **/
 app.post('/credential/signup', credentialRoutes.signup);
