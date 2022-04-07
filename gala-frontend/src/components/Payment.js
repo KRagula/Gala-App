@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
@@ -6,15 +6,102 @@ import '../css/Payment.css';
 import testImage from '../assets/kanishka.jpeg';
 import testImage2 from '../assets/eddie.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { getPaymentPost } from '../axios/payments';
+import { ShimmerCategoryItem } from 'react-shimmer-effects';
+import DatesEntry from './DatesEntry';
 
 const { Anime } = ReactAnime;
 
 function Payment() {
 	const [clickedCheckbox, setClickedCheckbox] = useState(false);
+	const [entryDataPay, setEntryDataPay] = useState([]);
+	const [entryDataPayCleaned, setEntryDataPayCleaned] = useState([]);
+	const [showDatesEntries, setShowDatesEntries] = useState(false);
 
 	const handleClickCheckbox = () => {
 		setClickedCheckbox(!clickedCheckbox);
 	};
+
+	useEffect(async () => {
+		const entryDataPayRaw = await getPaymentPost();
+		console.log('this si entry data pay raw', entryDataPayRaw);
+
+		const entryDataPayProcessed = entryDataPayRaw.data.map(item => {
+			const titleCleaned = item.title.toUpperCase();
+			const description = item.description;
+			const priceCleaned = '$' + parseFloat(item.price).toFixed(2);
+			const cityAddress = item.cityAddress;
+			const stateAddress = item.stateAddress;
+			const distance = 5; // todo after claire updates backend
+			const startDateObject = new Date(item.timeStart);
+			const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
+				minimumIntegerDigits: 2,
+				useGrouping: false,
+			});
+			const day = startDateObject
+				.getUTCDate()
+				.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+			const year = startDateObject.getUTCFullYear();
+			const startDateCleaned = month + '/' + day + '/' + year;
+			const firstName = 'hello';
+			const profileRating = 1;
+			// todo after claire updates backend
+			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
+			let textHash =
+				titleCleaned +
+				'#' +
+				description +
+				'#' +
+				priceCleaned +
+				'#' +
+				cityAddress +
+				'#' +
+				stateAddress +
+				'#' +
+				startDateCleaned +
+				'#' +
+				firstName;
+			textHash = textHash.toLowerCase();
+
+			return {
+				title: titleCleaned,
+				description: description,
+				price: priceCleaned,
+				city: cityAddress,
+				state: stateAddress,
+				distance: distance,
+				startDateObject: startDateObject,
+				startDateCleaned: startDateCleaned,
+				firstName: firstName,
+				profileRating: profileRating,
+				profileImage: profileImage,
+				textHash: textHash,
+			};
+		});
+
+		setEntryDataPay(entryDataPayProcessed);
+		setEntryDataPayCleaned(entryDataPayProcessed);
+
+		setShowDatesEntries(true);
+	}, []);
+
+	// const onSubmit = event => {
+	// 	//event.preventDefault(); Take out once we can redirect to a post
+	// 	const newPost = {
+	// 		title: title,
+	// 		description: descriptionEvent,
+	// 		streetAddress: street,
+	// 		cityAddress: city,
+	// 		stateAddress: stateLoc,
+	// 		zipAddress: zip,
+	// 		timeStart: startDate,
+	// 		timeEnd: endDate,
+	// 		price: priceExp,
+	// 		tags: tagsList,
+	// 	};
+
+	// 	createPost(newPost);
+	// };
 
 	// controller state
 	const [control, setControl] = useState(null);
@@ -51,36 +138,12 @@ function Payment() {
 						</div>
 					</div>
 					<div className='PaymentArea'>
-						<div className='OfferListingInfo'>
-							<div className='OfferProfileAreaWrapper'>
-								<div className='ExploreEntryProfileArea'>
-									<img src={testImage2} className='ExploreEntryProfileImage' />
-									<div className='ExploreEntryProfileText'>Eddie</div>
-									<div className='ExploreEntryProfileStars'>
-										<FaStar fontSize='11px' color='#424242' />
-										<FaStarHalfAlt fontSize='11px' color='#424242' />
-										<FaRegStar fontSize='11px' color='#424242' />
-										<FaRegStar fontSize='11px' color='#424242' />
-										<FaRegStar fontSize='11px' color='#424242' />
-									</div>
-								</div>
-							</div>
-							<div className='DatesEntryRightArea'>
-								<div className='DatesEntryDescriptionArea'>
-									<div className='DatesEntryDescriptionTitle'>
-										<div className='ExploreEntryDescriptionTitleMain'>TENNIS LESSONS</div>
-										<div className='ExploreEntryDescriptionTitleSub'>
-											I've played tennis for a few years, would be happy to give lessons at Penn
-											Park!
-										</div>
-									</div>
-									<div className='ExploreEntryDescriptionLogistics'>
-										<div>Philadelpia, PA (1 mi)</div>
-										<div className='ExploreEntryDot' />
-										<div>02/15/2022</div>
-									</div>
-								</div>
-							</div>
+						<div className='BidsEntryArea'>
+							<React.Fragment>
+								{entryDataPayCleaned.map(data => {
+									return <DatesEntry isUpcoming={false} isOwn={true} data={data} />;
+								})}
+							</React.Fragment>
 						</div>
 						<div className='OfferBidAreaWrapper'>
 							<div className='OfferBidArea'>
@@ -88,7 +151,11 @@ function Payment() {
 									<div className='PaymentDateInfo'>
 										<div className='PaymentDateInfoRow'>
 											<div>Date Price:</div>
-											<div className='OfferBidInfoRowPrice Bold'>$110.00</div>
+											<div className='OfferBidInfoRowPrice Bold'>
+												{entryDataPayCleaned.map(data => {
+													return data.price;
+												})}
+											</div>
 										</div>
 									</div>
 								</div>

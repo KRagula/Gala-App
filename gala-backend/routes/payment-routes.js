@@ -35,9 +35,9 @@ const pay = async (request, res) => {
 				item_list: {
 					items: [
 						{
-							name: 'Claire test',
+							name: request.body.name,
 							sku: '0001',
-							price: '1.00',
+							price: request.body.price,
 							currency: 'USD',
 							quantity: 1,
 						},
@@ -45,9 +45,9 @@ const pay = async (request, res) => {
 				},
 				amount: {
 					currency: 'USD',
-					total: '1.00',
+					total: request.body.price,
 				},
-				description: 'paypal test',
+				description: request.body.description,
 			},
 		],
 	};
@@ -77,7 +77,7 @@ const success = async (req, res) => {
 			{
 				amount: {
 					currency: 'USD',
-					total: '1.00',
+					total: 123,
 				},
 			},
 		],
@@ -94,12 +94,12 @@ const success = async (req, res) => {
 			const price = item_list['items'][0]['price'];
 			const tax = item_list['items'][0]['tax'];
 			const msg = {
-				to: 'clairezwang0612@gmail.com', // Change to your recipient
+				to: buyer_email, // Change to your recipient
 				from: 'gala.app.experiences@gmail.com', // Change to your verified sender
-				subject: 'Gala Receipt for: Pitbull Concert', //Change with name of experience purchased
+				subject: 'Gala Receipt for: ' + req.name, //Change with name of experience purchased
 				templateId: 'd-6155c13a32da4f3c89e3d2244e7117da',
 				dynamic_template_data: {
-					description: 'Pitbull Concert',
+					description: req.body.description,
 					quantity: '1',
 					amount: price,
 					subtotal: amount['details']['subtotal'],

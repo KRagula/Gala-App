@@ -15,7 +15,7 @@ import mongoose from 'mongoose';
 const getDates = async (req, res, next) => {
 	//Verify request comes from logged in user?
 	const username = mongoose.Types.ObjectId(req.user.id);
-	console.log('this is the username', username);
+	// console.log('this is the username', username);
 	try {
 		const doc = await postTemplate.find({ creatorId: username });
 		let my_dates = {};
@@ -24,7 +24,7 @@ const getDates = async (req, res, next) => {
 		const userInfo = await userTemplate
 			.findOne({ _id: username })
 			.select('firstName profilePictureLink rating');
-		console.log('this is userinfo', userInfo);
+		// console.log('this is userinfo', userInfo);
 		for (let j = 0; j < created.length; j += 1) {
 			created[j]['hostInfo'] = userInfo;
 			created_list.push(created[j]);
@@ -64,7 +64,7 @@ const getDates = async (req, res, next) => {
 		my_dates['upcomingDates'] = upcomingDates;
 		my_dates['pastDates'] = pastDates;
 
-		console.log('this is the created dates', my_dates);
+		// console.log('this is the created dates', my_dates);
 		return res.json(my_dates);
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
