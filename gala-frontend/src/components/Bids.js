@@ -28,10 +28,9 @@ function Bids() {
 			const title = item.postId.title.toUpperCase();
 			const auctionPrice = '$' + parseFloat(item.postId.price).toFixed(2);
 			const profileName = item.user_profile[0].firstName;
-			const profileRating = Math.round(2.5 * 2) / 2; // todo after claire updates backend
-			// const profileImage = item.user_profile[0].profilePicture; // todo after claire updates backend
-			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
-			const timestampObject = new Date(); // todo after claire updates backend
+			const profileRating = Math.round(item.user_profile[0].rating * 2) / 2;
+			const profileImage = item.user_profile[0].profilePictureLink;
+			const timestampObject = item.postId.timeCreated;
 			let textHash =
 				bidAmount +
 				'#' +
@@ -74,10 +73,9 @@ function Bids() {
 			const title = item.postId.title.toUpperCase();
 			const auctionPrice = '$' + parseFloat(item.postId.price).toFixed(2);
 			const profileName = item.user_profile[0].firstName;
-			const profileRating = Math.round(2.5 * 2) / 2; // todo after claire updates backend
-			// const profileImage = item.user_profile[0].profilePicture; // todo after claire updates backend
-			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
-			const timestampObject = new Date(); // todo after claire updates backend
+			const profileRating = Math.round(item.user_profile[0].rating * 2) / 2;
+			const profileImage = item.user_profile[0].profilePictureLink;
+			const timestampObject = item.postId.timeCreated;
 			let textHash =
 				bidAmount +
 				'#' +
@@ -346,7 +344,6 @@ function Bids() {
 											{entryDataSentCleaned.length > 0 ? (
 												<React.Fragment>
 													{entryDataSentCleaned.map(data => {
-														console.log(data);
 														return <BidsEntry isReceived={false} data={data} isConfirmed={false} />; // todo: update hardcode isConfirmed
 													})}
 												</React.Fragment>
