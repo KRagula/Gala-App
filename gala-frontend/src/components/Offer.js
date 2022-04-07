@@ -58,7 +58,7 @@ function Offer() {
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
 		const res = await getPost(queryParams.get('id'));
-		if (!res) return;
+		if (!res || res.creatorId.role == 'creator' || res.creatorId.role == 'engager') return;
 
 		setDisplay(true);
 		setListingData(res);
@@ -179,7 +179,7 @@ function Offer() {
 						</div>
 					</div>
 				) : (
-					'This Date Does Not Exist'
+					'You cannot make an offer for this date'
 				)}
 			</div>
 			<Anime
