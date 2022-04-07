@@ -130,7 +130,7 @@ const getBidsReceived = async (req, res, next) => {
 const offerBid = async (req, res, next) => {
 	const newBid = new bidTemplate({
 		postId: mongoose.Types.ObjectId(req.params.postId),
-		bidderId: req.body.bidderId,
+		bidderId: req.user.id,
 		bidAmount: req.body.bidAmount,
 		status: 'Waiting for response',
 		bidTime: req.body.bidTime,
