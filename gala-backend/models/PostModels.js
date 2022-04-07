@@ -72,4 +72,4 @@ const postTemplate = new mongoose.Schema({
 	},
 });
 
-export default mongoose.model('postTable', postTemplate);
+export default mongoose.model(dbConfig.mongoDBTablePosts, postTemplate);
