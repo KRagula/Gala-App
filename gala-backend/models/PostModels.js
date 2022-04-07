@@ -70,6 +70,11 @@ const postTemplate = new mongoose.Schema({
 		ref: dbConfig.mongoDBTableUser,
 		required: true,
 	},
+	bidWinnerId: {
+		type: mongoose.Types.ObjectId,
+		ref: dbConfig.mongoDBTableUser,
+		required: false,
+	},
 });
 
 export default mongoose.model(dbConfig.mongoDBTablePosts, postTemplate);

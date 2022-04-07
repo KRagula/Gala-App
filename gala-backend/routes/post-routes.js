@@ -34,8 +34,8 @@ const postNew = async (req, res, next) => {
 	});
 
 	try {
-		await newPost.save();
-		return res.json({ statusMessage: 'Saved' });
+		const doc = await newPost.save();
+		return res.json({ id: doc._id.toString() });
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
 	}

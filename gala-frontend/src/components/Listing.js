@@ -16,7 +16,7 @@ import ROUTE from '../configurations/route-frontend-config.js';
 
 const { Anime } = ReactAnime;
 
-function Listing(props) {
+const Listing = props => {
 	// For collapse Bids Received box
 	const [collapseFirst, setCollapseFirst] = useState(false);
 
@@ -55,7 +55,6 @@ function Listing(props) {
 
 		setListingData(res);
 		setCreatorData(res.creatorId);
-		console.log(res);
 	}, []);
 
 	const handleOneStars = () => {
@@ -129,7 +128,11 @@ function Listing(props) {
 									src={creatorData.profilePictureLink ? creatorData.profilePictureLink : testImage}
 									className='ListingProfileImage'
 								/>
-								<div className='ListingProfileText'>{`${creatorData.firstName} ${creatorData.lastName}`}</div>
+								<div className='ListingProfileText'>
+									{creatorData.firstName
+										? `${creatorData.firstName} ${creatorData.lastName}`
+										: null}
+								</div>
 								<div className='ListingProfileStars'>
 									{[...Array(5)].map((x, i) => {
 										return Math.round(creatorData.rating * 2) / 2 >= i + 1 ? (
@@ -215,9 +218,14 @@ function Listing(props) {
 								<div className='ListingDataRowInfo'>
 									<div className='ListingDataProofWrapper'>
 										<div className='ListingDataProof'>
-											<a href={testFile} download class='ListingProof'>
-												test-file.pdf
-											</a>
+											{listingData.proofExperienceLink ? (
+												<a
+													href={listingData.proofExperienceLink}
+													target='_blank'
+													class='ListingProof'>
+													{listingData.proofExperienceName.substring(17)}
+												</a>
+											) : null}
 										</div>
 									</div>
 								</div>
@@ -392,6 +400,6 @@ function Listing(props) {
 				}}></Anime>
 		</React.Fragment>
 	);
-}
+};
 
 export default Listing;

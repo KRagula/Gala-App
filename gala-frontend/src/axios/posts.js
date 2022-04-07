@@ -4,7 +4,7 @@ import serverConfig from '../configurations/server-config.js';
 import routeExperience from '../configurations/route-experience-config.js';
 
 export const createPost = async postData => {
-	axios
+	return axios
 		.post(`${serverConfig.backendURL}${routeExperience.makePost}`, postData, {
 			withCredentials: true,
 			headers: {
@@ -15,7 +15,7 @@ export const createPost = async postData => {
 		.catch(error => false);
 };
 
-export const getNearbyPosts = locationData => {
+export const getNearbyPosts = async locationData => {
 	return axios
 		.post(`${serverConfig.backendURL}/experience/get-nearby-posts`, locationData, {
 			withCredentials: true,

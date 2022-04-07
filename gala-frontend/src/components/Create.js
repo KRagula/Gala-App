@@ -14,7 +14,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { createPost } from '../axios/posts.js';
-import Cookies from 'js-cookie';
+import { uploadFile, fileUsage } from '../axios/aws.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -45,6 +45,7 @@ function Create() {
 	const [zip, setZip] = useState('');
 	const [stateLoc, setStateLoc] = useState('');
 	const [priceExp, setPriceExp] = useState('');
+	const [selectedFile, setSelectedFile] = useState(null);
 
 	const currencyMask = createNumberMask({
 		...defaultMaskOptions,
@@ -110,12 +111,18 @@ function Create() {
 			!startDate ||
 			!endDate ||
 			!priceExp ||
-			!tagsList
+			!tagsList ||
+			!selectedFile
 		) {
 			alert('Please Fill In All Fields!');
 			return;
 		}
-		await createPost(newPost);
+		const res = await createPost(newPost);
+		if (selectedFile && res) {
+			await uploadFile(selectedFile, res.id, fileUsage.experienceFile);
+		}
+
+		if (res) window.location = `${ROUTE.LISTING}?id=${res.id}`;
 	};
 
 	// controller state
@@ -245,6 +252,9 @@ function Create() {
 								type='file'
 								className='CreateFormInputProof'
 								accept='application/pdf'
+								onChange={event => {
+									setSelectedFile(event.target.files[0]);
+								}}
 								required></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -285,11 +295,14 @@ function Create() {
 							</div>
 						</div>
 						<div className='CreateFormButtonArea'>
-							<Link to={ROUTE.MYDATES} style={{ textDecoration: 'none' }}>
-								<div className='CreateFormButton Submit' onClick={onSubmit}>
-									Submit
-								</div>
-							</Link>
+							<div
+								className='CreateFormButton Submit'
+								onClick={onSubmit}
+								style={{
+									cursor: 'pointer',
+								}}>
+								Submit
+							</div>
 							<div className='CreateFormButton Clear'>Clear</div>
 						</div>
 					</div>
