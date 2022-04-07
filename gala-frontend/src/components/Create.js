@@ -14,6 +14,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { createPost } from '../axios/posts.js';
+import Cookies from 'js-cookie';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -84,23 +85,6 @@ function Create() {
 		}
 	};
 
-	const creatorEmail = document.cookie
-		.split('; ')
-		.find(row => row.startsWith('email='))
-		.split('=')[1];
-	const creatorRating = document.cookie
-		.split('; ')
-		.find(row => row.startsWith('rating='))
-		.split('=')[1];
-	const creatorName = document.cookie
-		.split('; ')
-		.find(row => row.startsWith('first-name='))
-		.split('=')[1];
-	const creatorId = document.cookie
-		.split('; ')
-		.find(row => row.startsWith('docid='))
-		.split('=')[1];
-
 	const onSubmit = event => {
 		//event.preventDefault(); Take out once we can redirect to a post
 		const newPost = {
@@ -114,11 +98,23 @@ function Create() {
 			timeEnd: endDate,
 			price: priceExp,
 			tags: tagsList,
-			hostEmail: creatorEmail, //TODO: USE HOST ID
-			rating: creatorRating,
-			creatorName: creatorName,
-			creatorId: creatorId,
 		};
+
+		if (
+			!title ||
+			!descriptionEvent ||
+			!street ||
+			!city ||
+			!stateLoc ||
+			!zip ||
+			!startDate ||
+			!endDate ||
+			!priceExp ||
+			!tagsList
+		) {
+			alert('Please Fill In All Fields!');
+			return;
+		}
 		createPost(newPost);
 	};
 
@@ -210,7 +206,7 @@ function Create() {
 										<DesktopDateTimePicker
 											value={startDate}
 											onChange={newStartDate => {
-												setStartDate(newStartDate);
+												if (newStartDate <= endDate) setStartDate(newStartDate);
 											}}
 											renderInput={params => <TextField {...params} />}
 											minDate={new Date()}
@@ -225,7 +221,7 @@ function Create() {
 										<DesktopDateTimePicker
 											value={endDate}
 											onChange={newEndDate => {
-												setEndDate(newEndDate);
+												if (startDate <= newEndDate) setEndDate(newEndDate);
 											}}
 											renderInput={params => <TextField {...params} />}
 											minDate={startDate}

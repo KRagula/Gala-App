@@ -30,7 +30,7 @@ export const getNearbyPosts = locationData => {
 				'x-access-token': localStorage.getItem('token'),
 			},
 		})
-		.then(res => res)
+		.then(res => res.data)
 		.catch(err => {
 			// do something later
 		});

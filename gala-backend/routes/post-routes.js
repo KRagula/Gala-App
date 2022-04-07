@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import axios from 'axios';
 import postTemplate from '../models/PostModels.js';
 import geoConfig from '../configurations/geo-config.js';
@@ -25,19 +25,14 @@ const postNew = async (req, res, next) => {
 		timeEnd: req.body.timeEnd,
 		price: Number(req.body.price.replace(/[^0-9.-]+/g, '')),
 		tags: req.body.tags,
-		hostEmail: decodeURIComponent(req.body.hostEmail),
 		timeCreated: new Date(),
-		rating: req.body.rating,
-		creatorName: req.body.creatorName,
-		creatorId: decodeURI(req.body.creatorId),
+		creatorId: mongoose.Types.ObjectId(req.user.id),
 		location: {
 			type: 'Point',
 			coordinates: [coordinates[0], coordinates[1]],
 		},
 	});
 
-	//TODO: Verify that the JWT matches for the email payload (can use middleware for this, no need to do within route)
-	//TODO: Generate ID for the post?
 	try {
 		await newPost.save();
 		return res.json({ statusMessage: 'Saved' });
@@ -69,18 +64,21 @@ const getNearbyPosts = async (req, res, next) => {
 	// const addressCoords = await getCoordinates(req.body.address);
 	const addressCoords = [req.body.longitude, req.body.latitude];
 	try {
-		const doc = await postTemplate.find({
-			location: {
-				$nearSphere: {
-					$geometry: {
-						type: 'Point',
-						coordinates: addressCoords,
+		const doc = await postTemplate
+			.find({
+				location: {
+					$nearSphere: {
+						$geometry: {
+							type: 'Point',
+							coordinates: addressCoords,
+						},
+						$maxDistance: Number(rangeSearch),
+						$minDistance: 0,
 					},
-					$maxDistance: Number(rangeSearch),
-					$minDistance: 0,
 				},
-			},
-		});
+			})
+			.populate('creatorId');
+
 		if (!doc) {
 			return res.json({});
 		} else {

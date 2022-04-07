@@ -73,7 +73,12 @@ const Login = () => {
 							required
 						/>
 					</div>
-					<div class='LoginSubmitButton' onClick={onSubmit}>
+					<div
+						class='LoginSubmitButton'
+						onClick={onSubmit}
+						style={{
+							cursor: 'pointer',
+						}}>
 						Log In
 					</div>
 				</div>

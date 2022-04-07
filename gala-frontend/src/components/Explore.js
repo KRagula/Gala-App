@@ -51,12 +51,13 @@ function Explore() {
 		};
 
 		const nearbyPosts = await getNearbyPosts(positionData);
+		console.log(nearbyPosts);
 		if (typeof nearbyPosts === 'undefined') {
 			setShowExploreEntries(true);
 			return;
 		}
 
-		const entryDataToSet = nearbyPosts.data.map(item => {
+		const entryDataToSet = nearbyPosts.map(item => {
 			const titleCleaned = item.title.toUpperCase();
 			const priceCleaned = '$' + parseFloat(item.price).toFixed(2);
 			const startDateObject = new Date(item.timeStart);
@@ -98,6 +99,7 @@ function Explore() {
 				timeCreatedObject: timeCreatedObject,
 				priceValue: item.price,
 				textHash: textHash,
+				creatorId: item.creatorId,
 			};
 		});
 
