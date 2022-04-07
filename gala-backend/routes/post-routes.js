@@ -72,13 +72,8 @@ const getNearbyPosts = async (req, res, next) => {
 			if (req.body.startDate && req.body.endDate) {
 				let startDateCast = new Date(req.body.startDate);
 				startDateCast.setDate(startDateCast.getDate() - 1);
-				console.log('Start Date -1');
-				console.log(startDateCast);
-				// console.log(startDateCast - 1);
 				let endDateCast = new Date(req.body.endDate);
 				let returnList = doc.filter(currentElement => {
-					console.log('Current Element');
-					console.log(currentElement.timeStart);
 					return startDateCast <= currentElement.timeStart && endDateCast >= currentElement.timeEnd;
 				});
 				const newReturnList = returnList.map((elem, i) => {
