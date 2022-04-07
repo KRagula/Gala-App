@@ -67,7 +67,7 @@ app.get('/credential/isauth', tokenHandlers.verifyJWT, credentialRoutes.isAuth);
 /** EXPERIENCE ENDPOINTS **/
 app.post('/experience/make-post', tokenHandlers.verifyJWT, postRoutes.postNew);
 app.post('/experience/get-city-posts', tokenHandlers.verifyJWT, postRoutes.getCityPosts);
-app.post('/experience/get-nearby-posts', tokenHandlers.verifyJWT, postRoutes.getNearbyPosts);
+app.post('/experience/get-nearby-posts', postRoutes.getNearbyPosts);
 app.get('/experience/bids-sent/:username', tokenHandlers.verifyJWT, bidRoutes.getBidsSent);
 app.get('/experience/bids-received/:username', tokenHandlers.verifyJWT, bidRoutes.getBidsReceived);
 app.post('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.offerBid);

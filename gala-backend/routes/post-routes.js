@@ -33,8 +33,6 @@ const postNew = async (req, res, next) => {
 		},
 	});
 
-	//TODO: Verify that the JWT matches for the email payload (can use middleware for this, no need to do within route)
-	//TODO: Generate ID for the post?
 	try {
 		await newPost.save();
 		return res.json({ statusMessage: 'Saved' });
@@ -66,18 +64,21 @@ const getNearbyPosts = async (req, res, next) => {
 	// const addressCoords = await getCoordinates(req.body.address);
 	const addressCoords = [req.body.longitude, req.body.latitude];
 	try {
-		const doc = await postTemplate.find({
-			location: {
-				$nearSphere: {
-					$geometry: {
-						type: 'Point',
-						coordinates: addressCoords,
+		const doc = await postTemplate
+			.find({
+				location: {
+					$nearSphere: {
+						$geometry: {
+							type: 'Point',
+							coordinates: addressCoords,
+						},
+						$maxDistance: Number(rangeSearch),
+						$minDistance: 0,
 					},
-					$maxDistance: Number(rangeSearch),
-					$minDistance: 0,
 				},
-			},
-		});
+			})
+			.populate('creatorId');
+
 		if (!doc) {
 			return res.json({});
 		} else {
