@@ -99,6 +99,7 @@ function Explore() {
 				priceValue: item.price,
 				textHash: textHash,
 				creatorId: item.creatorId,
+				userDistance: item.userDistance,
 			};
 		});
 
