@@ -66,7 +66,6 @@ app.get('/credential/isauth', tokenHandlers.verifyJWT, credentialRoutes.isAuth);
 
 /** EXPERIENCE ENDPOINTS **/
 app.post('/experience/make-post', tokenHandlers.verifyJWT, postRoutes.postNew);
-app.post('/experience/get-city-posts', tokenHandlers.verifyJWT, postRoutes.getCityPosts);
 app.post('/experience/get-nearby-posts', postRoutes.getNearbyPosts);
 app.get('/experience/bids-sent/:username', tokenHandlers.verifyJWT, bidRoutes.getBidsSent);
 app.get('/experience/bids-received/:username', tokenHandlers.verifyJWT, bidRoutes.getBidsReceived);
@@ -74,7 +73,7 @@ app.post('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.off
 app.get('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
 app.put('/experience/confirm-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.confirmBid);
 app.delete('/experience/delete-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.deleteBid);
-app.get('/experience/dates/:username', dateRoutes.getDates);
+app.get('/experience/dates', tokenHandlers.verifyJWT, dateRoutes.getDates);
 
 /** PROFILE ENDPOINTS **/
 app.get('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.getProfile);

@@ -41,20 +41,6 @@ const postNew = async (req, res, next) => {
 	}
 };
 
-const getCityPosts = async (req, res, next) => {
-	//Verify request comes from logged in user?
-	try {
-		const doc = await postTemplate.find({ cityAddress: req.body.cityAddress });
-		if (!doc) {
-			return res.json({});
-		} else {
-			return res.json(doc);
-		}
-	} catch (err) {
-		return next(new ServerError(serverErrorTypes.mongodb, err));
-	}
-};
-
 const getNearbyPosts = async (req, res, next) => {
 	//Verify request comes from logged in user?
 	const rangeSearch = req.body.range;
@@ -119,6 +105,5 @@ const getCoordinates = async address => {
 
 export default {
 	postNew: postNew,
-	getCityPosts: getCityPosts,
 	getNearbyPosts: getNearbyPosts,
 };

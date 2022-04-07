@@ -5,7 +5,6 @@ import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
 import '../css/Dashboard.css';
 import '../css/Update.css';
-import testImage from '../assets/kanishka.jpeg';
 import defaultImage from '../assets/default.jpeg';
 import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
@@ -194,7 +193,9 @@ function Update() {
 									<img
 										className='UpdateFormProfilePicture'
 										alt={defaultImage}
-										src={profileInfo.profilePictureLink}
+										src={
+											profileInfo.profilePictureLink ? profileInfo.profilePictureLink : defaultImage
+										}
 									/>
 								</div>
 							)}
