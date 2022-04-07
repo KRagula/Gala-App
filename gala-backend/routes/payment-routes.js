@@ -21,6 +21,9 @@ const cancel = async (request, response) => {
 };
 
 const pay = async (request, res) => {
+	console.log('this is the price', request.query.price);
+	console.log('this is the description', request.query.description);
+	console.log('this is the title', request.query.title);
 	const create_payment_json = {
 		intent: 'sale',
 		payer: {
@@ -35,9 +38,9 @@ const pay = async (request, res) => {
 				item_list: {
 					items: [
 						{
-							name: request.body.name,
+							name: request.query.title,
 							sku: '0001',
-							price: request.body.price,
+							price: request.query.price,
 							currency: 'USD',
 							quantity: 1,
 						},
@@ -45,15 +48,15 @@ const pay = async (request, res) => {
 				},
 				amount: {
 					currency: 'USD',
-					total: request.body.price,
+					total: request.query.price,
 				},
-				description: request.body.description,
+				description: request.query.description,
 			},
 		],
 	};
 
 	//console.log('this is the object' + create_payment_json);
-
+	let payment_link = '';
 	paypal.payment.create(create_payment_json, function (error, payment) {
 		if (error) {
 			throw new ServerError(serverErrorTypes.paypal, error);
@@ -61,11 +64,18 @@ const pay = async (request, res) => {
 			for (let i = 0; i < payment.links.length; i++) {
 				if (payment.links[i].rel == 'approval_url') {
 					//hfref is where the actual link is
+					console.log('this si the payment link', payment.links[i].href);
+					res.setHeader('Access-Control-Allow-Origin', '*');
 					res.redirect(payment.links[i].href);
+					//payment_link = payment.links[i].href;
+					// const doc = axios.get(payment.links[i].href);
+					// return payment.links[i].href;
 				}
 			}
 		}
 	});
+	console.log('this is the payment_link below', payment_link);
+	return payment_link;
 };
 
 const success = async (req, res) => {
@@ -77,7 +87,7 @@ const success = async (req, res) => {
 			{
 				amount: {
 					currency: 'USD',
-					total: 123,
+					total: 1,
 				},
 			},
 		],
@@ -94,12 +104,12 @@ const success = async (req, res) => {
 			const price = item_list['items'][0]['price'];
 			const tax = item_list['items'][0]['tax'];
 			const msg = {
-				to: buyer_email, // Change to your recipient
+				to: 'clairezwang0612@gmail.com', // Change to your recipient
 				from: 'gala.app.experiences@gmail.com', // Change to your verified sender
-				subject: 'Gala Receipt for: ' + req.name, //Change with name of experience purchased
+				subject: 'Gala Receipt for: Cooking With Eddie', //Change with name of experience purchased
 				templateId: 'd-6155c13a32da4f3c89e3d2244e7117da',
 				dynamic_template_data: {
-					description: req.body.description,
+					description: 'Make guac and salsa with Eddie',
 					quantity: '1',
 					amount: price,
 					subtotal: amount['details']['subtotal'],

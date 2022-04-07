@@ -6,7 +6,7 @@ import '../css/Payment.css';
 import testImage from '../assets/kanishka.jpeg';
 import testImage2 from '../assets/eddie.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
-import { getPaymentPost } from '../axios/payments';
+import { getPaymentPost, makePayment } from '../axios/payments';
 import { ShimmerCategoryItem } from 'react-shimmer-effects';
 import DatesEntry from './DatesEntry';
 
@@ -85,23 +85,17 @@ function Payment() {
 		setShowDatesEntries(true);
 	}, []);
 
-	// const onSubmit = event => {
-	// 	//event.preventDefault(); Take out once we can redirect to a post
-	// 	const newPost = {
-	// 		title: title,
-	// 		description: descriptionEvent,
-	// 		streetAddress: street,
-	// 		cityAddress: city,
-	// 		stateAddress: stateLoc,
-	// 		zipAddress: zip,
-	// 		timeStart: startDate,
-	// 		timeEnd: endDate,
-	// 		price: priceExp,
-	// 		tags: tagsList,
-	// 	};
-
-	// 	createPost(newPost);
-	// };
+	const onSubmit = event => {
+		//event.preventDefault(); Take out once we can redirect to a post
+		entryDataPayCleaned.map(data => {
+			const newPost = {
+				title: data.title,
+				description: data.description,
+				price: 126,
+			};
+			makePayment(newPost);
+		});
+	};
 
 	// controller state
 	const [control, setControl] = useState(null);
@@ -122,6 +116,18 @@ function Payment() {
 		duration: 800,
 		opacity: 100,
 		easing: 'easeInOutExpo',
+	});
+
+	var form_url_var = '';
+	entryDataPayCleaned.map(data => {
+		const form_url =
+			'http://localhost:8080/payment/pay?title=' +
+			data.title +
+			'&price=' +
+			data.price +
+			'&description=' +
+			data.description;
+		form_url_var = form_url;
 	});
 
 	return (
@@ -168,11 +174,28 @@ function Payment() {
 									</div>
 								</div>
 								<div className='OfferBidOptionArea'>
-									<form action='http://localhost:8080/payment/pay' method='post'>
+									<form
+										action='http://localhost:8080/payment/pay?title=Cooking With Eddie&price=1&description=Make guac and salsa with Eddie'
+										method='post'>
 										<input className='PaymentOptionButton Submit' type='submit' value='Purchase' />
 									</form>
+
 									<div className='PaymentOptionButton GoBack'>Go Back</div>
 								</div>
+								{/* <div className='OfferBidOptionArea'>
+									{
+										<div
+											className='CreateFormButton Submit'
+											onClick={onSubmit}
+											style={{
+												cursor: 'pointer',
+											}}>
+											Submit
+										</div>
+									}
+
+									<div className='PaymentOptionButton GoBack'>Go Back</div>
+								</div> */}
 							</div>
 						</div>
 					</div>
