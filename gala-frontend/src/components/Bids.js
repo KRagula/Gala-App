@@ -58,6 +58,9 @@ function Bids() {
 				profileImage: profileImage,
 				timestampObject: timestampObject,
 				textHash: textHash,
+				bidId: item._id,
+				userId: item.user_profile[0]._id,
+				bidStatus: item.status,
 			};
 		});
 
@@ -103,6 +106,9 @@ function Bids() {
 				profileImage: profileImage,
 				timestampObject: timestampObject,
 				textHash: textHash,
+				bidId: item._id,
+				userId: item.user_profile[0]._id,
+				bidStatus: item.status,
 			};
 		});
 

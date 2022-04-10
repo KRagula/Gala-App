@@ -10,7 +10,7 @@ import testFile from '../assets/file-test.pdf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { getPost } from '../axios/posts.js';
+import { getPost, deletePost } from '../axios/posts.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -46,6 +46,7 @@ const Listing = props => {
 	const [dateRating, setDateRating] = useState(0);
 	const [listingData, setListingData] = useState({});
 	const [creatorData, setCreatorData] = useState({});
+	const [name, setName] = useState('');
 
 	useEffect(async () => {
 		const queryParams = new URLSearchParams(window.location.search);
@@ -53,9 +54,21 @@ const Listing = props => {
 		const res = await getPost(queryParams.get('id'));
 		if (!res) return;
 
+		if (res.creatorId.role == 'creator') {
+			setName('you');
+		} else {
+			setName(res.creatorId.firstName);
+		}
+
 		setListingData(res);
 		setCreatorData(res.creatorId);
 	}, []);
+
+	const onRemoveClick = async () => {
+		const queryParams = new URLSearchParams(window.location.search);
+		await deletePost(queryParams.get('id'));
+		window.location = ROUTE.EXPLORE;
+	};
 
 	const handleOneStars = () => {
 		setShowThanksForFeedback(true);
@@ -102,11 +115,6 @@ const Listing = props => {
 		opacity: 100,
 		easing: 'easeInOutExpo',
 	});
-
-	var name = 'Kanishka';
-	if (props.role === 'creator') {
-		name = 'you';
-	}
 
 	return (
 		<React.Fragment>
@@ -210,7 +218,14 @@ const Listing = props => {
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Highest Bid:</div>
 								<div className='ListingDataRowInfo'>
-									<i>$70.00.</i>
+									<i>
+										{listingData.highestBid
+											? new Intl.NumberFormat('en-US', {
+													style: 'currency',
+													currency: 'USD',
+											  }).format(listingData.highestBid)
+											: null}
+									</i>
 								</div>
 							</div>
 							<div className='ListingDataRow'>
@@ -242,7 +257,12 @@ const Listing = props => {
 							</div>
 							{creatorData.role === 'creator' ? (
 								<div className='ListingDeleteArea'>
-									<div className='ListingDelete'>Click to remove listing</div>
+									<div
+										className='ListingDelete'
+										onClick={onRemoveClick}
+										style={{ textDecoration: 'none', cursor: 'pointer' }}>
+										Click to remove listing
+									</div>
 								</div>
 							) : (
 								<div />
@@ -264,8 +284,37 @@ const Listing = props => {
 								</div>
 								{!collapseFirst ? (
 									<div className='BidsEntryArea'>
-										{/* <BidsEntry isReceived={true} />
-										<BidsEntry isReceived={true} /> */}
+										{listingData.allBids.map((i, x) => (
+											<BidsEntry
+												isReceived={true}
+												data={{
+													userId: i.bidderId._id,
+													profileImage: i.bidderId.profilePictureLink,
+													profileName: i.bidderId.firstName,
+													profileRating: i.bidderId.rating,
+													title: listingData.title,
+													auctionPrice: listingData.price
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(listingData.price)
+														: null,
+													highestBid: listingData.highestBid
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(listingData.highestBid)
+														: null,
+													bidAmount: i.bidAmount
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(i.bidAmount)
+														: null,
+													bidId: i._id,
+												}}
+											/>
+										))}
 									</div>
 								) : (
 									<div />

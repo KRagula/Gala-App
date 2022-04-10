@@ -11,28 +11,32 @@ function DatesEntry(props) {
 		<React.Fragment>
 			<div className='DatesEntryPaper'>
 				<div className='ExploreEntryProfileAreaWrapper'>
-					<div className='ExploreEntryProfileArea'>
-						<img
-							src={props.data.profileImage ? props.data.profileImage : defaultImage}
-							className='ExploreEntryProfileImage'
-						/>
-						<div className='ExploreEntryProfileText'>{props.data.firstName}</div>
-						<div className='ExploreEntryProfileStars'>
-							{[...Array(5)].map((x, i) => {
-								return props.data.profileRating >= i + 1 ? (
-									<FaStar fontSize='11px' color='#424242' />
-								) : (
-									<React.Fragment>
-										{props.data.profileRating > i ? (
-											<FaStarHalfAlt fontSize='11px' color='#424242' />
-										) : (
-											<FaRegStar fontSize='11px' color='#424242' />
-										)}
-									</React.Fragment>
-								);
-							})}
+					<Link to={`${ROUTE.PROFILE}?id=${props.data.userId}`} style={{ textDecoration: 'none' }}>
+						<div className='ExploreEntryProfileArea'>
+							<img
+								src={props.data.profileImage ? props.data.profileImage : defaultImage}
+								className='ExploreEntryProfileImage'
+							/>
+							<div className='ExploreEntryProfileText' style={{ color: 'black' }}>
+								{props.data.firstName}
+							</div>
+							<div className='ExploreEntryProfileStars'>
+								{[...Array(5)].map((x, i) => {
+									return props.data.profileRating >= i + 1 ? (
+										<FaStar fontSize='11px' color='#424242' />
+									) : (
+										<React.Fragment>
+											{props.data.profileRating > i ? (
+												<FaStarHalfAlt fontSize='11px' color='#424242' />
+											) : (
+												<FaRegStar fontSize='11px' color='#424242' />
+											)}
+										</React.Fragment>
+									);
+								})}
+							</div>
 						</div>
-					</div>
+					</Link>
 				</div>
 				<div className='DatesEntryRightArea'>
 					<div className='DatesEntryDescriptionArea'>
@@ -73,7 +77,9 @@ function DatesEntry(props) {
 						</div>
 						<div className='BidsEntryBottomRightArea'>
 							<div className='BidsEntryBottomRightAreaRow'>
-								<Link to={ROUTE.LISTING} style={{ textDecoration: 'none' }}>
+								<Link
+									to={`${ROUTE.LISTING}?id=${props.data.postId}`}
+									style={{ textDecoration: 'none' }}>
 									<div className='BidsEntryBottomRightAreaWidget Confirm'>Click for details</div>
 								</Link>
 								{props.isUpcoming ? (

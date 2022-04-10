@@ -41,6 +41,14 @@ export const getPost = async listingId => {
 		.catch(err => false);
 };
 
-export const getBids = async listingId => {
-	return axios.get();
+export const deletePost = async listingId => {
+	return axios
+		.delete(`${serverConfig.backendURL}/experience/listing/${listingId}`, {
+			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
+		})
+		.then(res => res.data)
+		.catch(err => false);
 };

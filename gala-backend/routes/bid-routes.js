@@ -21,7 +21,6 @@ const getBidsSent = async (req, res, next) => {
 		const doc = await bidTemplate.find({ bidderId: userId }).populate({
 			path: 'postId',
 		});
-		console.log('this is the bids youve sent', doc);
 		if (!doc) {
 			return res.json({});
 		} else {
@@ -29,7 +28,6 @@ const getBidsSent = async (req, res, next) => {
 			const json_obj = JSON.parse(json_doc);
 			//calculates the highest bid
 			for (let j = 0; j < json_obj.length; j += 1) {
-				console.log('this is json obj', json_obj[j]);
 				const post_id = mongoose.Types.ObjectId(json_obj[j]['postId']['_id']);
 				//find highest_bid per post
 				const highest_bid = await bidTemplate
@@ -50,7 +48,6 @@ const getBidsSent = async (req, res, next) => {
 					bids_sent_data.push(json_obj[i]);
 				}
 			}
-			console.log('this is bids_sent_data', bids_sent_data);
 			return res.json(bids_sent_data);
 		}
 	} catch (err) {
@@ -68,11 +65,9 @@ const getBidsSent = async (req, res, next) => {
 const getBidsReceived = async (req, res, next) => {
 	//Verify request comes from logged in user?
 	const username = mongoose.Types.ObjectId(req.user.id);
-	console.log('this is the username', username);
 	try {
 		//this gets the postids of the posts that the host has
 		const doc = await postTemplate.find({ creatorId: username }).select('_id');
-		console.log('this is doc', doc);
 		// Now doc represents an array of data on all the posts (including postIds) the host has.
 		if (!doc) {
 			return res.json({});
@@ -80,16 +75,12 @@ const getBidsReceived = async (req, res, next) => {
 			let bidsReceived = [];
 			//iterate through all posts
 			for (let i = 0; i < doc.length; i += 1) {
-				console.log('this is doc[i', doc[i]);
 				const id = doc[i]['_id'].toString();
-				console.log('this is post ID', id);
 				const objectId = mongoose.Types.ObjectId(id);
 				//this gets all the posts + bids on posts with postId (from post table) = postId (from bid table)
 				const bids = await bidTemplate.find({ postId: objectId }).populate({
 					path: 'postId',
 				});
-
-				console.log('these are the bids', bids);
 
 				//convert this query result to json for easier parsing
 				const bids_json = JSON.parse(JSON.stringify(bids));
@@ -97,7 +88,6 @@ const getBidsReceived = async (req, res, next) => {
 				//GET USER INFO: get bidderEmail from query result, and then query to find relevant user info
 				for (let j = 0; j < bids_json.length; j += 1) {
 					const bidder_id = mongoose.Types.ObjectId(bids_json[j]['bidderId']);
-					console.log('this is bidderId', bidder_id);
 					const user_query = await userTemplate
 						.find({ _id: bidder_id })
 						.select('firstName profilePictureLink rating');
@@ -118,7 +108,6 @@ const getBidsReceived = async (req, res, next) => {
 					.limit(1);
 				bidsReceived[k]['highestBid'] = JSON.parse(JSON.stringify(highest_bid))[0]['bidAmount'];
 			}
-			console.log('this is the bids received data', bidsReceived);
 			return res.json(bidsReceived.flat());
 		}
 	} catch (err) {

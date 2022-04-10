@@ -76,6 +76,8 @@ function Dates() {
 				profileRating: profileRating,
 				profileImage: profileImage,
 				textHash: textHash,
+				userId: item.hostInfo._id,
+				postId: item._id,
 			};
 		});
 
@@ -135,6 +137,8 @@ function Dates() {
 				profileRating: profileRating,
 				profileImage: profileImage,
 				textHash: textHash,
+				userId: item.hostInfo._id,
+				postId: item._id,
 			};
 		});
 
@@ -194,6 +198,8 @@ function Dates() {
 				profileRating: profileRating,
 				profileImage: profileImage,
 				textHash: textHash,
+				userId: item.hostInfo._id,
+				postId: item._id,
 			};
 		});
 

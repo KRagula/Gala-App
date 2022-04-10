@@ -33,6 +33,46 @@ export const getBidsSent = async () => {
 		});
 };
 
-export const sendBid = async postId => {
-	return axios.post(`${serverConfig.backendURL}/experience/offer-bid/${postId}`);
+export const sendBid = async (postId, bidAmount) => {
+	return axios
+		.post(
+			`${serverConfig.backendURL}/experience/offer-bid/${postId}`,
+			{ bidAmount: bidAmount },
+			{
+				withCredentials: true,
+				headers: {
+					'x-access-token': localStorage.getItem('token'),
+				},
+			}
+		)
+		.then(res => res.data)
+		.catch(err => false);
+};
+
+export const withdrawBid = async bidId => {
+	return axios
+		.delete(`${serverConfig.backendURL}/experience/delete-bid/${bidId}`, {
+			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
+		})
+		.then(res => res.data)
+		.catch(err => false);
+};
+
+export const confirmBid = async bidId => {
+	return axios
+		.post(
+			`${serverConfig.backendURL}/experience/confirm-bid/:bidId`,
+			{},
+			{
+				withCredentials: true,
+				headers: {
+					'x-access-token': localStorage.getItem('token'),
+				},
+			}
+		)
+		.then(res => res.data)
+		.catch(err => false);
 };

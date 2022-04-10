@@ -22,7 +22,7 @@ const bidTemplate = new mongoose.Schema({
 	},
 	bidTime: {
 		type: Date,
-		required: true,
+		required: false,
 	},
 });
 
