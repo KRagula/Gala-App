@@ -9,7 +9,6 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Explore from './components/Explore';
 import Create from './components/Create';
-import Messages from './components/Messages';
 import Bids from './components/Bids';
 import Dates from './components/Dates';
 import Payment from './components/Payment';
@@ -60,7 +59,6 @@ function App() {
 					<Route exact path={ROUTE.CONTACT} element={<Contact />} />
 					<Route exact path={ROUTE.EXPLORE} element={<Explore />} />
 					<Route exact path={ROUTE.CREATE} element={<Create />} />
-					<Route exact path={ROUTE.MESSAGES} element={<Messages />} />
 					<Route exact path={ROUTE.MYBIDS} element={<Bids />} />
 					<Route exact path={ROUTE.MYDATES} element={<Dates />} />
 					<Route exact path={ROUTE.PAYMENT} element={<Payment />} />

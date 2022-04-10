@@ -131,16 +131,47 @@ const getListing = async (req, res, next) => {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
 	}
 
+	let bidDoc;
+	try {
+		bidDoc = await bidTemplate
+			.findOne({
+				postId: mongoose.Types.ObjectId(req.params.listingId),
+			})
+			.sort('-bidAmount');
+		if (!doc) return next(new ServerError(serverErrorTypes.mongodb, err)); // Post DNE
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
 	doc = doc.toObject();
+	doc.highestBid = bidDoc && bidDoc.bidAmount ? bidDoc.bidAmount : 0;
+	doc.status = bidDoc ? bidDoc.status : undefined;
+	doc.bidderAmount = bidDoc ? bidDoc.bidAmount : undefined;
 	if (req.user.id == doc.creatorId._id.toString()) {
 		doc.creatorId.role = 'creator';
+		let allBids;
+		try {
+			allBids = await bidTemplate
+				.find({
+					postId: mongoose.Types.ObjectId(req.params.listingId),
+					status: { $ne: 'Denied' },
+				})
+				.sort('-bidAmount')
+				.populate('bidderId');
+			if (!doc) return next(new ServerError(serverErrorTypes.mongodb, err)); // Post DNE
+		} catch (err) {
+			return next(new ServerError(serverErrorTypes.mongodb, err));
+		}
+		doc.allBids = allBids;
 	} else {
 		try {
 			const bidExists = await bidTemplate.findOne({
 				bidderId: mongoose.Types.ObjectId(req.user.id),
 				postId: mongoose.Types.ObjectId(req.params.listingId),
 			});
-			if (!bidExists) {
+			if (bidExists && bidExists.bidderId == doc.bidWinnerId) {
+				doc.creatorId.role = 'winner';
+			} else if (!bidExists) {
 				doc.creatorId.role = 'observer';
 			} else {
 				doc.creatorId.role = 'engager';
@@ -152,8 +183,27 @@ const getListing = async (req, res, next) => {
 	res.json(doc);
 };
 
+const deleteListing = async (req, res, next) => {
+	try {
+		await bidTemplate.deleteMany({
+			postId: mongoose.Types.ObjectId(req.params.listingId),
+		});
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
+	try {
+		await postTemplate.deleteOne({ _id: mongoose.Types.ObjectId(req.params.listingId) });
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
+	res.json({ message: 'success' });
+};
+
 export default {
 	postNew: postNew,
 	getNearbyPosts: getNearbyPosts,
 	getListing: getListing,
+	deleteListing: deleteListing,
 };

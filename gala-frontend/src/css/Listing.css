@@ -152,6 +152,10 @@ div::-webkit-scrollbar {
 	color: rgb(13, 79, 13);
 }
 
+.ListingEngagedStatus.Denied {
+	color: rgb(255, 0, 0);
+}
+
 .ListingEngagedStatus.Ongoing {
 	color: rgb(148, 136, 0);
 }

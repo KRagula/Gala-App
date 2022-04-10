@@ -55,11 +55,11 @@ app.use(express.urlencoded({ extended: true }));
 app.post('/aws/fileupload', awsRoutes.uploadFile);
 
 /** PAYMENT ENDPOINTS **/
-app.post('/payment/pay', paymentRoutes.pay);
-app.get('/payment/success', paymentRoutes.success);
-app.get('/payment/cancel', paymentRoutes.cancel);
+app.post('/payment/pay', tokenHandlers.verifyJWT, paymentRoutes.pay);
+app.get('/payment/success', tokenHandlers.verifyJWT, paymentRoutes.success);
+app.get('/payment/cancel', tokenHandlers.verifyJWT, paymentRoutes.cancel);
 //just displays the post info for the payments page
-app.get('/payment/:postId', bidRoutes.postInfo);
+app.get('/payment/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
 
 /** CREDENTIAL ENDPOINTS **/
 app.post('/credential/signup', credentialRoutes.signup);
@@ -74,9 +74,12 @@ app.get('/experience/bids-received', tokenHandlers.verifyJWT, bidRoutes.getBidsR
 app.post('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.offerBid);
 app.get('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
 app.put('/experience/confirm-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.confirmBid);
+app.put('/experience/deny-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.denyBid);
 app.delete('/experience/delete-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.deleteBid);
+app.get('/experience/single-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.singleBid);
 app.get('/experience/dates', tokenHandlers.verifyJWT, dateRoutes.getDates);
 app.get('/experience/listing/:listingId', tokenHandlers.verifyJWT, postRoutes.getListing);
+app.delete('/experience/listing/:listingId', tokenHandlers.verifyJWT, postRoutes.deleteListing);
 
 /** PROFILE ENDPOINTS **/
 app.get('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.getProfile);

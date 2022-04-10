@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
@@ -8,6 +9,8 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { getPost } from '../axios/posts.js';
+import { sendBid } from '../axios/bids.js';
+import ROUTE from '../configurations/route-frontend-config.js';
 
 const { Anime } = ReactAnime;
 
@@ -53,17 +56,40 @@ function Offer() {
 	const [listingData, setListingData] = useState({});
 	const [creatorData, setCreatorData] = useState({});
 	const [display, setDisplay] = useState(false);
+	const [priceExp, setPriceExp] = useState('');
 
 	useEffect(async () => {
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
 		const res = await getPost(queryParams.get('id'));
-		if (!res || res.creatorId.role == 'creator' || res.creatorId.role == 'engager') return;
+		if (
+			!res ||
+			res.creatorId.role == 'creator' ||
+			res.creatorId.role == 'engager' ||
+			res.bidWinnerId ||
+			new Date(res.timeEnd) < Date.now()
+		)
+			return;
 
 		setDisplay(true);
 		setListingData(res);
 		setCreatorData(res.creatorId);
 	}, []);
+
+	const onSubmitBid = async () => {
+		if (!priceExp) {
+			alert('Enter a bid!');
+			return;
+		}
+		const queryParams = new URLSearchParams(window.location.search);
+		if (!queryParams.get('id')) return;
+		const res = await sendBid(queryParams.get('id'), Number(priceExp.replace(/[^0-9.-]+/g, '')));
+		if (!res) {
+			alert('Something went wrong!');
+			return;
+		}
+		window.location = ROUTE.MYBIDS;
+	};
 
 	return (
 		<React.Fragment>
@@ -154,7 +180,14 @@ function Offer() {
 											</div>
 											<div className='OfferBidInfoRow'>
 												<div>Highest Bid:</div>
-												<div className='OfferBidInfoRowPrice Bold'>$110.00</div>
+												<div className='OfferBidInfoRowPrice Bold'>
+													{listingData.highestBid
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(listingData.highestBid)
+														: null}
+												</div>
 											</div>
 										</div>
 									</div>
@@ -165,14 +198,24 @@ function Offer() {
 												<MaskedInput
 													className='OfferBidRequestInput'
 													mask={currencyMask}
+													onChange={event => setPriceExp(event.target.value)}
 													placeholder='$0.00'
 												/>
 											</div>
 										</div>
 									</div>
 									<div className='OfferBidOptionArea'>
-										<div className='OfferBidOptionButton Submit'>Submit</div>
-										<div className='OfferBidOptionButton GoBack'>Go Back</div>
+										<div
+											className='OfferBidOptionButton Submit'
+											onClick={onSubmitBid}
+											style={{ textDecoration: 'none', cursor: 'pointer' }}>
+											Submit
+										</div>
+										<Link
+											to={`${ROUTE.LISTING}?id=${listingData._id}`}
+											style={{ textDecoration: 'none' }}>
+											<div className='OfferBidOptionButton GoBack'>Go Back</div>
+										</Link>
 									</div>
 								</div>
 							</div>

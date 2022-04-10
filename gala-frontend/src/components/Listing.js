@@ -10,7 +10,7 @@ import testFile from '../assets/file-test.pdf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { getPost } from '../axios/posts.js';
+import { getPost, deletePost } from '../axios/posts.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -46,6 +46,7 @@ const Listing = props => {
 	const [dateRating, setDateRating] = useState(0);
 	const [listingData, setListingData] = useState({});
 	const [creatorData, setCreatorData] = useState({});
+	const [name, setName] = useState('');
 
 	useEffect(async () => {
 		const queryParams = new URLSearchParams(window.location.search);
@@ -53,9 +54,23 @@ const Listing = props => {
 		const res = await getPost(queryParams.get('id'));
 		if (!res) return;
 
+		if (res.creatorId.role == 'creator') {
+			setName('you');
+		} else {
+			setName(res.creatorId.firstName);
+		}
+
+		console.log(res);
+
 		setListingData(res);
 		setCreatorData(res.creatorId);
 	}, []);
+
+	const onRemoveClick = async () => {
+		const queryParams = new URLSearchParams(window.location.search);
+		await deletePost(queryParams.get('id'));
+		window.location = ROUTE.EXPLORE;
+	};
 
 	const handleOneStars = () => {
 		setShowThanksForFeedback(true);
@@ -103,11 +118,6 @@ const Listing = props => {
 		easing: 'easeInOutExpo',
 	});
 
-	var name = 'Kanishka';
-	if (props.role === 'creator') {
-		name = 'you';
-	}
-
 	return (
 		<React.Fragment>
 			<UserHeader />
@@ -123,32 +133,38 @@ const Listing = props => {
 					</div>
 					<div className='ListingArea'>
 						<div className='ListingProfileAreaWrapper'>
-							<div className='ExploreEntryProfileArea'>
-								<img
-									src={creatorData.profilePictureLink ? creatorData.profilePictureLink : testImage}
-									className='ListingProfileImage'
-								/>
-								<div className='ListingProfileText'>
-									{creatorData.firstName
-										? `${creatorData.firstName} ${creatorData.lastName}`
-										: null}
+							<Link
+								to={`${ROUTE.PROFILE}?id=${creatorData._id}`}
+								style={{ textDecoration: 'none' }}>
+								<div className='ExploreEntryProfileArea'>
+									<img
+										src={
+											creatorData.profilePictureLink ? creatorData.profilePictureLink : testImage
+										}
+										className='ListingProfileImage'
+									/>
+									<div className='ListingProfileText' style={{ color: 'black' }}>
+										{creatorData.firstName
+											? `${creatorData.firstName} ${creatorData.lastName}`
+											: null}
+									</div>
+									<div className='ListingProfileStars'>
+										{[...Array(5)].map((x, i) => {
+											return Math.round(creatorData.rating * 2) / 2 >= i + 1 ? (
+												<FaStar fontSize='11px' color='#424242' />
+											) : (
+												<React.Fragment>
+													{Math.round(creatorData.rating * 2) / 2 > i ? (
+														<FaStarHalfAlt fontSize='11px' color='#424242' />
+													) : (
+														<FaRegStar fontSize='11px' color='#424242' />
+													)}
+												</React.Fragment>
+											);
+										})}
+									</div>
 								</div>
-								<div className='ListingProfileStars'>
-									{[...Array(5)].map((x, i) => {
-										return Math.round(creatorData.rating * 2) / 2 >= i + 1 ? (
-											<FaStar fontSize='11px' color='#424242' />
-										) : (
-											<React.Fragment>
-												{Math.round(creatorData.rating * 2) / 2 > i ? (
-													<FaStarHalfAlt fontSize='11px' color='#424242' />
-												) : (
-													<FaRegStar fontSize='11px' color='#424242' />
-												)}
-											</React.Fragment>
-										);
-									})}
-								</div>
-							</div>
+							</Link>
 						</div>
 						<div className='ListingDataPaper'>
 							<div className='ListingDataRow'>
@@ -210,7 +226,14 @@ const Listing = props => {
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Highest Bid:</div>
 								<div className='ListingDataRowInfo'>
-									<i>$70.00.</i>
+									<i>
+										{listingData.highestBid
+											? new Intl.NumberFormat('en-US', {
+													style: 'currency',
+													currency: 'USD',
+											  }).format(listingData.highestBid)
+											: null}
+									</i>
 								</div>
 							</div>
 							<div className='ListingDataRow'>
@@ -240,9 +263,14 @@ const Listing = props => {
 									</div>
 								</div>
 							</div>
-							{creatorData.role === 'creator' ? (
+							{creatorData.role === 'creator' && !listingData.bidWinnerId ? (
 								<div className='ListingDeleteArea'>
-									<div className='ListingDelete'>Click to remove listing</div>
+									<div
+										className='ListingDelete'
+										onClick={onRemoveClick}
+										style={{ textDecoration: 'none', cursor: 'pointer' }}>
+										Click to remove listing
+									</div>
 								</div>
 							) : (
 								<div />
@@ -264,8 +292,39 @@ const Listing = props => {
 								</div>
 								{!collapseFirst ? (
 									<div className='BidsEntryArea'>
-										{/* <BidsEntry isReceived={true} />
-										<BidsEntry isReceived={true} /> */}
+										{listingData.allBids.map((i, x) => (
+											<BidsEntry
+												isReceived={true}
+												data={{
+													userId: i.bidderId._id,
+													profileImage: i.bidderId.profilePictureLink,
+													profileName: i.bidderId.firstName,
+													profileRating: i.bidderId.rating,
+													title: listingData.title,
+													auctionPrice: listingData.price
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(listingData.price)
+														: null,
+													highestBid: listingData.highestBid
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(listingData.highestBid)
+														: null,
+													bidAmount: i.bidAmount
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(i.bidAmount)
+														: null,
+													bidId: i._id,
+													bidStatus: i.status,
+													location: true,
+												}}
+											/>
+										))}
 									</div>
 								) : (
 									<div />
@@ -278,33 +337,46 @@ const Listing = props => {
 							<div className='ListingEngagedArea'>
 								<div className='ListingEngagedStatusArea'>
 									Status:
-									{props.status === 'waiting' ? (
+									{listingData.status === 'Waiting for response' ? (
 										<div className='ListingEngagedStatus Waiting'>Waiting for response...</div>
 									) : (
 										<div />
 									)}
-									{props.status === 'confirmed' ? (
+									{listingData.status === 'Confirmed' ? (
 										<div className='ListingEngagedStatus Confirmed'>Confirmed.</div>
 									) : (
 										<div />
 									)}
-									{props.status === 'ongoing' ? (
+									{listingData.status === 'Denied' ? (
+										<div className='ListingEngagedStatus Denied'>Denied.</div>
+									) : (
+										<div />
+									)}
+									{listingData.status === 'ongoing' ? (
 										<div className='ListingEngagedStatus Ongoing'>Ongoing.</div>
 									) : (
 										<div />
 									)}
-									{props.status === 'completed' ? (
+									{listingData.status === 'completed' ? (
 										<div className='ListingEngagedStatus Completed'>Completed.</div>
 									) : (
 										<div />
 									)}
 								</div>
-								{props.status === 'waiting' ? (
-									<div className='ListingEngagedStatusArea Extra'>Your Bid: $60.00</div>
+								{listingData.status === 'Waiting for response' ? (
+									<div className='ListingEngagedStatusArea Extra'>
+										Your Bid:{' '}
+										{listingData.bidderAmount
+											? new Intl.NumberFormat('en-US', {
+													style: 'currency',
+													currency: 'USD',
+											  }).format(listingData.bidderAmount)
+											: null}
+									</div>
 								) : (
 									<div />
 								)}
-								{props.status === 'ongoing' ? (
+								{creatorData.role == 'winner' && props.status === 'ongoing' ? (
 									<div>
 										{!showThanksForNotif ? (
 											<div className='ListingEngagedStatusArea Extra'>
@@ -362,11 +434,14 @@ const Listing = props => {
 							<div>
 								{creatorData.role === 'observer' ? (
 									<div className='ListingMessageOptionArea'>
-										<Link
-											to={`${ROUTE.OFFER}?id=${listingData._id}`}
-											style={{ textDecoration: 'none' }}>
-											<div className='ListingMessageOption Red'>Click to offer a bid</div>
-										</Link>
+										{!listingData.bidWinnerId || new Date(listingData.timeEnd) < Date.now() ? (
+											<Link
+												to={`${ROUTE.OFFER}?id=${listingData._id}`}
+												style={{ textDecoration: 'none' }}>
+												<div className='ListingMessageOption Red'>Click to offer a bid</div>
+											</Link>
+										) : null}
+
 										<Link to={`${ROUTE.MESSAGE}`} style={{ textDecoration: 'none' }}>
 											<div className='ListingMessageOption Blue'>Click to message</div>
 										</Link>
