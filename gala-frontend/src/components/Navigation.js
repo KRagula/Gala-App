@@ -73,7 +73,7 @@ function Navigation(props) {
 								</div>
 							</div>
 						) : (
-							<Link to={ROUTE.MESSAGES} style={{ textDecoration: 'none' }}>
+							<Link to={ROUTE.MESSAGE} style={{ textDecoration: 'none' }}>
 								<div className='Option'>MESSAGES</div>
 							</Link>
 						)}

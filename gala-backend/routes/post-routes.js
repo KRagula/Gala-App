@@ -145,6 +145,8 @@ const getListing = async (req, res, next) => {
 
 	doc = doc.toObject();
 	doc.highestBid = bidDoc && bidDoc.bidAmount ? bidDoc.bidAmount : 0;
+	doc.status = bidDoc ? bidDoc.status : undefined;
+	doc.bidderAmount = bidDoc ? bidDoc.bidAmount : undefined;
 	if (req.user.id == doc.creatorId._id.toString()) {
 		doc.creatorId.role = 'creator';
 		let allBids;
@@ -152,6 +154,7 @@ const getListing = async (req, res, next) => {
 			allBids = await bidTemplate
 				.find({
 					postId: mongoose.Types.ObjectId(req.params.listingId),
+					status: { $ne: 'Denied' },
 				})
 				.sort('-bidAmount')
 				.populate('bidderId');
@@ -166,7 +169,9 @@ const getListing = async (req, res, next) => {
 				bidderId: mongoose.Types.ObjectId(req.user.id),
 				postId: mongoose.Types.ObjectId(req.params.listingId),
 			});
-			if (!bidExists) {
+			if (bidExists && bidExists.bidderId == doc.bidWinnerId) {
+				doc.creatorId.role = 'winner';
+			} else if (!bidExists) {
 				doc.creatorId.role = 'observer';
 			} else {
 				doc.creatorId.role = 'engager';

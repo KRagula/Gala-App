@@ -137,11 +137,22 @@ const offerBid = async (req, res, next) => {
 
 const postInfo = async (req, res, next) => {
 	try {
-		const doc = await postTemplate.find({ _id: mongoose.Types.ObjectId(req.params.postId) });
+		let doc = await postTemplate
+			.find({ _id: mongoose.Types.ObjectId(req.params.postId) })
+			.populate('creatorId');
 		if (!doc) {
 			return res.json({});
 		} else {
-			return res.json(doc);
+			if (doc[0].bidWinnerId) {
+				const doc2 = await bidTemplate.findOne({ _id: doc[0].bidWinnerId });
+				return res.json({
+					doc,
+					verified: req.user.id == doc2.bidderId,
+					payingPrice: doc2.bidAmount,
+				});
+			} else {
+				return res.json(doc);
+			}
 		}
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));

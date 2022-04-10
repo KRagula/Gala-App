@@ -60,6 +60,8 @@ const Listing = props => {
 			setName(res.creatorId.firstName);
 		}
 
+		console.log(res);
+
 		setListingData(res);
 		setCreatorData(res.creatorId);
 	}, []);
@@ -131,32 +133,38 @@ const Listing = props => {
 					</div>
 					<div className='ListingArea'>
 						<div className='ListingProfileAreaWrapper'>
-							<div className='ExploreEntryProfileArea'>
-								<img
-									src={creatorData.profilePictureLink ? creatorData.profilePictureLink : testImage}
-									className='ListingProfileImage'
-								/>
-								<div className='ListingProfileText'>
-									{creatorData.firstName
-										? `${creatorData.firstName} ${creatorData.lastName}`
-										: null}
+							<Link
+								to={`${ROUTE.PROFILE}?id=${creatorData._id}`}
+								style={{ textDecoration: 'none' }}>
+								<div className='ExploreEntryProfileArea'>
+									<img
+										src={
+											creatorData.profilePictureLink ? creatorData.profilePictureLink : testImage
+										}
+										className='ListingProfileImage'
+									/>
+									<div className='ListingProfileText' style={{ color: 'black' }}>
+										{creatorData.firstName
+											? `${creatorData.firstName} ${creatorData.lastName}`
+											: null}
+									</div>
+									<div className='ListingProfileStars'>
+										{[...Array(5)].map((x, i) => {
+											return Math.round(creatorData.rating * 2) / 2 >= i + 1 ? (
+												<FaStar fontSize='11px' color='#424242' />
+											) : (
+												<React.Fragment>
+													{Math.round(creatorData.rating * 2) / 2 > i ? (
+														<FaStarHalfAlt fontSize='11px' color='#424242' />
+													) : (
+														<FaRegStar fontSize='11px' color='#424242' />
+													)}
+												</React.Fragment>
+											);
+										})}
+									</div>
 								</div>
-								<div className='ListingProfileStars'>
-									{[...Array(5)].map((x, i) => {
-										return Math.round(creatorData.rating * 2) / 2 >= i + 1 ? (
-											<FaStar fontSize='11px' color='#424242' />
-										) : (
-											<React.Fragment>
-												{Math.round(creatorData.rating * 2) / 2 > i ? (
-													<FaStarHalfAlt fontSize='11px' color='#424242' />
-												) : (
-													<FaRegStar fontSize='11px' color='#424242' />
-												)}
-											</React.Fragment>
-										);
-									})}
-								</div>
-							</div>
+							</Link>
 						</div>
 						<div className='ListingDataPaper'>
 							<div className='ListingDataRow'>
@@ -329,33 +337,46 @@ const Listing = props => {
 							<div className='ListingEngagedArea'>
 								<div className='ListingEngagedStatusArea'>
 									Status:
-									{props.status === 'waiting' ? (
+									{listingData.status === 'Waiting for response' ? (
 										<div className='ListingEngagedStatus Waiting'>Waiting for response...</div>
 									) : (
 										<div />
 									)}
-									{props.status === 'confirmed' ? (
+									{listingData.status === 'Confirmed' ? (
 										<div className='ListingEngagedStatus Confirmed'>Confirmed.</div>
 									) : (
 										<div />
 									)}
-									{props.status === 'ongoing' ? (
+									{listingData.status === 'Denied' ? (
+										<div className='ListingEngagedStatus Denied'>Denied.</div>
+									) : (
+										<div />
+									)}
+									{listingData.status === 'ongoing' ? (
 										<div className='ListingEngagedStatus Ongoing'>Ongoing.</div>
 									) : (
 										<div />
 									)}
-									{props.status === 'completed' ? (
+									{listingData.status === 'completed' ? (
 										<div className='ListingEngagedStatus Completed'>Completed.</div>
 									) : (
 										<div />
 									)}
 								</div>
-								{props.status === 'waiting' ? (
-									<div className='ListingEngagedStatusArea Extra'>Your Bid: $60.00</div>
+								{listingData.status === 'Waiting for response' ? (
+									<div className='ListingEngagedStatusArea Extra'>
+										Your Bid:{' '}
+										{listingData.bidderAmount
+											? new Intl.NumberFormat('en-US', {
+													style: 'currency',
+													currency: 'USD',
+											  }).format(listingData.bidderAmount)
+											: null}
+									</div>
 								) : (
 									<div />
 								)}
-								{props.status === 'ongoing' ? (
+								{creatorData.role == 'winner' && props.status === 'ongoing' ? (
 									<div>
 										{!showThanksForNotif ? (
 											<div className='ListingEngagedStatusArea Extra'>

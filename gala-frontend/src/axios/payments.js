@@ -9,6 +9,7 @@ export const makePayment = postData => {
 			// withCredentials: true,
 			headers: {
 				'Access-Control-Allow-Origin': '*',
+				'x-access-token': localStorage.getItem('token'),
 			},
 		})
 		.then(response => {
@@ -21,14 +22,14 @@ export const makePayment = postData => {
 		});
 };
 
-export const getPaymentPost = async () => {
+export const getPaymentPost = async postId => {
 	// todo: remove hardcode email
 	return await axios
-		.get(`${serverConfig.backendURL}/payment/624e48e8e71b8cdc666c39f7`, {
-			// withCredentials: true,
-			// headers: {
-			// 	'x-access-token': localStorage.getItem('token'),
-			// },
+		.get(`${serverConfig.backendURL}/payment/${postId}`, {
+			withCredentials: true,
+			headers: {
+				'x-access-token': localStorage.getItem('token'),
+			},
 		})
 		.then(res => res)
 		.catch(err => {

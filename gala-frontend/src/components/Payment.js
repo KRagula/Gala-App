@@ -9,6 +9,9 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { getPaymentPost, makePayment } from '../axios/payments';
 import { ShimmerCategoryItem } from 'react-shimmer-effects';
 import DatesEntry from './DatesEntry';
+import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
+import ROUTE from '../configurations/route-frontend-config.js';
 
 const { Anime } = ReactAnime;
 
@@ -17,19 +20,31 @@ function Payment() {
 	const [entryDataPay, setEntryDataPay] = useState([]);
 	const [entryDataPayCleaned, setEntryDataPayCleaned] = useState([]);
 	const [showDatesEntries, setShowDatesEntries] = useState(false);
+	const [display, setDisplay] = useState(false);
 
 	const handleClickCheckbox = () => {
 		setClickedCheckbox(!clickedCheckbox);
 	};
 
 	useEffect(async () => {
-		const entryDataPayRaw = await getPaymentPost();
-		console.log('this si entry data pay raw', entryDataPayRaw);
+		const queryParams = new URLSearchParams(window.location.search);
+		if (!queryParams.get('id')) return;
+		const entryDataPayRaw = await getPaymentPost(queryParams.get('id'));
+		if (!entryDataPayRaw.data.verified) return;
 
-		const entryDataPayProcessed = entryDataPayRaw.data.map(item => {
+		setDisplay(true);
+
+		// IMPORTANT entryDataPayRaw.data.payingPrice IS THE PAYING PRICE USE THISSSSS
+		const entryDataPayProcessed = entryDataPayRaw.data.doc.map(item => {
+			console.log(item);
 			const titleCleaned = item.title.toUpperCase();
 			const description = item.description;
-			const priceCleaned = '$' + parseFloat(item.price).toFixed(2);
+			const priceCleaned = entryDataPayRaw.data.payingPrice
+				? new Intl.NumberFormat('en-US', {
+						style: 'currency',
+						currency: 'USD',
+				  }).format(entryDataPayRaw.data.payingPrice)
+				: null;
 			const cityAddress = item.cityAddress;
 			const stateAddress = item.stateAddress;
 			const distance = 5; // todo after claire updates backend
@@ -43,10 +58,9 @@ function Payment() {
 				.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
 			const year = startDateObject.getUTCFullYear();
 			const startDateCleaned = month + '/' + day + '/' + year;
-			const firstName = 'hello';
-			const profileRating = 1;
+			const firstName = item.creatorId.firstName;
 			// todo after claire updates backend
-			const profileImage = 'https://gala-app.s3.amazonaws.com/profile-pictures/1649134732730.jpg';
+			const profileImage = item.creatorId.profilePictureLink;
 			let textHash =
 				titleCleaned +
 				'#' +
@@ -73,9 +87,11 @@ function Payment() {
 				startDateObject: startDateObject,
 				startDateCleaned: startDateCleaned,
 				firstName: firstName,
-				profileRating: profileRating,
+				profileRating: item.creatorId.rating,
 				profileImage: profileImage,
 				textHash: textHash,
+				postId: item._id,
+				userId: item.creatorId._id,
 			};
 		});
 
@@ -135,54 +151,61 @@ function Payment() {
 			<UserHeader />
 			<div className='DashboardArea'>
 				<Navigation />
-				<div className='PaymentAreaWrapper'>
-					<div className='DashboardTitleDescriptionAreaWrapper'>
-						<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
-							<div className='DashboardTitleText'>Payment</div>
-							<div className='DashboardTitleDot' />
-							<div className='DashboardDescriptionText'>Purchase and finalize your date</div>
+				{display ? (
+					<div className='PaymentAreaWrapper'>
+						<div className='DashboardTitleDescriptionAreaWrapper'>
+							<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
+								<div className='DashboardTitleText'>Payment</div>
+								<div className='DashboardTitleDot' />
+								<div className='DashboardDescriptionText'>Purchase and finalize your date</div>
+							</div>
 						</div>
-					</div>
-					<div className='PaymentArea'>
-						<div className='BidsEntryArea'>
-							<React.Fragment>
-								{entryDataPayCleaned.map(data => {
-									return <DatesEntry isUpcoming={false} isOwn={true} data={data} />;
-								})}
-							</React.Fragment>
-						</div>
-						<div className='OfferBidAreaWrapper'>
-							<div className='OfferBidArea'>
-								<div className='OfferBidInfoWrapper'>
-									<div className='PaymentDateInfo'>
-										<div className='PaymentDateInfoRow'>
-											<div>Date Price:</div>
-											<div className='OfferBidInfoRowPrice Bold'>
-												{entryDataPayCleaned.map(data => {
-													return data.price;
-												})}
+						<div className='PaymentArea'>
+							<div className='BidsEntryArea'>
+								<React.Fragment>
+									{entryDataPayCleaned.map(data => {
+										return <DatesEntry isUpcoming={false} isOwn={true} data={data} />;
+									})}
+								</React.Fragment>
+							</div>
+							<div className='OfferBidAreaWrapper'>
+								<div className='OfferBidArea'>
+									<div className='OfferBidInfoWrapper'>
+										<div className='PaymentDateInfo'>
+											<div className='PaymentDateInfoRow'>
+												<div>Date Price:</div>
+												<div className='OfferBidInfoRowPrice Bold'>
+													{entryDataPayCleaned.map(data => {
+														return data.price;
+													})}
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div className='OfferBidRequestWrapper'>
-									<div className='PaymentAgreeTerms'>
-										<div className='OfferBidRequestPrompt'>
-											<input type='checkbox' onClick={handleClickCheckbox} /> I agree to the terms
-											and conditions.
+									<div className='OfferBidRequestWrapper'>
+										<div className='PaymentAgreeTerms'>
+											<div className='OfferBidRequestPrompt'>
+												<input type='checkbox' onClick={handleClickCheckbox} /> I agree to the terms
+												and conditions.
+											</div>
 										</div>
 									</div>
-								</div>
-								<div className='OfferBidOptionArea'>
-									<form
-										action='http://localhost:8080/payment/pay?title=Cooking With Eddie&price=1&description=Make guac and salsa with Eddie'
-										method='post'>
-										<input className='PaymentOptionButton Submit' type='submit' value='Purchase' />
-									</form>
+									<div className='OfferBidOptionArea'>
+										<form
+											action='http://localhost:8080/payment/pay?title=Cooking With Eddie&price=1&description=Make guac and salsa with Eddie'
+											method='post'>
+											<input
+												className='PaymentOptionButton Submit'
+												type='submit'
+												value='Purchase'
+											/>
+										</form>
 
-									<div className='PaymentOptionButton GoBack'>Go Back</div>
-								</div>
-								{/* <div className='OfferBidOptionArea'>
+										<Link to={ROUTE.MYBIDS} style={{ textDecoration: 'none' }}>
+											<div className='PaymentOptionButton GoBack'>Go Back</div>
+										</Link>
+									</div>
+									{/* <div className='OfferBidOptionArea'>
 									{
 										<div
 											className='CreateFormButton Submit'
@@ -196,10 +219,13 @@ function Payment() {
 
 									<div className='PaymentOptionButton GoBack'>Go Back</div>
 								</div> */}
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				) : (
+					'You do not have access to this page'
+				)}
 			</div>
 			<Anime
 				initial={timeline}

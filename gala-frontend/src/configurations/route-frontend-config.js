@@ -7,7 +7,6 @@ export default {
 	CONTACT: '/contact',
 	EXPLORE: '/explore',
 	CREATE: '/create',
-	MESSAGES: '/messages',
 	MYBIDS: '/mybids',
 	MYDATES: '/mydates',
 	PAYMENT: '/payment',

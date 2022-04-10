@@ -107,7 +107,11 @@ function BidsEntry(props) {
 														Click to see more
 													</div>
 												</Link>
-											) : null}
+											) : (
+												<Link to={`${ROUTE.MESSAGE}`} style={{ textDecoration: 'none' }}>
+													<div className='BidsEntryBottomRightAreaWidget Confirm'>Message</div>
+												</Link>
+											)}
 											Confirmed{' '}
 										</>
 									)}
@@ -183,8 +187,10 @@ function BidsEntry(props) {
 							</div>
 							<div className='BidsEntryBottomRightArea'>
 								<div className='BidsEntryBottomRightAreaRow'>
-									{props.isConfirmed ? (
-										<Link to={ROUTE.PAYMENT} style={{ textDecoration: 'none' }}>
+									{props.data.bidStatus == 'Confirmed' ? (
+										<Link
+											to={`${ROUTE.PAYMENT}?id=${props.data.postId}`}
+											style={{ textDecoration: 'none' }}>
 											<div className='BidsEntryBottomRightAreaWidget Confirm'>
 												<b>Click to Payment</b>
 											</div>
