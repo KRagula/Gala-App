@@ -81,17 +81,36 @@ function BidsEntry(props) {
 							</div>
 							<div className='BidsEntryBottomRightArea'>
 								<div className='BidsEntryBottomRightAreaRow'>
-									<Link
-										to={`${ROUTE.CONFIRM}?id=${props.data.bidId}`}
-										style={{ textDecoration: 'none' }}>
-										<div className='BidsEntryBottomRightAreaWidget Confirm'>Click to Confirm</div>
-									</Link>
-									<div
-										className='BidsEntryBottomRightAreaWidget Deny'
-										onClick={onDenyClick}
-										style={{ textDecoration: 'none', cursor: 'pointer' }}>
-										Click to Deny
-									</div>
+									{props.data.bidStatus != 'Confirmed' ? (
+										<>
+											<Link
+												to={`${ROUTE.CONFIRM}?id=${props.data.bidId}`}
+												style={{ textDecoration: 'none' }}>
+												<div className='BidsEntryBottomRightAreaWidget Confirm'>
+													Click to Confirm
+												</div>
+											</Link>
+											<div
+												className='BidsEntryBottomRightAreaWidget Deny'
+												onClick={onDenyClick}
+												style={{ textDecoration: 'none', cursor: 'pointer' }}>
+												Click to Deny
+											</div>
+										</>
+									) : (
+										<>
+											{!props.data.location ? (
+												<Link
+													to={`${ROUTE.LISTING}?id=${props.data.postId}`}
+													style={{ textDecoration: 'none' }}>
+													<div className='BidsEntryBottomRightAreaWidget Confirm'>
+														Click to see more
+													</div>
+												</Link>
+											) : null}
+											Confirmed{' '}
+										</>
+									)}
 								</div>
 							</div>
 						</div>

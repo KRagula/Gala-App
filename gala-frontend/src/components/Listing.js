@@ -255,7 +255,7 @@ const Listing = props => {
 									</div>
 								</div>
 							</div>
-							{creatorData.role === 'creator' ? (
+							{creatorData.role === 'creator' && !listingData.bidWinnerId ? (
 								<div className='ListingDeleteArea'>
 									<div
 										className='ListingDelete'
@@ -312,6 +312,8 @@ const Listing = props => {
 														  }).format(i.bidAmount)
 														: null,
 													bidId: i._id,
+													bidStatus: i.status,
+													location: true,
 												}}
 											/>
 										))}
@@ -411,11 +413,14 @@ const Listing = props => {
 							<div>
 								{creatorData.role === 'observer' ? (
 									<div className='ListingMessageOptionArea'>
-										<Link
-											to={`${ROUTE.OFFER}?id=${listingData._id}`}
-											style={{ textDecoration: 'none' }}>
-											<div className='ListingMessageOption Red'>Click to offer a bid</div>
-										</Link>
+										{!listingData.bidWinnerId || new Date(listingData.timeEnd) < Date.now() ? (
+											<Link
+												to={`${ROUTE.OFFER}?id=${listingData._id}`}
+												style={{ textDecoration: 'none' }}>
+												<div className='ListingMessageOption Red'>Click to offer a bid</div>
+											</Link>
+										) : null}
+
 										<Link to={`${ROUTE.MESSAGE}`} style={{ textDecoration: 'none' }}>
 											<div className='ListingMessageOption Blue'>Click to message</div>
 										</Link>

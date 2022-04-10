@@ -42,7 +42,7 @@ function Confirm() {
 		if (!queryParams.get('id')) return;
 		const res = await getBid(queryParams.get('id'));
 		console.log(res);
-		if (!res || res.role != 'creator') return;
+		if (!res || res.role != 'creator' || new Date(res.timeEnd) < Date.now()) return;
 
 		setDisplay(true);
 		setListingData(res.postId);

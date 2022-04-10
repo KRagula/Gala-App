@@ -62,12 +62,12 @@ function Offer() {
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
 		const res = await getPost(queryParams.get('id'));
-		console.log(res);
 		if (
 			!res ||
 			res.creatorId.role == 'creator' ||
 			res.creatorId.role == 'engager' ||
-			res.bidWinnerId
+			res.bidWinnerId ||
+			new Date(res.timeEnd) < Date.now()
 		)
 			return;
 
