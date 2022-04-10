@@ -72,7 +72,7 @@ const postTemplate = new mongoose.Schema({
 	},
 	bidWinnerId: {
 		type: mongoose.Types.ObjectId,
-		ref: dbConfig.mongoDBTableUser,
+		ref: 'bidtables',
 		required: false,
 	},
 });

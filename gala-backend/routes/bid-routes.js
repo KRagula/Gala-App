@@ -78,9 +78,11 @@ const getBidsReceived = async (req, res, next) => {
 				const id = doc[i]['_id'].toString();
 				const objectId = mongoose.Types.ObjectId(id);
 				//this gets all the posts + bids on posts with postId (from post table) = postId (from bid table)
-				const bids = await bidTemplate.find({ postId: objectId }).populate({
-					path: 'postId',
-				});
+				const bids = await bidTemplate
+					.find({ postId: objectId, status: { $ne: 'Denied' } })
+					.populate({
+						path: 'postId',
+					});
 
 				//convert this query result to json for easier parsing
 				const bids_json = JSON.parse(JSON.stringify(bids));
@@ -150,12 +152,50 @@ const postInfo = async (req, res, next) => {
 const confirmBid = async (req, res, next) => {
 	const bidId = mongoose.Types.ObjectId(req.params.bidId);
 	const update = { status: 'Confirmed' };
+	let doc;
 	try {
-		const doc = await bidTemplate.findOneAndUpdate({ _id: bidId }, update);
-		return res.json({ statusMessage: 'Bid Confirmed' });
+		doc = await bidTemplate.findOneAndUpdate({ _id: bidId }, update);
+		if (!doc) next(new ServerError(serverErrorTypes.mongodb, err));
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
 	}
+
+	try {
+		const allDocs = await bidTemplate.updateMany(
+			{ postId: doc.postId, _id: { $ne: doc._id } },
+			{ status: 'Denied' }
+		);
+		if (!allDocs) next(new ServerError(serverErrorTypes.mongodb, err));
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
+	try {
+		await postTemplate.findOneAndUpdate(
+			{ _id: doc.postId },
+			{
+				bidWinnerId: bidId,
+			}
+		);
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
+	return res.json({ statusMessage: 'Bid Confirmed' });
+};
+
+const denyBid = async (req, res, next) => {
+	const bidId = mongoose.Types.ObjectId(req.params.bidId);
+	const update = { status: 'Denied' };
+	let doc;
+	try {
+		doc = await bidTemplate.findOneAndUpdate({ _id: bidId }, update);
+		if (!doc) next(new ServerError(serverErrorTypes.mongodb, err));
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
+	return res.json({ statusMessage: 'Bid Denied' });
 };
 
 const deleteBid = async (req, res, next) => {
@@ -168,6 +208,37 @@ const deleteBid = async (req, res, next) => {
 	}
 };
 
+const singleBid = async (req, res, next) => {
+	let doc;
+	try {
+		doc = await bidTemplate
+			.findOne({ _id: req.params.bidId })
+			.populate('bidderId')
+			.populate('postId');
+		if (!doc) next(new ServerError(serverErrorTypes.mongodb, err));
+		doc = doc.toObject();
+		doc.role =
+			doc.postId.creatorId == req.user.id && !doc.postId.bidWinnerId ? 'creator' : 'no access';
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
+	let bidDoc;
+	try {
+		bidDoc = await bidTemplate
+			.findOne({
+				postId: doc.postId,
+			})
+			.sort('-bidAmount');
+		if (!doc) return next(new ServerError(serverErrorTypes.mongodb, err)); // Post DNE
+	} catch (err) {
+		return next(new ServerError(serverErrorTypes.mongodb, err));
+	}
+
+	doc.highestBid = bidDoc && bidDoc.bidAmount ? bidDoc.bidAmount : 0;
+	return res.json(doc);
+};
+
 export default {
 	getBidsSent: getBidsSent,
 	getBidsReceived: getBidsReceived,
@@ -175,4 +246,6 @@ export default {
 	postInfo: postInfo,
 	confirmBid: confirmBid,
 	deleteBid: deleteBid,
+	denyBid: denyBid,
+	singleBid: singleBid,
 };

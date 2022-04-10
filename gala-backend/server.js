@@ -74,7 +74,9 @@ app.get('/experience/bids-received', tokenHandlers.verifyJWT, bidRoutes.getBidsR
 app.post('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.offerBid);
 app.get('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
 app.put('/experience/confirm-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.confirmBid);
+app.put('/experience/deny-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.denyBid);
 app.delete('/experience/delete-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.deleteBid);
+app.get('/experience/single-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.singleBid);
 app.get('/experience/dates', tokenHandlers.verifyJWT, dateRoutes.getDates);
 app.get('/experience/listing/:listingId', tokenHandlers.verifyJWT, postRoutes.getListing);
 app.delete('/experience/listing/:listingId', tokenHandlers.verifyJWT, postRoutes.deleteListing);

@@ -5,13 +5,18 @@ import defaultImage from '../assets/default.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { withdrawBid } from '../axios/bids.js';
+import { withdrawBid, denyBid } from '../axios/bids.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
 function BidsEntry(props) {
 	const onWithdrawClick = async () => {
 		await withdrawBid(props.data.bidId);
+		window.location.reload(false);
+	};
+
+	const onDenyClick = async () => {
+		await denyBid(props.data.bidId);
 		window.location.reload(false);
 	};
 
@@ -76,10 +81,17 @@ function BidsEntry(props) {
 							</div>
 							<div className='BidsEntryBottomRightArea'>
 								<div className='BidsEntryBottomRightAreaRow'>
-									<Link to={ROUTE.CONFIRM} style={{ textDecoration: 'none' }}>
+									<Link
+										to={`${ROUTE.CONFIRM}?id=${props.data.bidId}`}
+										style={{ textDecoration: 'none' }}>
 										<div className='BidsEntryBottomRightAreaWidget Confirm'>Click to Confirm</div>
 									</Link>
-									<div className='BidsEntryBottomRightAreaWidget Deny'>Click to Deny</div>
+									<div
+										className='BidsEntryBottomRightAreaWidget Deny'
+										onClick={onDenyClick}
+										style={{ textDecoration: 'none', cursor: 'pointer' }}>
+										Click to Deny
+									</div>
 								</div>
 							</div>
 						</div>
