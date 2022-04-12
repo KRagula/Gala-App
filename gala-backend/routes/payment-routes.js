@@ -65,11 +65,7 @@ const pay = async (request, res) => {
 			for (let i = 0; i < payment.links.length; i++) {
 				if (payment.links[i].rel == 'approval_url') {
 					//hfref is where the actual link is
-<<<<<<< HEAD
-					console.log('this si the payment url', payment.links[i].href);
-=======
 					//console.log('this si the payment url', payment.links[i].href);
->>>>>>> f9a0769a21376895175ba430f8fef3a0c528994c
 					// res.redirect(payment.links[i].href);
 					// payment_url = payment.links[i].href;
 					// return payment.links[i].href;

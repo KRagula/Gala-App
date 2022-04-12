@@ -25,64 +25,32 @@ function Payment() {
 	const handleClickCheckbox = () => {
 		setClickedCheckbox(!clickedCheckbox);
 	};
-	// window.location.href =
-	// 	'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-6M8419407W442511A';
-
-	const onSubmit = event => {
-		//event.preventDefault(); Take out once we can redirect to a post
-		// entryDataPayCleaned.map(data => {
-		// 	const newPost = {
-		// 		title: data.title,
-		// 		description: data.description,
-		// 		price: 126,
-		// 	};
-		// 	makePayment(newPost);
-		// });
-		const newPost = {
-			title: 'testing123',
-			description: 'description for testing123',
-			price: 126,
-		};
-		const payment = makePayment(newPost);
-		payment.then(response => {
-			// console.log('this is the response', response);
-			window.location.replace(response);
-		});
-		// console.log(payment.then(respon));
-		// Navigate(
-		// 	'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-6M8419407W442511A'
-		// );
-		// let history = useHistory();
-
-		// const redirect = () => {
-		// 	history.push(
-		// 		'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-6M8419407W442511A'
-		// 	);
-		// };
-		// window.location.replace(
-		// 	'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-6M8419407W442511A'
-		// );
-	};
 
 	useEffect(async () => {
+		console.log('hello');
 		const queryParams = new URLSearchParams(window.location.search);
+		console.log('this is the queryparams', queryParams);
 		if (!queryParams.get('id')) return;
+		console.log('we passed here');
 		const entryDataPayRaw = await getPaymentPost(queryParams.get('id'));
-		if (!entryDataPayRaw.data.verified) return;
+		console.log('this is entrydata raw', entryDataPayRaw);
+		// if (!entryDataPayRaw.data.verified) return;
 
 		setDisplay(true);
 
 		// IMPORTANT entryDataPayRaw.data.payingPrice IS THE PAYING PRICE USE THISSSSS
-		const entryDataPayProcessed = entryDataPayRaw.data.doc.map(item => {
-			console.log(item);
+		const entryDataPayProcessed = entryDataPayRaw.data.map(item => {
+			console.log('this is the item', item);
 			const titleCleaned = item.title.toUpperCase();
 			const description = item.description;
-			const priceCleaned = entryDataPayRaw.data.payingPrice
-				? new Intl.NumberFormat('en-US', {
-						style: 'currency',
-						currency: 'USD',
-				  }).format(entryDataPayRaw.data.payingPrice)
-				: null;
+			console.log('this is the price from data', item.price);
+			const priceCleaned = item.price;
+			// ? new Intl.NumberFormat('en-US', {
+			// 		style: 'currency',
+			// 		currency: 'USD',
+			//   }).format(item.price)
+			// : null;
+			console.log('this is the priceCleaned', priceCleaned);
 			const cityAddress = item.cityAddress;
 			const stateAddress = item.stateAddress;
 			const distance = 5; // todo after claire updates backend
@@ -142,12 +110,17 @@ function Payment() {
 	const onSubmit = event => {
 		//event.preventDefault(); Take out once we can redirect to a post
 		entryDataPayCleaned.map(data => {
+			// console.log('this is the price in new post', Number(data.price));
 			const newPost = {
 				title: data.title,
 				description: data.description,
-				price: 126,
+				price: data.price,
 			};
-			makePayment(newPost);
+			const payment = makePayment(newPost);
+			payment.then(response => {
+				// console.log('this is the response', response);
+				window.location.replace(response);
+			});
 		});
 	};
 
@@ -172,17 +145,17 @@ function Payment() {
 		easing: 'easeInOutExpo',
 	});
 
-	var form_url_var = '';
-	entryDataPayCleaned.map(data => {
-		const form_url =
-			'http://localhost:8080/payment/pay?title=' +
-			data.title +
-			'&price=' +
-			data.price +
-			'&description=' +
-			data.description;
-		form_url_var = form_url;
-	});
+	// var form_url_var = '';
+	// entryDataPayCleaned.map(data => {
+	// 	const form_url =
+	// 		'http://localhost:8080/payment/pay?title=' +
+	// 		data.title +
+	// 		'&price=' +
+	// 		data.price +
+	// 		'&description=' +
+	// 		data.description;
+	// 	form_url_var = form_url;
+	// });
 
 	return (
 		<React.Fragment>
@@ -229,7 +202,7 @@ function Payment() {
 										</div>
 									</div>
 									<div className='OfferBidOptionArea'>
-										<form
+										{/* <form
 											action='http://localhost:8080/payment/pay?title=Cooking With Eddie&price=1&description=Make guac and salsa with Eddie'
 											method='post'>
 											<input
@@ -237,25 +210,32 @@ function Payment() {
 												type='submit'
 												value='Purchase'
 											/>
-										</form>
+										</form> */}
+										<div
+											className='CreateFormButton Submit'
+											onClick={onSubmit}
+											style={{
+												cursor: 'pointer',
+											}}>
+											Submit
+										</div>
 
 										<Link to={ROUTE.MYBIDS} style={{ textDecoration: 'none' }}>
 											<div className='PaymentOptionButton GoBack'>Go Back</div>
 										</Link>
 									</div>
-								</div>
-								<div className='OfferBidOptionArea'>
-									{/* <form action='http://localhost:8080/payment/pay' method='post'>
-										<input className='PaymentOptionButton Submit' type='submit' value='Purchase' />
-									</form> */}
-									<div
-										className='CreateFormButton Submit'
-										onClick={onSubmit}
-										style={{
-											cursor: 'pointer',
-										}}>
-										Submit
-									</div>
+									{/* <div className='OfferBidOptionArea'>
+									{
+										<div
+											className='CreateFormButton Submit'
+											onClick={onSubmit}
+											style={{
+												cursor: 'pointer',
+											}}>
+											Submit
+										</div>
+									}
+
 									<div className='PaymentOptionButton GoBack'>Go Back</div>
 								</div> */}
 								</div>
