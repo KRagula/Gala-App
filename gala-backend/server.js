@@ -51,12 +51,14 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
+app.options('*', cors());
+
 /** AWS ENDPOINTS **/
 app.post('/aws/fileupload', awsRoutes.uploadFile);
 
 /** PAYMENT ENDPOINTS **/
 app.post('/payment/pay', tokenHandlers.verifyJWT, paymentRoutes.pay);
-app.get('/payment/success', tokenHandlers.verifyJWT, paymentRoutes.success);
+app.get('/payment/success/:price', tokenHandlers.verifyJWT, paymentRoutes.success);
 app.get('/payment/cancel', tokenHandlers.verifyJWT, paymentRoutes.cancel);
 //just displays the post info for the payments page
 app.get('/payment/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);

@@ -25,6 +25,44 @@ function Payment() {
 	const handleClickCheckbox = () => {
 		setClickedCheckbox(!clickedCheckbox);
 	};
+	// window.location.href =
+	// 	'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-6M8419407W442511A';
+
+	const onSubmit = event => {
+		//event.preventDefault(); Take out once we can redirect to a post
+		// entryDataPayCleaned.map(data => {
+		// 	const newPost = {
+		// 		title: data.title,
+		// 		description: data.description,
+		// 		price: 126,
+		// 	};
+		// 	makePayment(newPost);
+		// });
+		const newPost = {
+			title: 'testing123',
+			description: 'description for testing123',
+			price: 126,
+		};
+		const payment = makePayment(newPost);
+		payment.then(response => {
+			// console.log('this is the response', response);
+			window.location.replace(response);
+		});
+		// console.log(payment.then(respon));
+		// Navigate(
+		// 	'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-6M8419407W442511A'
+		// );
+		// let history = useHistory();
+
+		// const redirect = () => {
+		// 	history.push(
+		// 		'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-6M8419407W442511A'
+		// 	);
+		// };
+		// window.location.replace(
+		// 	'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-6M8419407W442511A'
+		// );
+	};
 
 	useEffect(async () => {
 		const queryParams = new URLSearchParams(window.location.search);
@@ -205,18 +243,19 @@ function Payment() {
 											<div className='PaymentOptionButton GoBack'>Go Back</div>
 										</Link>
 									</div>
-									{/* <div className='OfferBidOptionArea'>
-									{
-										<div
-											className='CreateFormButton Submit'
-											onClick={onSubmit}
-											style={{
-												cursor: 'pointer',
-											}}>
-											Submit
-										</div>
-									}
-
+								</div>
+								<div className='OfferBidOptionArea'>
+									{/* <form action='http://localhost:8080/payment/pay' method='post'>
+										<input className='PaymentOptionButton Submit' type='submit' value='Purchase' />
+									</form> */}
+									<div
+										className='CreateFormButton Submit'
+										onClick={onSubmit}
+										style={{
+											cursor: 'pointer',
+										}}>
+										Submit
+									</div>
 									<div className='PaymentOptionButton GoBack'>Go Back</div>
 								</div> */}
 								</div>
