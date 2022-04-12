@@ -49,13 +49,15 @@ app.use(compression());
 app.use(helmet());
 app.use(cookieParser());
 
+app.options('*', cors());
+
 /** AWS ENDPOINTS **/
 app.post('/aws/fileupload', awsRoutes.uploadFile);
 app.delete('/aws/filedelete', awsRoutes.deleteFile);
 
 /** PAYMENT ENDPOINTS **/
 app.post('/payment/pay', paymentRoutes.pay);
-app.get('/payment/success', paymentRoutes.success);
+app.get('/payment/success/:price', paymentRoutes.success);
 app.get('/payment/cancel', paymentRoutes.cancel);
 
 /** CREDENTIAL ENDPOINTS **/

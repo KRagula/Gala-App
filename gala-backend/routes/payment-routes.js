@@ -21,13 +21,16 @@ const cancel = async (request, response) => {
 };
 
 const pay = async (request, res) => {
+	console.log('this is request', request.body.title);
+	console.log('this is the request description', request.body.description);
+	console.log('this is the request price', request.body.price);
 	const create_payment_json = {
 		intent: 'sale',
 		payer: {
 			payment_method: 'paypal',
 		},
 		redirect_urls: {
-			return_url: 'http://localhost:8080/payment/success',
+			return_url: `http://localhost:8080/payment/success/${request.body.price}`,
 			cancel_url: 'http://localhost:8080/payment/cancel',
 		},
 		transactions: [
@@ -35,9 +38,9 @@ const pay = async (request, res) => {
 				item_list: {
 					items: [
 						{
-							name: 'Claire test',
+							name: request.body.title,
 							sku: '0001',
-							price: '1.00',
+							price: request.body.price,
 							currency: 'USD',
 							quantity: 1,
 						},
@@ -45,15 +48,15 @@ const pay = async (request, res) => {
 				},
 				amount: {
 					currency: 'USD',
-					total: '1.00',
+					total: request.body.price,
 				},
-				description: 'paypal test',
+				description: request.body.description,
 			},
 		],
 	};
 
 	//console.log('this is the object' + create_payment_json);
-
+	var payment_url;
 	paypal.payment.create(create_payment_json, function (error, payment) {
 		if (error) {
 			throw new ServerError(serverErrorTypes.paypal, error);
@@ -61,23 +64,34 @@ const pay = async (request, res) => {
 			for (let i = 0; i < payment.links.length; i++) {
 				if (payment.links[i].rel == 'approval_url') {
 					//hfref is where the actual link is
-					res.redirect(payment.links[i].href);
+					console.log('this si the payment url', payment.links[i].href);
+					// res.redirect(payment.links[i].href);
+					// payment_url = payment.links[i].href;
+					// return payment.links[i].href;
+					res.send(payment.links[i].href);
 				}
 			}
+			console.log(payment);
 		}
+		return 'didnt return anything';
+		// return payment.links[i].href;
 	});
+	//console.log('this is the payment', payment);
+	// console.log('this is payment_url', payment_url);
+	// return res.json(payment_url);
 };
 
 const success = async (req, res) => {
 	const payerId = req.query.PayerID;
 	const paymentId = req.query.paymentId;
+	console.log('these are the req params', req.params.price);
 	const execute_payment_json = {
 		payer_id: payerId,
 		transactions: [
 			{
 				amount: {
 					currency: 'USD',
-					total: '1.00',
+					total: req.params.price,
 				},
 			},
 		],
@@ -91,15 +105,17 @@ const success = async (req, res) => {
 			const merchant_email = payment['transactions'][0]['payee']['email'];
 			const amount = payment['transactions'][0]['amount'];
 			const item_list = payment['transactions'][0]['item_list'];
+			// console.log('this is the item_list', item_list);
 			const price = item_list['items'][0]['price'];
 			const tax = item_list['items'][0]['tax'];
+			const description = payment['transactions'][0]['description'];
 			const msg = {
 				to: 'clairezwang0612@gmail.com', // Change to your recipient
 				from: 'gala.app.experiences@gmail.com', // Change to your verified sender
 				subject: 'Gala Receipt for: Pitbull Concert', //Change with name of experience purchased
 				templateId: 'd-6155c13a32da4f3c89e3d2244e7117da',
 				dynamic_template_data: {
-					description: 'Pitbull Concert',
+					description: description,
 					quantity: '1',
 					amount: price,
 					subtotal: amount['details']['subtotal'],
