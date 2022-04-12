@@ -14,6 +14,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { createPost } from '../axios/posts.js';
+import { uploadFile, fileUsage } from '../axios/aws.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -44,6 +45,7 @@ function Create() {
 	const [zip, setZip] = useState('');
 	const [stateLoc, setStateLoc] = useState('');
 	const [priceExp, setPriceExp] = useState('');
+	const [selectedFile, setSelectedFile] = useState(null);
 
 	const currencyMask = createNumberMask({
 		...defaultMaskOptions,
@@ -84,24 +86,7 @@ function Create() {
 		}
 	};
 
-	const creatorEmail = document.cookie
-		.split('; ')
-		.find(row => row.startsWith('email='))
-		.split('=')[1];
-	const creatorRating = document.cookie
-		.split('; ')
-		.find(row => row.startsWith('rating='))
-		.split('=')[1];
-	const creatorName = document.cookie
-		.split('; ')
-		.find(row => row.startsWith('first-name='))
-		.split('=')[1];
-	const creatorId = document.cookie
-		.split('; ')
-		.find(row => row.startsWith('docid='))
-		.split('=')[1];
-
-	const onSubmit = event => {
+	const onSubmit = async event => {
 		//event.preventDefault(); Take out once we can redirect to a post
 		const newPost = {
 			title: title,
@@ -114,12 +99,30 @@ function Create() {
 			timeEnd: endDate,
 			price: priceExp,
 			tags: tagsList,
-			hostEmail: creatorEmail, //TODO: USE HOST ID
-			rating: creatorRating,
-			creatorName: creatorName,
-			creatorId: creatorId,
 		};
-		createPost(newPost);
+
+		if (
+			!title ||
+			!descriptionEvent ||
+			!street ||
+			!city ||
+			!stateLoc ||
+			!zip ||
+			!startDate ||
+			!endDate ||
+			!priceExp ||
+			!tagsList ||
+			!selectedFile
+		) {
+			alert('Please Fill In All Fields!');
+			return;
+		}
+		const res = await createPost(newPost);
+		if (selectedFile && res) {
+			await uploadFile(selectedFile, res.id, fileUsage.experienceFile);
+		}
+
+		if (res) window.location = `${ROUTE.LISTING}?id=${res.id}`;
 	};
 
 	// controller state
@@ -210,7 +213,7 @@ function Create() {
 										<DesktopDateTimePicker
 											value={startDate}
 											onChange={newStartDate => {
-												setStartDate(newStartDate);
+												if (newStartDate <= endDate) setStartDate(newStartDate);
 											}}
 											renderInput={params => <TextField {...params} />}
 											minDate={new Date()}
@@ -225,7 +228,7 @@ function Create() {
 										<DesktopDateTimePicker
 											value={endDate}
 											onChange={newEndDate => {
-												setEndDate(newEndDate);
+												if (startDate <= newEndDate) setEndDate(newEndDate);
 											}}
 											renderInput={params => <TextField {...params} />}
 											minDate={startDate}
@@ -245,7 +248,14 @@ function Create() {
 						</div>
 						<div className='CreateFormRow Proof'>
 							<div className='CreateFormRowTitle'>Proof of Experience:</div>
-							<input type='file' className='CreateFormInputProof' required></input>
+							<input
+								type='file'
+								className='CreateFormInputProof'
+								accept='application/pdf'
+								onChange={event => {
+									setSelectedFile(event.target.files[0]);
+								}}
+								required></input>
 						</div>
 						<div className='CreateFormRow'>
 							<div className='CreateFormRowTitle Tags'>Tags:</div>
@@ -285,11 +295,14 @@ function Create() {
 							</div>
 						</div>
 						<div className='CreateFormButtonArea'>
-							<Link to={ROUTE.MYDATES} style={{ textDecoration: 'none' }}>
-								<div className='CreateFormButton Submit' onClick={onSubmit}>
-									Submit
-								</div>
-							</Link>
+							<div
+								className='CreateFormButton Submit'
+								onClick={onSubmit}
+								style={{
+									cursor: 'pointer',
+								}}>
+								Submit
+							</div>
 							<div className='CreateFormButton Clear'>Clear</div>
 						</div>
 					</div>

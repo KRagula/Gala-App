@@ -9,6 +9,7 @@ import {
 	UserExistsError,
 	InvalidCredentialError,
 } from '../error/credential-errors.js';
+import serverConfig from '../configurations/server-config.js';
 
 const signup = async (req, res, next) => {
 	const saltPassword = await bcrypt.genSalt(10);
@@ -26,15 +27,12 @@ const signup = async (req, res, next) => {
 		numRatings: 1,
 	});
 
-	let signupData;
 	try {
 		const userDoc = await userTemplate.findOne({ email: req.body.email });
 		if (userDoc) return next(new UserExistsError(req.body.email));
-		let idVal;
-		signupData = await signedUpUser.save(postId => {});
-		console.log(signupData);
+		const signupData = await signedUpUser.save();
 		const options = {
-			maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+			maxAge: 10000 * 60 * 60,
 		};
 
 		res.cookie('first-name', req.body.firstName, options);
@@ -42,9 +40,7 @@ const signup = async (req, res, next) => {
 		res.cookie('docid', signedUpUser._id, options);
 		res.cookie('rating', 5, options);
 		return res.json({
-			firstname: signedUpUser.firstName,
-			lastname: signedUpUser.lastName,
-			data: 'data',
+			id: signupData._id.toString(),
 		});
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
@@ -63,28 +59,60 @@ const login = async (req, res, next) => {
 	bcrypt.compare(req.body.password, doc.password, (err, same) => {
 		if (err) return next(new ServerError(serverErrorTypes.generic, err));
 		else if (same) {
-			// Send JWT
-			const options = {
-				maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+			const payload = {
+				id: doc._id,
+				email: doc.email,
 			};
 
-			//   var nameCookie = 'firstname=' + response2.firstName
-			//   var lastNameCookie = 'lastname=' + response2.lastName
+			jwt.sign(payload, serverConfig.jwtSecret, { expiresIn: 86400 }, (err, token) => {
+				if (err) return next(new ServerError(serverErrorTypes.generic, err));
 
-			res.cookie('first-name', doc.firstName, options);
-			res.cookie('email', doc.email, options);
-			res.cookie('docid', doc._id, options);
-			if (doc.rating) {
-				res.cookie('rating', doc.rating, options);
-			} else {
-				res.cookie('rating', 5, options);
-			}
-			res.json({ firstname: doc.firstName, lastname: doc.lastName, data: 'data' });
+				const options = {
+					maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+				};
+				res.cookie('firstName', doc.firstName, options);
+				res.cookie('lastName', doc.lastName, options);
+				res.cookie('email', doc.email, options);
+				res.cookie('userId', doc._id.toString(), options);
+
+				return res.json({
+					message: 'Success',
+					token: 'Bearer ' + token,
+					data: 'data',
+				});
+			});
 		} else return next(new InvalidCredentialError());
 	});
+};
+
+const isAuth = async (req, res, next) => {
+	if (
+		!req.cookies.firstName ||
+		!req.cookies.lastName ||
+		!req.cookies.email ||
+		!req.cookies.userId
+	) {
+		let doc;
+		try {
+			doc = await userTemplate.findById(req.user.id);
+			if (!doc) return next(new ServerError(serverErrorTypes.mongodb, err)); // User DNE
+		} catch (err) {
+			return next(new ServerError(serverErrorTypes.mongodb, err));
+		}
+
+		const options = {
+			maxAge: 1000 * 60 * 60, // would expire after 60 minutes
+		};
+		res.cookie('firstName', doc.firstName, options);
+		res.cookie('lastName', doc.lastName, options);
+		res.cookie('email', doc.email, options);
+		res.cookie('userId', doc._id.toString(), options);
+	}
+	res.json({ isLoggedIn: true });
 };
 
 export default {
 	signup: signup,
 	login: login,
+	isAuth: isAuth,
 };

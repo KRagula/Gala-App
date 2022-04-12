@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import '../css/UserHeader.css';
 
@@ -10,46 +11,46 @@ const cleanCookiesSignout = () => {
 			.replace(/^ +/, '')
 			.replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
 	});
+
+	localStorage.removeItem('token');
+
 	window.location = ROUTE.HOME;
 };
 
-function UserHeader() {
-	function setHeaderValue() {
-		const firstname = document.cookie
-			.split('; ')
-			.find(row => row.startsWith('first-name='))
-			.split('=')[1];
-		console.log('Test if Runs');
-		document.getElementById('nameWelcome').innerHTML = 'Welcome back, ' + firstname;
-	}
+const UserHeader = () => {
 	return (
 		<React.Fragment>
 			<div className='HeaderArea'>
 				<div className='HeaderLeftArea'>
 					<div className='GalaLogoArea'>
 						<Link to={ROUTE.EXPLORE} style={{ textDecoration: 'none' }}>
-							<div className='GalaLogo' onLoad={setHeaderValue}>
-								Gala
-							</div>
+							<div className='GalaLogo'>Gala</div>
 						</Link>
 					</div>
 					<div className='WelcomeAreaWrapper'>
 						<div className='WelcomeArea' id='nameWelcome'>
-							Welcome back, Robin2
+							Welcome back, {Cookies.get('firstName')}
 						</div>
 					</div>
 				</div>
 				<div className='HeaderRightArea'>
-					<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
+					<Link
+						to={`${ROUTE.PROFILE}?id=${Cookies.get('userId')}`}
+						style={{ textDecoration: 'none' }}>
 						<div className='ProfileButton'>Profile</div>
 					</Link>
-					<div className='SignoutButton' onClick={cleanCookiesSignout}>
+					<div
+						className='SignoutButton'
+						onClick={cleanCookiesSignout}
+						style={{
+							cursor: 'pointer',
+						}}>
 						Sign Out
 					</div>
 				</div>
 			</div>
 		</React.Fragment>
 	);
-}
+};
 
 export default UserHeader;

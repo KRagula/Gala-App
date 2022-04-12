@@ -56,7 +56,7 @@ function Explore() {
 			return;
 		}
 
-		const entryDataToSet = nearbyPosts.data.map(item => {
+		const entryDataToSet = nearbyPosts.map(item => {
 			const titleCleaned = item.title.toUpperCase();
 			const priceCleaned = '$' + parseFloat(item.price).toFixed(2);
 			const startDateObject = new Date(item.timeStart);
@@ -98,6 +98,9 @@ function Explore() {
 				timeCreatedObject: timeCreatedObject,
 				priceValue: item.price,
 				textHash: textHash,
+				creatorId: item.creatorId,
+				userDistance: item.userDistance,
+				id: item._id,
 			};
 		});
 
@@ -126,7 +129,7 @@ function Explore() {
 
 	const handleSorting = () => {
 		const sortType = document.getElementById('ExploreToolbarSelect').value;
-		let entryDataProcessed = entryData;
+		let entryDataProcessed = entryDataCleaned;
 		switch (sortType) {
 			case 'earliest':
 				entryDataProcessed = entryDataCleaned.sort((a, b) => {
@@ -144,7 +147,6 @@ function Explore() {
 				});
 				break;
 			case 'least_recent':
-				console.log('hello');
 				entryDataProcessed = entryDataCleaned.sort((a, b) => {
 					return a.timeCreatedObject - b.timeCreatedObject;
 				});

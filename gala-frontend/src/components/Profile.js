@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Route } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
 import '../css/Profile.css';
-import testImage from '../assets/kanishka.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { getProfile } from '../axios/profile.js';
+import defaultImg from '../assets/default.jpeg';
 
 import ROUTE from '../configurations/route-frontend-config.js';
+import Cookies from 'js-cookie';
 
 const { Anime } = ReactAnime;
 
 function Profile(props) {
 	// controller state
 	const [control, setControl] = useState(null);
+	const [profileInfo, setProfileInfo] = useState({});
+	const [name, setName] = useState('');
 
 	// meta state
 	const [meta, setMeta] = useState({
@@ -23,6 +27,24 @@ function Profile(props) {
 		currentTime: 0,
 		duration: 0,
 	});
+
+	useEffect(async () => {
+		const queryParams = new URLSearchParams(window.location.search);
+		if (!queryParams.get('id')) return;
+		const res = await getProfile(queryParams.get('id'));
+		if (!res) return;
+		if (res.rating) {
+			res.rating = Math.round(res.rating * 2) / 2;
+		}
+
+		if (queryParams.get('id') != Cookies.get('userId')) {
+			setName(`${res.firstName}'s`);
+		} else {
+			setName('your');
+		}
+
+		setProfileInfo(res);
+	}, []);
 
 	// timeline
 	var timeline = [];
@@ -34,11 +56,6 @@ function Profile(props) {
 		easing: 'easeInOutExpo',
 	});
 
-	var name = "Kanishka's";
-	if (props.role === 'creator') {
-		name = 'your';
-	}
-
 	return (
 		<React.Fragment>
 			<UserHeader />
@@ -49,65 +66,73 @@ function Profile(props) {
 						<div className='DashboardTitleDescriptionArea' id='DashboardTitleDescriptionArea'>
 							<div className='DashboardTitleText'>Profile</div>
 							<div className='DashboardTitleDot' />
-							<div className='DashboardDescriptionText'>View {name} user profile</div>
+							<div className='DashboardDescriptionText'>Viewing {name} user profile</div>
 						</div>
 					</div>
 					<div className='ListingArea'>
 						<div className='ListingProfileAreaWrapper'>
 							<div className='ExploreEntryProfileArea'>
-								<img src={testImage} className='ListingProfileImage' />
-								<div className='ListingProfileText'>Kanishka</div>
+								<img
+									src={profileInfo.profilePictureLink ? profileInfo.profilePictureLink : defaultImg}
+									className='ListingProfileImage'
+								/>
+								<div className='ListingProfileText'>
+									{profileInfo.firstName} {profileInfo.lastName}
+								</div>
 								<div className='ListingProfileStars'>
-									<FaStar fontSize='12px' color='#424242' />
-									<FaStar fontSize='12px' color='#424242' />
-									<FaStarHalfAlt fontSize='12px' color='#424242' />
-									<FaRegStar fontSize='12px' color='#424242' />
-									<FaRegStar fontSize='12px' color='#424242' />
+									{[...Array(5)].map((x, i) => {
+										return profileInfo.rating >= i + 1 ? (
+											<FaStar fontSize='11px' color='#424242' />
+										) : (
+											<React.Fragment>
+												{profileInfo.rating > i ? (
+													<FaStarHalfAlt fontSize='11px' color='#424242' />
+												) : (
+													<FaRegStar fontSize='11px' color='#424242' />
+												)}
+											</React.Fragment>
+										);
+									})}
 								</div>
 							</div>
 						</div>
 						<div className='ListingDataPaper'>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Headline:</div>
-								<div className='ListingDataRowInfo'>
-									Hi! I'm Kanishka. I like memes, finance, and memes about finance. I study in the
-									Jerome Fisher Program in Management and Technology. I am going to be an investment
-									banker at JP Morgan after I graduate from Penn. I like potato chips.
-								</div>
+								<div className='ListingDataRowInfo'>{profileInfo.headline}</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Gender:</div>
-								<div className='ListingDataRowInfo'>Male</div>
+								<div className='ListingDataRowInfo'>{profileInfo.gender}</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Age:</div>
-								<div className='ListingDataRowInfo'>20</div>
+								<div className='ListingDataRowInfo'>{profileInfo.age}</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Fun Fact:</div>
-								<div className='ListingDataRowInfo'>I have a twin brother.</div>
+								<div className='ListingDataRowInfo'>{profileInfo.funFact}</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Interests:</div>
 								<div className='ListingDataRowInfo'>
 									<div className='ListingDataTagArea'>
-										<div className='ListingTag'>finance</div>
-										<div className='ListingTag'>memes</div>
-										<div className='ListingTag'>potato chips</div>
-										<div className='ListingTag'>m and t</div>
-										<div className='ListingTag'>wharton</div>
-										<div className='ListingTag'>jp morgan</div>
-										<div className='ListingTag'>investment banking</div>
-										<div className='ListingTag'>partying</div>
+										{profileInfo.interests
+											? profileInfo.interests.map((interest, i) => (
+													<div className='ListingTag'>{interest}</div>
+											  ))
+											: null}
 									</div>
 								</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Gala Dates:</div>
-								<div className='ListingDataRowInfo'>3</div>
+								<div className='ListingDataRowInfo'>
+									{profileInfo.numDates ? profileInfo.numDates : 0}
+								</div>
 							</div>
 						</div>
-						{props.role === 'creator' ? (
+						{new URLSearchParams(window.location.search).get('id') == Cookies.get('userId') ? (
 							<div className='ProfileUpdateAreaWrapper'>
 								<Link to={ROUTE.UPDATE} style={{ textDecoration: 'none' }}>
 									<div className='ProfileUpdateArea'>Click to update profile</div>

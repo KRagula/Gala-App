@@ -5,6 +5,7 @@ import multiparty from 'multiparty';
 
 import awsConfig from '../configurations/aws-config.js';
 import userTemplate from '../models/UserModel.js';
+import postTemplate from '../models/PostModels.js';
 
 import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
 
@@ -21,14 +22,37 @@ const uploadFileHelper = (buffer, name, type) => {
 	return s3.upload(params).promise();
 };
 
-const userFileUploadHelper = async (data, email) => {
-	console.log('email', email);
-	const filter = { email: email };
+const deleteFileHelper = async fileName => {
+	const params = {
+		Bucket: awsConfig.s3Bucket,
+		Key: fileName,
+	};
+
+	s3.deleteObject(params).promise();
+};
+
+const userPictureUploadHelper = async (data, id) => {
+	const filter = { _id: id };
 	const update = {
 		profilePictureLink: data.Location,
 		profilePictureName: data.key,
 	};
-	await userTemplate.findOneAndUpdate(filter, update, { new: true });
+	const oldDoc = await userTemplate.findOneAndUpdate(filter, update);
+	if (oldDoc.profilePictureLink) {
+		await deleteFileHelper(oldDoc.profilePictureName);
+	}
+};
+
+const experienceFileUploadHelper = async (data, id) => {
+	const filter = { _id: id };
+	const update = {
+		proofExperienceLink: data.Location,
+		proofExperienceName: data.key,
+	};
+	const oldDoc = await postTemplate.findOneAndUpdate(filter, update);
+	if (oldDoc.proofExperienceLink) {
+		await deleteFileHelper(oldDoc.proofExperienceName);
+	}
 };
 
 const uploadFile = async (req, res, next) => {
@@ -43,17 +67,17 @@ const uploadFile = async (req, res, next) => {
 			const type = await fileTypeFromBuffer(buffer);
 
 			let folder = '';
-			if (fields.fileusage == 'profilePicture') {
-				folder = awsConfig.s3FolderProfilePictures;
-			} else {
-				throw new Error();
-			}
+			if (fields.fileusage == 'profilePicture') folder = awsConfig.s3FolderProfilePictures;
+			else if (fields.fileusage == 'experienceFile') folder = 'experience-files';
+			else throw new Error();
 
 			const fileName = `${folder}/${Date.now().toString()}`;
 			const data = await uploadFileHelper(buffer, fileName, type);
 
 			if (data && fields.fileusage == 'profilePicture') {
-				await userFileUploadHelper(data, fields.user);
+				await userPictureUploadHelper(data, fields.user);
+			} else if (data && fields.fileusage == 'experienceFile') {
+				await experienceFileUploadHelper(data, fields.user);
 			}
 
 			return res.status(200).send(data);
@@ -63,19 +87,6 @@ const uploadFile = async (req, res, next) => {
 	});
 };
 
-const deleteFile = async (req, res, next) => {
-	const params = {
-		Bucket: awsConfig.s3Bucket,
-		Key: req.body.name,
-	};
-
-	s3.deleteObject(params, function (err, data) {
-		if (err) console.log(err, err.stack); // error
-		else console.log('deleted'); // deleted
-	});
-};
-
 export default {
 	uploadFile: uploadFile,
-	deleteFile: deleteFile,
 };

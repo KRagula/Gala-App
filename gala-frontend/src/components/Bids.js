@@ -6,20 +6,184 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import ReactAnime from 'react-animejs';
 import '../css/Bids.css';
-import { getBidsReceived } from '../axios/bids';
+import { getBidsReceived, getBidsSent } from '../axios/bids';
+import { ShimmerCategoryItem } from 'react-shimmer-effects';
 
 const { Anime } = ReactAnime;
 
 function Bids() {
-	const [entryDataReceived, setEntryDataReceived] = useState([]);
+	const [entryDataRec, setEntryDataRec] = useState([]);
+	const [entryDataRecCleaned, setEntryDataRecCleaned] = useState([]);
 	const [entryDataSent, setEntryDataSent] = useState([]);
-	const [showExploreEntries, setShowExploreEntries] = useState(false);
+	const [entryDataSentCleaned, setEntryDataSentCleaned] = useState([]);
+	const [showBidsEntries, setShowBidsEntries] = useState(false);
 
 	useEffect(async () => {
-		const test = await getBidsReceived();
-		console.log(test);
-		// todo for robin: console log this test and integrate with forntend
+		const entryDataRecRaw = await getBidsReceived();
+
+		const entryDataRecProcessed = entryDataRecRaw.data.map(item => {
+			const bidAmount = '$' + parseFloat(item.bidAmount).toFixed(2);
+			const bidAmountNum = item.bidAmount;
+			const highestBid = '$' + parseFloat(item.highestBid).toFixed(2);
+			const title = item.postId.title.toUpperCase();
+			const auctionPrice = '$' + parseFloat(item.postId.price).toFixed(2);
+			const profileName = item.user_profile[0].firstName;
+			const profileRating = Math.round(item.user_profile[0].rating * 2) / 2;
+			const profileImage = item.user_profile[0].profilePictureLink;
+			const timestampObject = item.postId.timeCreated;
+			let textHash =
+				bidAmount +
+				'#' +
+				highestBid +
+				'#' +
+				title +
+				'#' +
+				auctionPrice +
+				'#' +
+				profileName +
+				'#' +
+				profileRating +
+				'#' +
+				profileImage;
+			textHash = textHash.toLowerCase();
+
+			return {
+				bidAmount: bidAmount,
+				bidAmountNum: bidAmountNum,
+				highestBid: highestBid,
+				title: title,
+				auctionPrice: auctionPrice,
+				profileName: profileName,
+				profileRating: profileRating,
+				profileImage: profileImage,
+				timestampObject: timestampObject,
+				textHash: textHash,
+				bidId: item._id,
+				userId: item.user_profile[0]._id,
+				bidStatus: item.status,
+				postId: item.postId._id,
+			};
+		});
+
+		setEntryDataRec(entryDataRecProcessed);
+		setEntryDataRecCleaned(entryDataRecProcessed);
+
+		const entryDataSentRaw = await getBidsSent();
+
+		const entryDataSentProcessed = entryDataSentRaw.data.map(item => {
+			const bidAmount = '$' + parseFloat(item.bidAmount).toFixed(2);
+			const bidAmountNum = item.bidAmount;
+			const highestBid = '$' + parseFloat(item.highestBid).toFixed(2);
+			const title = item.postId.title.toUpperCase();
+			const auctionPrice = '$' + parseFloat(item.postId.price).toFixed(2);
+			const profileName = item.user_profile[0].firstName;
+			const profileRating = Math.round(item.user_profile[0].rating * 2) / 2;
+			const profileImage = item.user_profile[0].profilePictureLink;
+			const timestampObject = item.postId.timeCreated;
+			let textHash =
+				bidAmount +
+				'#' +
+				highestBid +
+				'#' +
+				title +
+				'#' +
+				auctionPrice +
+				'#' +
+				profileName +
+				'#' +
+				profileRating +
+				'#' +
+				profileImage;
+			textHash = textHash.toLowerCase();
+
+			return {
+				bidAmount: bidAmount,
+				bidAmountNum: bidAmountNum,
+				highestBid: highestBid,
+				title: title,
+				auctionPrice: auctionPrice,
+				profileName: profileName,
+				profileRating: profileRating,
+				profileImage: profileImage,
+				timestampObject: timestampObject,
+				textHash: textHash,
+				bidId: item._id,
+				userId: item.user_profile[0]._id,
+				bidStatus: item.status,
+				postId: item.postId._id,
+			};
+		});
+
+		setEntryDataSent(entryDataSentProcessed);
+		setEntryDataSentCleaned(entryDataSentProcessed);
+
+		setShowBidsEntries(true);
 	}, []);
+
+	const handleToolbarSearch = isReceived => {
+		if (isReceived) {
+			const searchText = document.getElementById('BidsReceivedToolbarSearch').value.trim();
+			const entryDataProcessed = entryDataRec.filter(item => {
+				return item.textHash.includes(searchText.toLowerCase());
+			});
+			setEntryDataRecCleaned(entryDataProcessed);
+		} else {
+			const searchText = document.getElementById('BidsSentToolbarSearch').value.trim();
+			const entryDataProcessed = entryDataSent.filter(item => {
+				return item.textHash.includes(searchText.toLowerCase());
+			});
+			setEntryDataSentCleaned(entryDataProcessed);
+		}
+	};
+
+	const handleSorting = isReceived => {
+		var sortType = 'highest';
+		if (isReceived) {
+			if (document.getElementById('BidsReceivedToolbarSort') !== null) {
+				sortType = document.getElementById('BidsReceivedToolbarSort').value;
+			}
+		} else {
+			if (document.getElementById('BidsSentToolbarSort') !== null) {
+				sortType = document.getElementById('BidsSentToolbarSort').value;
+			}
+		}
+
+		var entryDataProcessed;
+		if (isReceived) {
+			entryDataProcessed = entryDataRecCleaned;
+		} else {
+			entryDataProcessed = entryDataSentCleaned;
+		}
+
+		switch (sortType) {
+			case 'highest':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return b.bidAmountNum - a.bidAmountNum;
+				});
+				break;
+			case 'lowest':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return a.bidAmountNum - b.bidAmountNum;
+				});
+				break;
+			case 'most_recent':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return b.timestampObject - a.timestampObject;
+				});
+				break;
+			case 'least_recent':
+				entryDataProcessed = entryDataProcessed.sort((a, b) => {
+					return a.timestampObject - b.timestampObject;
+				});
+				break;
+		}
+
+		if (isReceived) {
+			setEntryDataRecCleaned(entryDataProcessed.slice());
+		} else {
+			setEntryDataSentCleaned(entryDataProcessed.slice());
+		}
+	};
 
 	const [collapseFirst, setCollapseFirst] = useState(false);
 	const [collapseSecond, setCollapseSecond] = useState(false);
@@ -83,12 +247,16 @@ function Bids() {
 						{!collapseFirst ? (
 							<div>
 								<div className='BidsToolbarArea'>
-									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
+									<input
+										id='BidsReceivedToolbarSearch'
+										className='BidsToolbarSearch'
+										placeholder='Search by keyword'
+										onChange={e => handleToolbarSearch(true)}></input>
 									<select
-										name='received-bids-sort'
-										id='received-bids-sort'
-										className='BidsToolbarSelect'>
-										<option value='none' selected disabled hidden>
+										id='BidsReceivedToolbarSort'
+										className='BidsToolbarSelect'
+										onChange={e => handleSorting(true)}>
+										<option value='highest' selected disabled hidden>
 											Sort by
 										</option>
 										<option value='highest'>Highest $$</option>
@@ -98,8 +266,46 @@ function Bids() {
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
-									<BidsEntry isReceived={true} />
-									<BidsEntry isReceived={true} />
+									{showBidsEntries ? (
+										<div>
+											{entryDataRecCleaned.length > 0 ? (
+												<React.Fragment>
+													{entryDataRecCleaned.map(data => {
+														return <BidsEntry isReceived={true} data={data} />;
+													})}
+												</React.Fragment>
+											) : (
+												<div> No entries found.</div>
+											)}
+										</div>
+									) : (
+										<div>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+										</div>
+									)}
 								</div>
 							</div>
 						) : (
@@ -122,9 +328,16 @@ function Bids() {
 						{!collapseSecond ? (
 							<div>
 								<div className='BidsToolbarArea'>
-									<input className='BidsToolbarSearch' placeholder='Search by keyword'></input>
-									<select name='sent-bids-sort' id='sent-bids-sort' className='BidsToolbarSelect'>
-										<option value='none' selected disabled hidden>
+									<input
+										id='BidsSentToolbarSearch'
+										className='BidsToolbarSearch'
+										placeholder='Search by keyword'
+										onChange={e => handleToolbarSearch(false)}></input>
+									<select
+										id='BidsSentToolbarSort'
+										className='BidsToolbarSelect'
+										onChange={e => handleSorting(false)}>
+										<option value='highest' selected disabled hidden>
 											Sort by
 										</option>
 										<option value='highest'>Highest $$</option>
@@ -134,13 +347,46 @@ function Bids() {
 									</select>
 								</div>
 								<div className='BidsEntryArea'>
-									<BidsEntry isReceived={true} />
-									<BidsEntry isReceived={true} />
-								</div>
-								<div className='BidsEntryArea'>
-									<BidsEntry isReceived={false} isConfirmed={true} />
-									<BidsEntry isReceived={false} isConfirmed={false} />
-									<BidsEntry isReceived={false} isConfirmed={false} />
+									{showBidsEntries ? (
+										<div>
+											{entryDataSentCleaned.length > 0 ? (
+												<React.Fragment>
+													{entryDataSentCleaned.map(data => {
+														return <BidsEntry isReceived={false} data={data} isConfirmed={false} />; // todo: update hardcode isConfirmed
+													})}
+												</React.Fragment>
+											) : (
+												<div> No entries found.</div>
+											)}
+										</div>
+									) : (
+										<div>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+											<ShimmerCategoryItem
+												hasImage
+												imageType='circular'
+												imageWidth={100}
+												imageHeight={100}
+												text
+												cta
+											/>
+										</div>
+									)}
 								</div>
 							</div>
 						) : (

@@ -23,6 +23,7 @@ import tokenHandlers from './middleware/token-handlers.js';
 import emailRoutes from './routes/email-routes.js';
 
 import bidRoutes from './routes/bid-routes.js';
+import dateRoutes from './routes/dates-routes.js';
 
 mongoose
 	.connect(dbConfig.mongoDBAccess)
@@ -48,44 +49,51 @@ app.use(morgan('tiny'));
 app.use(compression());
 app.use(helmet());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 app.options('*', cors());
 
 /** AWS ENDPOINTS **/
 app.post('/aws/fileupload', awsRoutes.uploadFile);
-app.delete('/aws/filedelete', awsRoutes.deleteFile);
 
 /** PAYMENT ENDPOINTS **/
-app.post('/payment/pay', paymentRoutes.pay);
-app.get('/payment/success/:price', paymentRoutes.success);
-app.get('/payment/cancel', paymentRoutes.cancel);
+app.post('/payment/pay', tokenHandlers.verifyJWT, paymentRoutes.pay);
+app.get('/payment/success/:price', tokenHandlers.verifyJWT, paymentRoutes.success);
+app.get('/payment/cancel', tokenHandlers.verifyJWT, paymentRoutes.cancel);
+//just displays the post info for the payments page
+app.get('/payment/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
 
 /** CREDENTIAL ENDPOINTS **/
 app.post('/credential/signup', credentialRoutes.signup);
 app.post('/credential/login', credentialRoutes.login);
+app.get('/credential/isauth', tokenHandlers.verifyJWT, credentialRoutes.isAuth);
 
 /** EXPERIENCE ENDPOINTS **/
-app.post('/experience/make-post', postRoutes.postNew);
-app.post('/experience/get-city-posts', postRoutes.getCityPosts);
+app.post('/experience/make-post', tokenHandlers.verifyJWT, postRoutes.postNew);
 app.post('/experience/get-nearby-posts', postRoutes.getNearbyPosts);
-app.get('/experience/bids-sent/:username', bidRoutes.getBidsSent);
-app.get('/experience/bids-received/:username', bidRoutes.getBidsReceived);
-app.post('/experience/offer-bid/:postId', bidRoutes.offerBid);
-app.get('/experience/offer-bid/:postId', bidRoutes.postInfo);
-//CONFIRM BID ROUTE
-app.put('/experience/confirm-bid/:bidId', bidRoutes.confirmBid);
-app.delete('/experience/delete-bid/:bidId', bidRoutes.deleteBid);
+app.get('/experience/bids-sent', tokenHandlers.verifyJWT, bidRoutes.getBidsSent);
+app.get('/experience/bids-received', tokenHandlers.verifyJWT, bidRoutes.getBidsReceived);
+app.post('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.offerBid);
+app.get('/experience/offer-bid/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
+app.put('/experience/confirm-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.confirmBid);
+app.put('/experience/deny-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.denyBid);
+app.delete('/experience/delete-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.deleteBid);
+app.get('/experience/single-bid/:bidId', tokenHandlers.verifyJWT, bidRoutes.singleBid);
+app.get('/experience/dates', tokenHandlers.verifyJWT, dateRoutes.getDates);
+app.get('/experience/listing/:listingId', tokenHandlers.verifyJWT, postRoutes.getListing);
+app.delete('/experience/listing/:listingId', tokenHandlers.verifyJWT, postRoutes.deleteListing);
 
 /** PROFILE ENDPOINTS **/
-app.get('/profile/:profileid', profileRoutes.getProfile);
+app.get('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.getProfile);
+app.put('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.editProfile);
+
+/** EMAIL ENDPOINTS **/
+app.get('/bidConfirm', tokenHandlers.verifyJWT, emailRoutes.bidConfirm);
 
 /** ERROR HANDLING **/
 app.use(errorHandlers.errorLogger);
 app.use(errorHandlers.errorResponder);
 
-/** EMAIL ENDPOINTS **/
-
-app.get('/bidConfirm', emailRoutes.bidConfirm);
 console.log(
 	'Authors: Edward Kim (kime022), Claire Wang (waclaire), Robin Tan (robintan), Kanishka Ragula (kragula)'
 );

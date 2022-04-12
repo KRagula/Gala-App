@@ -1,12 +1,15 @@
 import mongoose from 'mongoose';
+import dbConfig from '../configurations/db-config.js';
 
 const bidTemplate = new mongoose.Schema({
 	postId: {
 		type: mongoose.Types.ObjectId,
-		ref: 'postTable',
+		ref: dbConfig.mongoDBTablePosts,
+		required: true,
 	},
-	bidderEmail: {
-		type: String,
+	bidderId: {
+		type: mongoose.Types.ObjectId,
+		ref: dbConfig.mongoDBTableUser,
 		required: true,
 	},
 	bidAmount: {
@@ -19,7 +22,7 @@ const bidTemplate = new mongoose.Schema({
 	},
 	bidTime: {
 		type: Date,
-		required: true,
+		required: false,
 	},
 });
 

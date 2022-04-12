@@ -43,6 +43,26 @@ const userTemplate = new mongoose.Schema({
 		type: Number,
 		required: true,
 	},
+	headline: {
+		type: String,
+		required: false,
+	},
+	gender: {
+		type: String,
+		required: false,
+	},
+	age: {
+		type: Number,
+		required: false,
+	},
+	funFact: {
+		type: String,
+		required: false,
+	},
+	interests: {
+		type: Array,
+		required: false,
+	},
 });
 
 export default mongoose.model(dbConfig.mongoDBTableUser, userTemplate);

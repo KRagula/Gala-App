@@ -79,6 +79,10 @@
 	color: rgb(13, 79, 13);
 }
 
+.BidsEntryBottomLeftAreaRowStatus.Denied {
+	color: rgb(255, 0, 0);
+}
+
 .BidsEntryBottomLeftAreaRowStatus.Ongoing {
 	color: rgb(148, 136, 0);
 }

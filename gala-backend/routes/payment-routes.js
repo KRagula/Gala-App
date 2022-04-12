@@ -24,6 +24,7 @@ const pay = async (request, res) => {
 	console.log('this is request', request.body.title);
 	console.log('this is the request description', request.body.description);
 	console.log('this is the request price', request.body.price);
+
 	const create_payment_json = {
 		intent: 'sale',
 		payer: {
@@ -64,7 +65,7 @@ const pay = async (request, res) => {
 			for (let i = 0; i < payment.links.length; i++) {
 				if (payment.links[i].rel == 'approval_url') {
 					//hfref is where the actual link is
-					console.log('this si the payment url', payment.links[i].href);
+					//console.log('this si the payment url', payment.links[i].href);
 					// res.redirect(payment.links[i].href);
 					// payment_url = payment.links[i].href;
 					// return payment.links[i].href;
@@ -112,7 +113,7 @@ const success = async (req, res) => {
 			const msg = {
 				to: 'clairezwang0612@gmail.com', // Change to your recipient
 				from: 'gala.app.experiences@gmail.com', // Change to your verified sender
-				subject: 'Gala Receipt for: Pitbull Concert', //Change with name of experience purchased
+				subject: 'Gala Receipt for: Cooking With Eddie', //Change with name of experience purchased
 				templateId: 'd-6155c13a32da4f3c89e3d2244e7117da',
 				dynamic_template_data: {
 					description: description,

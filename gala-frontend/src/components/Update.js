@@ -1,17 +1,18 @@
-import React, { useState, useImage } from 'react';
+import React, { useState, useImage, useEffect } from 'react';
 import { Link, Route } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
 import '../css/Dashboard.css';
 import '../css/Update.css';
-import testImage from '../assets/kanishka.jpeg';
 import defaultImage from '../assets/default.jpeg';
 import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { createPost } from '../axios/posts.js';
+import { editProfile, getProfile } from '../axios/profile.js';
+import { uploadFile, fileUsage } from '../axios/aws.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -29,10 +30,32 @@ const defaultMaskOptions = {
 const MAX_NUM_TAGS = 10;
 
 function Update() {
-	const [interestsList, setInterestsList] = useState(['food', 'dancing', 'bowling']);
+	const [interestsList, setInterestsList] = useState([]);
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [headline, setHeadline] = useState('');
+	const [age, setAge] = useState('');
+	const [gender, setGender] = useState('');
+	const [funFact, setFunFact] = useState('');
 	const [showTagInsn, setShowTagInsn] = useState(false);
-
 	const [selectedImage, setSelectedImage] = useState(null);
+
+	const [profileInfo, setProfileInfo] = useState({});
+
+	useEffect(async () => {
+		const res = await getProfile(Cookies.get('userId'));
+		setProfileInfo(res);
+
+		setFirstName(res.firstName);
+		setLastName(res.lastName);
+		setHeadline(res.headline);
+		setAge(res.age);
+		setGender(res.gender);
+		setFunFact(res.funFact);
+		if (res.interests) {
+			setInterestsList(res.interests);
+		}
+	}, []);
 
 	const ageMask = createNumberMask({
 		...defaultMaskOptions,
@@ -68,6 +91,30 @@ function Update() {
 		if (index > -1) {
 			setInterestsList(interestsList.filter(val => val !== tagVal));
 		}
+	};
+
+	const onSubmitClick = async () => {
+		if (!firstName || !lastName) {
+			alert('Please Fill First Name and Last Name Text Fields!');
+			return;
+		}
+
+		const formattedProfileInfo = {
+			firstName: firstName,
+			lastName: lastName,
+			headline: headline,
+			age: age,
+			gender: gender,
+			funFact: funFact,
+			interests: interestsList,
+		};
+
+		const res = await editProfile(formattedProfileInfo);
+		if (res && selectedImage) {
+			await uploadFile(selectedImage, Cookies.get('userId'), fileUsage.profilePicture);
+		}
+
+		if (res) window.location = `${ROUTE.PROFILE}?id=${Cookies.get('userId')}`;
 	};
 
 	// controller state
@@ -110,7 +157,8 @@ function Update() {
 							<input
 								className='UpdateFormRowInput Name'
 								placeholder='First Name'
-								defaultValue='Kanishka'
+								value={firstName}
+								onChange={e => setFirstName(e.target.value)}
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -118,7 +166,8 @@ function Update() {
 							<input
 								className='UpdateFormRowInput Name'
 								placeholder='Last Name'
-								defaultValue='Ragula'
+								value={lastName}
+								onChange={e => setLastName(e.target.value)}
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow Proof'>
@@ -126,6 +175,7 @@ function Update() {
 							<input
 								type='file'
 								className='UpdateFormProfileInput'
+								accept='image/jpeg, image/png'
 								onChange={event => {
 									setSelectedImage(event.target.files[0]);
 								}}
@@ -140,7 +190,13 @@ function Update() {
 								</div>
 							) : (
 								<div className='UpdateFormProfilePictureWrapper'>
-									<img className='UpdateFormProfilePicture' alt={defaultImage} src={testImage} />
+									<img
+										className='UpdateFormProfilePicture'
+										alt={defaultImage}
+										src={
+											profileInfo.profilePictureLink ? profileInfo.profilePictureLink : defaultImage
+										}
+									/>
 								</div>
 							)}
 						</div>
@@ -149,7 +205,8 @@ function Update() {
 							<input
 								className='UpdateFormRowInput LongText'
 								placeholder='Headline about yourself'
-								defaultValue="Hi! I'm Kanishka and I'm an investment banker."
+								value={headline}
+								onChange={e => setHeadline(e.target.value)}
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -158,18 +215,45 @@ function Update() {
 								className='UpdateFormRowInput Age'
 								mask={ageMask}
 								placeholder='Age'
-								value='20'
+								value={age}
+								onChange={e => setAge(e.target.value)}
 							/>
 						</div>
 						<div className='CreateFormRow'>
 							<div className='CreateFormRowTitle'>Gender:</div>
-							<select name='gender-select' id='gender-select' className='UpdateGenderSelect'>
-								<option value='unspecified' selected disabled>
-									Unspecified
-								</option>
-								<option value='man'>Man</option>
-								<option value='woman'>Woman</option>
-								<option value='other'>Other</option>
+							<select
+								name='gender-select'
+								id='gender-select'
+								className='UpdateGenderSelect'
+								onChange={e => setGender(e.target.value)}>
+								{gender == 'Unspecified' ? (
+									<option value='Unspecified' selected>
+										Unspecified
+									</option>
+								) : (
+									<option value='Unspecified'>Unspecified</option>
+								)}
+								{gender == 'Male' ? (
+									<option value='Male' selected>
+										Male
+									</option>
+								) : (
+									<option value='Male'>Male</option>
+								)}
+								{gender == 'Female' ? (
+									<option value='Female' selected>
+										Female
+									</option>
+								) : (
+									<option value='Female'>Female</option>
+								)}
+								{gender == 'Other' ? (
+									<option value='Other' selected>
+										Other
+									</option>
+								) : (
+									<option value='Other'>Other</option>
+								)}
 							</select>
 						</div>
 						<div className='CreateFormRow'>
@@ -177,7 +261,8 @@ function Update() {
 							<input
 								className='UpdateFormRowInput LongText'
 								placeholder='Headline about yourself'
-								defaultValue='I have a twin brother.'
+								value={funFact}
+								onChange={e => setFunFact(e.target.value)}
 								id='TitleInputField'></input>
 						</div>
 						<div className='CreateFormRow'>
@@ -218,10 +303,15 @@ function Update() {
 							</div>
 						</div>
 						<div className='CreateFormButtonArea'>
-							<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
-								<div className='CreateFormButton Submit'>Submit</div>
-							</Link>
-							<Link to={ROUTE.PROFILE} style={{ textDecoration: 'none' }}>
+							<div
+								className='CreateFormButton Submit'
+								onClick={onSubmitClick}
+								style={{ textDecoration: 'none', cursor: 'pointer' }}>
+								Submit
+							</div>
+							<Link
+								to={`${ROUTE.PROFILE}?id=${Cookies.get('userId')}`}
+								style={{ textDecoration: 'none' }}>
 								<div className='CreateFormButton Clear'>Back</div>
 							</Link>
 						</div>

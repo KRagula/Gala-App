@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Homepage from './components/Homepage';
@@ -9,7 +9,6 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Explore from './components/Explore';
 import Create from './components/Create';
-import Messages from './components/Messages';
 import Bids from './components/Bids';
 import Dates from './components/Dates';
 import Payment from './components/Payment';
@@ -22,8 +21,31 @@ import Update from './components/Update';
 import './css/App.css';
 
 import ROUTE from './configurations/route-frontend-config.js';
+import { isAuth } from './axios/credentials.js';
 
 function App() {
+	useEffect(async () => {
+		const isLoggedIn = await isAuth();
+		const pathname = window.location.pathname;
+		if (
+			(pathname.localeCompare(ROUTE.HOME) == 0 ||
+				pathname.localeCompare(ROUTE.SIGNUP) == 0 ||
+				pathname.localeCompare(ROUTE.LOGIN) == 0) &&
+			isLoggedIn
+		) {
+			window.location = ROUTE.EXPLORE;
+		} else if (
+			!(
+				pathname.localeCompare(ROUTE.HOME) == 0 ||
+				pathname.localeCompare(ROUTE.SIGNUP) == 0 ||
+				pathname.localeCompare(ROUTE.LOGIN) == 0
+			) &&
+			!isLoggedIn
+		) {
+			window.location = ROUTE.LOGIN;
+		}
+	}, []);
+
 	return (
 		<React.Fragment>
 			<BrowserRouter>
@@ -37,7 +59,6 @@ function App() {
 					<Route exact path={ROUTE.CONTACT} element={<Contact />} />
 					<Route exact path={ROUTE.EXPLORE} element={<Explore />} />
 					<Route exact path={ROUTE.CREATE} element={<Create />} />
-					<Route exact path={ROUTE.MESSAGES} element={<Messages />} />
 					<Route exact path={ROUTE.MYBIDS} element={<Bids />} />
 					<Route exact path={ROUTE.MYDATES} element={<Dates />} />
 					<Route exact path={ROUTE.PAYMENT} element={<Payment />} />

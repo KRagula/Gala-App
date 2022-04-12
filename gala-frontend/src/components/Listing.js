@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Route } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
 import BidsEntry from './BidsEntry.js';
 import '../css/Listing.css';
-import testImage from '../assets/kanishka.jpeg';
+import testImage from '../assets/default.jpeg';
 import testFile from '../assets/file-test.pdf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { getPost, deletePost } from '../axios/posts.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
 const { Anime } = ReactAnime;
 
-function Listing(props) {
+const Listing = props => {
 	// For collapse Bids Received box
 	const [collapseFirst, setCollapseFirst] = useState(false);
 
@@ -43,6 +44,33 @@ function Listing(props) {
 
 	// For "Rate your date" box
 	const [dateRating, setDateRating] = useState(0);
+	const [listingData, setListingData] = useState({});
+	const [creatorData, setCreatorData] = useState({});
+	const [name, setName] = useState('');
+
+	useEffect(async () => {
+		const queryParams = new URLSearchParams(window.location.search);
+		if (!queryParams.get('id')) return;
+		const res = await getPost(queryParams.get('id'));
+		if (!res) return;
+
+		if (res.creatorId.role == 'creator') {
+			setName('you');
+		} else {
+			setName(res.creatorId.firstName);
+		}
+
+		console.log(res);
+
+		setListingData(res);
+		setCreatorData(res.creatorId);
+	}, []);
+
+	const onRemoveClick = async () => {
+		const queryParams = new URLSearchParams(window.location.search);
+		await deletePost(queryParams.get('id'));
+		window.location = ROUTE.EXPLORE;
+	};
 
 	const handleOneStars = () => {
 		setShowThanksForFeedback(true);
@@ -90,11 +118,6 @@ function Listing(props) {
 		easing: 'easeInOutExpo',
 	});
 
-	var name = 'Kanishka';
-	if (props.role === 'creator') {
-		name = 'you';
-	}
-
 	return (
 		<React.Fragment>
 			<UserHeader />
@@ -110,53 +133,107 @@ function Listing(props) {
 					</div>
 					<div className='ListingArea'>
 						<div className='ListingProfileAreaWrapper'>
-							<div className='ExploreEntryProfileArea'>
-								<img src={testImage} className='ListingProfileImage' />
-								<div className='ListingProfileText'>Kanishka</div>
-								<div className='ListingProfileStars'>
-									<FaStar fontSize='12px' color='#424242' />
-									<FaStar fontSize='12px' color='#424242' />
-									<FaStarHalfAlt fontSize='12px' color='#424242' />
-									<FaRegStar fontSize='12px' color='#424242' />
-									<FaRegStar fontSize='12px' color='#424242' />
+							<Link
+								to={`${ROUTE.PROFILE}?id=${creatorData._id}`}
+								style={{ textDecoration: 'none' }}>
+								<div className='ExploreEntryProfileArea'>
+									<img
+										src={
+											creatorData.profilePictureLink ? creatorData.profilePictureLink : testImage
+										}
+										className='ListingProfileImage'
+									/>
+									<div className='ListingProfileText' style={{ color: 'black' }}>
+										{creatorData.firstName
+											? `${creatorData.firstName} ${creatorData.lastName}`
+											: null}
+									</div>
+									<div className='ListingProfileStars'>
+										{[...Array(5)].map((x, i) => {
+											return Math.round(creatorData.rating * 2) / 2 >= i + 1 ? (
+												<FaStar fontSize='11px' color='#424242' />
+											) : (
+												<React.Fragment>
+													{Math.round(creatorData.rating * 2) / 2 > i ? (
+														<FaStarHalfAlt fontSize='11px' color='#424242' />
+													) : (
+														<FaRegStar fontSize='11px' color='#424242' />
+													)}
+												</React.Fragment>
+											);
+										})}
+									</div>
 								</div>
-							</div>
+							</Link>
 						</div>
 						<div className='ListingDataPaper'>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Title:</div>
-								<div className='ListingDataRowInfo'>PITBULL CONCERT</div>
+								<div className='ListingDataRowInfo'>{listingData.title}</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Description:</div>
-								<div className='ListingDataRowInfo'>
-									Come to the Pitbull concert with me this Saturday at the Moda Center! Tickets and
-									drinks on me.
-								</div>
+								<div className='ListingDataRowInfo'>{listingData.description}</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Address:</div>
 								<div className='ListingDataRowInfo'>
-									<a href='https://www.google.com/maps' class='ListingAddress'>
-										3925 Walnut Street, Philadelphia, PA 19104
-									</a>
-									.
+									{listingData.streetAddress ? (
+										<a
+											href={`https://www.google.com/maps/place/${listingData.streetAddress}, ${listingData.cityAddress}, ${listingData.stateAddress} ${listingData.zipAddress}`}
+											class='ListingAddress'
+											target='_blank'>
+											{`${listingData.streetAddress}, ${listingData.cityAddress}, ${listingData.stateAddress} ${listingData.zipAddress}`}
+										</a>
+									) : null}
 								</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Time:</div>
 								<div className='ListingDataRowInfo'>
-									<b>02/28/2022 1:00pm</b> to <b>02/28/2022 3:00pm</b>.
+									{listingData.timeEnd && listingData.timeStart ? (
+										<>
+											<b>
+												{`${new Date(listingData.timeStart).toLocaleDateString([], {
+													hour: '2-digit',
+													minute: '2-digit',
+												})}`}
+											</b>{' '}
+											to{' '}
+											<b>
+												{new Date(listingData.timeEnd).toLocaleDateString([], {
+													hour: '2-digit',
+													minute: '2-digit',
+												})}
+											</b>
+										</>
+									) : null}
 								</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Auction Price:</div>
-								<div className='ListingDataRowInfo'>$50.00.</div>
+								<div className='ListingDataRowInfo'>
+									<i>
+										{listingData.price
+											? new Intl.NumberFormat('en-US', {
+													style: 'currency',
+													currency: 'USD',
+											  }).format(listingData.price)
+											: null}
+									</i>
+								</div>
 							</div>
 							<div className='ListingDataRow'>
 								<div className='ListingDataRowTitle'>Highest Bid:</div>
 								<div className='ListingDataRowInfo'>
-									<i>$70.00.</i>
+									<i>
+										{listingData.highestBid
+											? new Intl.NumberFormat('en-US', {
+													style: 'currency',
+													currency: 'USD',
+											  }).format(listingData.highestBid)
+											: null}
+									</i>
 								</div>
 							</div>
 							<div className='ListingDataRow'>
@@ -164,9 +241,14 @@ function Listing(props) {
 								<div className='ListingDataRowInfo'>
 									<div className='ListingDataProofWrapper'>
 										<div className='ListingDataProof'>
-											<a href={testFile} download class='ListingProof'>
-												test-file.pdf
-											</a>
+											{listingData.proofExperienceLink ? (
+												<a
+													href={listingData.proofExperienceLink}
+													target='_blank'
+													class='ListingProof'>
+													{listingData.proofExperienceName.substring(17)}
+												</a>
+											) : null}
 										</div>
 									</div>
 								</div>
@@ -175,28 +257,26 @@ function Listing(props) {
 								<div className='ListingDataRowTitle'>Tags:</div>
 								<div className='ListingDataRowInfo'>
 									<div className='ListingDataTagArea'>
-										<div className='ListingTag'>concert</div>
-										<div className='ListingTag'>fun</div>
-										<div className='ListingTag'>music</div>
-										<div className='ListingTag'>food</div>
-										<div className='ListingTag'>dancing</div>
-										<div className='ListingTag'>disco</div>
-										<div className='ListingTag'>eating</div>
-										<div className='ListingTag'>drinking</div>
-										<div className='ListingTag'>active</div>
-										<div className='ListingTag'>pitbull</div>
+										{listingData.tags
+											? listingData.tags.map((tag, i) => <div className='ListingTag'>{tag}</div>)
+											: null}
 									</div>
 								</div>
 							</div>
-							{props.role === 'creator' ? (
+							{creatorData.role === 'creator' && !listingData.bidWinnerId ? (
 								<div className='ListingDeleteArea'>
-									<div className='ListingDelete'>Click to remove listing</div>
+									<div
+										className='ListingDelete'
+										onClick={onRemoveClick}
+										style={{ textDecoration: 'none', cursor: 'pointer' }}>
+										Click to remove listing
+									</div>
 								</div>
 							) : (
 								<div />
 							)}
 						</div>
-						{props.role === 'creator' ? (
+						{creatorData.role === 'creator' ? (
 							<div className='ListingBidsCollapsableArea'>
 								<div className='BidsCollapseBar'>
 									<div className='BidsCollapseText'>Bids Received</div>
@@ -212,8 +292,39 @@ function Listing(props) {
 								</div>
 								{!collapseFirst ? (
 									<div className='BidsEntryArea'>
-										<BidsEntry isReceived={true} />
-										<BidsEntry isReceived={true} />
+										{listingData.allBids.map((i, x) => (
+											<BidsEntry
+												isReceived={true}
+												data={{
+													userId: i.bidderId._id,
+													profileImage: i.bidderId.profilePictureLink,
+													profileName: i.bidderId.firstName,
+													profileRating: i.bidderId.rating,
+													title: listingData.title,
+													auctionPrice: listingData.price
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(listingData.price)
+														: null,
+													highestBid: listingData.highestBid
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(listingData.highestBid)
+														: null,
+													bidAmount: i.bidAmount
+														? new Intl.NumberFormat('en-US', {
+																style: 'currency',
+																currency: 'USD',
+														  }).format(i.bidAmount)
+														: null,
+													bidId: i._id,
+													bidStatus: i.status,
+													location: true,
+												}}
+											/>
+										))}
 									</div>
 								) : (
 									<div />
@@ -222,37 +333,50 @@ function Listing(props) {
 						) : (
 							<div />
 						)}
-						{props.role === 'engager' ? (
+						{creatorData.role === 'engager' ? (
 							<div className='ListingEngagedArea'>
 								<div className='ListingEngagedStatusArea'>
 									Status:
-									{props.status === 'waiting' ? (
+									{listingData.status === 'Waiting for response' ? (
 										<div className='ListingEngagedStatus Waiting'>Waiting for response...</div>
 									) : (
 										<div />
 									)}
-									{props.status === 'confirmed' ? (
+									{listingData.status === 'Confirmed' ? (
 										<div className='ListingEngagedStatus Confirmed'>Confirmed.</div>
 									) : (
 										<div />
 									)}
-									{props.status === 'ongoing' ? (
+									{listingData.status === 'Denied' ? (
+										<div className='ListingEngagedStatus Denied'>Denied.</div>
+									) : (
+										<div />
+									)}
+									{listingData.status === 'ongoing' ? (
 										<div className='ListingEngagedStatus Ongoing'>Ongoing.</div>
 									) : (
 										<div />
 									)}
-									{props.status === 'completed' ? (
+									{listingData.status === 'completed' ? (
 										<div className='ListingEngagedStatus Completed'>Completed.</div>
 									) : (
 										<div />
 									)}
 								</div>
-								{props.status === 'waiting' ? (
-									<div className='ListingEngagedStatusArea Extra'>Your Bid: $60.00</div>
+								{listingData.status === 'Waiting for response' ? (
+									<div className='ListingEngagedStatusArea Extra'>
+										Your Bid:{' '}
+										{listingData.bidderAmount
+											? new Intl.NumberFormat('en-US', {
+													style: 'currency',
+													currency: 'USD',
+											  }).format(listingData.bidderAmount)
+											: null}
+									</div>
 								) : (
 									<div />
 								)}
-								{props.status === 'ongoing' ? (
+								{creatorData.role == 'winner' && props.status === 'ongoing' ? (
 									<div>
 										{!showThanksForNotif ? (
 											<div className='ListingEngagedStatusArea Extra'>
@@ -306,17 +430,26 @@ function Listing(props) {
 						) : (
 							<div />
 						)}
-						{props.role !== 'creator' ? (
+						{creatorData.role !== 'creator' ? (
 							<div>
-								{props.role === 'observer' ? (
+								{creatorData.role === 'observer' ? (
 									<div className='ListingMessageOptionArea'>
-										<div className='ListingMessageOption Red'>Click to offer a bid</div>
-										<div className='ListingMessageOption Blue'>Click to message</div>
+										{!listingData.bidWinnerId || new Date(listingData.timeEnd) < Date.now() ? (
+											<Link
+												to={`${ROUTE.OFFER}?id=${listingData._id}`}
+												style={{ textDecoration: 'none' }}>
+												<div className='ListingMessageOption Red'>Click to offer a bid</div>
+											</Link>
+										) : null}
+
+										<Link to={`${ROUTE.MESSAGE}`} style={{ textDecoration: 'none' }}>
+											<div className='ListingMessageOption Blue'>Click to message</div>
+										</Link>
 									</div>
 								) : (
 									<div />
 								)}
-								{props.role === 'engager' && props.status !== 'completed' ? (
+								{creatorData.role === 'engager' && props.status !== 'completed' ? (
 									<div className='ListingMessageOptionArea'>
 										{props.status !== 'ongoing' ? (
 											<div className='ListingMessageOption Red'>Click to offer a bid</div>
@@ -348,6 +481,6 @@ function Listing(props) {
 				}}></Anime>
 		</React.Fragment>
 	);
-}
+};
 
 export default Listing;
