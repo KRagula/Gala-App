@@ -6,7 +6,7 @@ import routeExperience from '../configurations/route-experience-config.js';
 export const makePayment = postData => {
 	axios
 		.post(`${serverConfig.backendURL}/payment/pay`, postData, {
-			// withCredentials: true,
+			withCredentials: true,
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'x-access-token': localStorage.getItem('token'),
