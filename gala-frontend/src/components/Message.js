@@ -7,22 +7,16 @@ import UserHeader from './UserHeader';
 import Navigation from './Navigation';
 import ReactAnime from 'react-animejs';
 import '../css/Message.css';
+import Cookies from 'js-cookie';
 
 const { Anime } = ReactAnime;
 
-const AppStyle = {
-	fontFamily: 'sans-serif',
-	textAlign: 'center',
-	height: '100vh',
-	width: '100vw',
-};
-
-const App = () => {
+const ChatWindow = () => {
 	return (
-		<div className={AppStyle}>
+		<div className='MessageArea'>
 			<SendBirdApp
 				appId={'819E6E70-321B-4252-B9FF-1BD7E466F490'}
-				userId={'1'} // Specify your user ID.
+				userId={Cookies.get('userId')} // Specify your user ID.
 			/>
 		</div>
 	);
@@ -55,7 +49,7 @@ const Message = () => {
 			<UserHeader />
 			<div className='DashboardArea'>
 				<Navigation />
-				<App />
+				<ChatWindow />
 			</div>
 			<Anime
 				initial={timeline}

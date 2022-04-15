@@ -10,6 +10,7 @@ import {
 	InvalidCredentialError,
 } from '../error/credential-errors.js';
 import serverConfig from '../configurations/server-config.js';
+import sendbirdRoutes from './sendbird-routes.js';
 
 const signup = async (req, res, next) => {
 	const saltPassword = await bcrypt.genSalt(10);
@@ -27,10 +28,11 @@ const signup = async (req, res, next) => {
 		numRatings: 1,
 	});
 
+	let signupData;
 	try {
 		const userDoc = await userTemplate.findOne({ email: req.body.email });
 		if (userDoc) return next(new UserExistsError(req.body.email));
-		const signupData = await signedUpUser.save();
+		signupData = await signedUpUser.save();
 		const options = {
 			maxAge: 10000 * 60 * 60,
 		};
@@ -39,12 +41,23 @@ const signup = async (req, res, next) => {
 		res.cookie('email', req.body.email, options);
 		res.cookie('docid', signedUpUser._id, options);
 		res.cookie('rating', 5, options);
-		return res.json({
-			id: signupData._id.toString(),
-		});
 	} catch (err) {
 		return next(new ServerError(serverErrorTypes.mongodb, err));
 	}
+
+	try {
+		await sendbirdRoutes.createUser(
+			signupData._id.toString(),
+			signupData.firstName,
+			signupData.lastName
+		);
+	} catch (err) {
+		return next(err);
+	}
+
+	return res.json({
+		id: signupData._id.toString(),
+	});
 };
 
 const login = async (req, res, next) => {

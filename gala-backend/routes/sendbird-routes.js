@@ -9,7 +9,7 @@ const axiosConfig = {
 	},
 };
 
-const createUser = (id, firstName, lastName) => {
+const createUser = async (id, firstName, lastName) => {
 	const body = {
 		user_id: id,
 		nickname: `${firstName} ${lastName}`,
@@ -23,21 +23,49 @@ const createUser = (id, firstName, lastName) => {
 	}
 };
 
-const joinGroup = (channelName, providerId, experiencerId) => {
+const updateUserPhoto = async (id, link) => {
 	const body = {
-		name: channelName,
-		user_ids: [providerId, experiencerId],
-		is_distinct: true,
+		profile_url: link,
 	};
 
 	try {
-		return axios.post(`${sendbirdConfig.apiRequestURL}/group_channels`, body, axiosConfig);
+		return axios.put(`${sendbirdConfig.apiRequestURL}/users/${id}`, body, axiosConfig);
 	} catch (err) {
 		throw new ServerError(serverErrorTypes.sendbird, err);
 	}
 };
 
+const updateUserName = async (id, firstName, lastName) => {
+	const body = {
+		nickname: `${firstName} ${lastName}`,
+	};
+
+	try {
+		return axios.put(`${sendbirdConfig.apiRequestURL}/users/${id}`, body, axiosConfig);
+	} catch (err) {
+		throw new ServerError(serverErrorTypes.sendbird, err);
+	}
+};
+
+const joinGroup = (req, res, next) => {
+	const body = {
+		users: req.body.ids,
+		is_distinct: true,
+		is_public: false,
+	};
+
+	try {
+		axios.post(`${sendbirdConfig.apiRequestURL}/group_channels`, body, axiosConfig);
+	} catch (err) {
+		throw new ServerError(serverErrorTypes.sendbird, err);
+	}
+
+	res.json({ message: 'success' });
+};
+
 export default {
 	createUser: createUser,
 	joinGroup: joinGroup,
+	updateUserName: updateUserName,
+	updateUserPhoto: updateUserPhoto,
 };

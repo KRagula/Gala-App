@@ -9,6 +9,8 @@ import {
 	InvalidCredentialError,
 } from '../error/credential-errors.js';
 
+import sendbirdRoutes from './sendbird-routes.js';
+
 const getProfile = async (req, res, next) => {
 	let doc;
 	try {
@@ -46,6 +48,8 @@ const editProfile = async (req, res, next) => {
 			interests: req.body.interests,
 		};
 		const doc = await userTemplate.findOneAndUpdate(filter, update, { new: true });
+
+		await sendbirdRoutes.updateUserName(req.user.id, update.firstName, update.lastName);
 
 		const options = {
 			maxAge: 1000 * 60 * 60, // would expire after 60 minutes
