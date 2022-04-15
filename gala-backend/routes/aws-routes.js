@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import fs from 'fs';
+import fs, { link } from 'fs';
 import { fileTypeFromBuffer } from 'file-type';
 import multiparty from 'multiparty';
 
@@ -8,6 +8,7 @@ import userTemplate from '../models/UserModel.js';
 import postTemplate from '../models/PostModels.js';
 
 import { ServerError, serverErrorTypes } from '../error/generic-errors.js';
+import sendbirdRoutes from './sendbird-routes.js';
 
 const s3 = new AWS.S3();
 
@@ -41,6 +42,8 @@ const userPictureUploadHelper = async (data, id) => {
 	if (oldDoc.profilePictureLink) {
 		await deleteFileHelper(oldDoc.profilePictureName);
 	}
+
+	await sendbirdRoutes.updateUserPhoto(id, data.Location);
 };
 
 const experienceFileUploadHelper = async (data, id) => {

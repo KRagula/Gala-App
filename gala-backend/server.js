@@ -24,6 +24,7 @@ import emailRoutes from './routes/email-routes.js';
 
 import bidRoutes from './routes/bid-routes.js';
 import dateRoutes from './routes/dates-routes.js';
+import sendbirdRoutes from './routes/sendbird-routes.js';
 
 mongoose
 	.connect(dbConfig.mongoDBAccess)
@@ -89,6 +90,9 @@ app.put('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.editProfil
 
 /** EMAIL ENDPOINTS **/
 app.get('/bidConfirm', tokenHandlers.verifyJWT, emailRoutes.bidConfirm);
+
+/** MESSAGING ENDPOINTS **/
+app.post('/messaging/create', tokenHandlers.verifyJWT, sendbirdRoutes.joinGroup);
 
 /** ERROR HANDLING **/
 app.use(errorHandlers.errorLogger);

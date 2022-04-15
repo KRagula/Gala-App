@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { getPost, deletePost } from '../axios/posts.js';
+import { createChannel } from '../axios/messaging.js';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -117,6 +118,20 @@ const Listing = props => {
 		opacity: 100,
 		easing: 'easeInOutExpo',
 	});
+
+	const onMessageClick = async () => {
+		window.location = ROUTE.MESSAGE;
+		// const data = {
+		// 	channelName: 'asd',
+		// 	ids: [],
+		// };
+		// const res = await createChannel(data);
+		// if (res) {
+		// 	window.location = ROUTE.MESSAGE;
+		// } else {
+		// 	alert('Something went wrong on our end!');
+		// }
+	};
 
 	return (
 		<React.Fragment>
@@ -442,9 +457,12 @@ const Listing = props => {
 											</Link>
 										) : null}
 
-										<Link to={`${ROUTE.MESSAGE}`} style={{ textDecoration: 'none' }}>
-											<div className='ListingMessageOption Blue'>Click to message</div>
-										</Link>
+										<div
+											className='ListingMessageOption Blue'
+											onClick={onMessageClick}
+											style={{ cursor: 'pointer' }}>
+											Click to message
+										</div>
 									</div>
 								) : (
 									<div />
@@ -456,9 +474,12 @@ const Listing = props => {
 										) : (
 											<div />
 										)}
-										<Link to={ROUTE.MESSAGE} style={{ textDecoration: 'none' }}>
-											<div className='ListingMessageOption Blue'>Click to message</div>
-										</Link>
+										<div
+											className='ListingMessageOption Blue'
+											onClick={onMessageClick}
+											style={{ cursor: 'pointer' }}>
+											Click to message
+										</div>
 									</div>
 								) : (
 									<div />
