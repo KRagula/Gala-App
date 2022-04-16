@@ -7,7 +7,7 @@ import routeExperience from '../configurations/route-experience-config.js';
 export const getDates = async locationData => {
 	// todo: remove hardcode email
 	let searchParams = new URLSearchParams(locationData);
-	console.log(locationData)
+	// console.log(locationData)
 
 
 	return await axios

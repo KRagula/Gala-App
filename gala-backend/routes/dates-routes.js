@@ -67,7 +67,7 @@ const getDates = async (req, res, next) => {
 			const end_time = upcoming_json[i]['postId']['timeEnd'];
 			const start_time = upcoming_json[i]['postId']['timeStart'];
 			const current_time = new Date().toISOString();
-			console.log(upcoming_json[i])
+			// console.log(upcoming_json[i])
 			//Calculate Distance from user currently
 			var R = 3960; // Radius of the earth in miles
 			var dLat = (Math.PI / 180) * (addressCoords[1] - upcoming_json[i].postId.location.coordinates[1]); // deg2rad below
