@@ -13,8 +13,9 @@ import mongoose from 'mongoose';
 */
 
 const getDates = async (req, res, next) => {
-	const urlParams = new URLSearchParams(req.url);
+	const urlParams = new URLSearchParams(req._parsedUrl.query);
 	const addressCoords = [urlParams.get('longitude'), urlParams.get('latitude')];
+	// console.log(urlParams.toString())
 	const username = mongoose.Types.ObjectId(req.user.id);
 	try {
 		const doc = await postTemplate.find({ creatorId: username });
