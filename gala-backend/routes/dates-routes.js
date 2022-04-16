@@ -13,6 +13,8 @@ import mongoose from 'mongoose';
 */
 
 const getDates = async (req, res, next) => {
+	const urlParams = new URLSearchParams(req.url);
+	const addressCoords = [urlParams.get('longitude'), urlParams.get('latitude')];
 	const username = mongoose.Types.ObjectId(req.user.id);
 	try {
 		const doc = await postTemplate.find({ creatorId: username });
@@ -25,6 +27,24 @@ const getDates = async (req, res, next) => {
 
 		for (let j = 0; j < created.length; j += 1) {
 			created[j]['hostInfo'] = userInfo;
+			// console.log(created[j])
+			
+
+			//Calculate Distance from the current location
+			var R = 3960; // Radius of the earth in miles
+			var dLat = (Math.PI / 180) * (addressCoords[1] - created[j].location.coordinates[1]); // deg2rad below
+			var dLon = (Math.PI / 180) * (addressCoords[0] - created[j].location.coordinates[0]);
+			var a =
+				Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.cos((Math.PI / 180) * addressCoords[1]) *
+					Math.cos((Math.PI / 180) * created[j].location.coordinates[1]) *
+					Math.sin(dLon / 2) *
+					Math.sin(dLon / 2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			var d = R * c; // Distance in miles
+			d = Math.round(d * 10) / 10; //Rounded for aesthetics
+
+			created[j]['userDistance'] = d;
 			created_list.push(created[j]);
 		}
 		my_dates['createdDates'] = created_list;
@@ -47,6 +67,27 @@ const getDates = async (req, res, next) => {
 			const end_time = upcoming_json[i]['postId']['timeEnd'];
 			const start_time = upcoming_json[i]['postId']['timeStart'];
 			const current_time = new Date().toISOString();
+			console.log(upcoming_json[i])
+			//Calculate Distance from user currently
+			var R = 3960; // Radius of the earth in miles
+			var dLat = (Math.PI / 180) * (addressCoords[1] - upcoming_json[i].postId.location.coordinates[1]); // deg2rad below
+			var dLon = (Math.PI / 180) * (addressCoords[0] - upcoming_json[i].postId.location.coordinates[0]);
+			var a =
+				Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.cos((Math.PI / 180) * addressCoords[1]) *
+					Math.cos((Math.PI / 180) * upcoming_json[i].postId.location.coordinates[1]) *
+					Math.sin(dLon / 2) *
+					Math.sin(dLon / 2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			var d = R * c; // Distance in miles
+			d = Math.round(d * 10) / 10; //Rounded for aesthetics
+
+			upcoming_json[i]['userDistance'] = d;
+
+
+
+
+
 			if (current_time <= end_time) {
 				if (current_time < start_time) {
 					upcoming_json[i]['dateStatus'] = 'Upcoming';

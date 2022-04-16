@@ -21,7 +21,27 @@ function Dates() {
 	const [showDatesEntries, setShowDatesEntries] = useState(false);
 
 	useEffect(async () => {
-		const entryDataRaw = await getDates();
+		
+		const getPosition = () => {
+			return new Promise((resolve, reject) => 
+				navigator.geolocation.getCurrentPosition(resolve, reject)
+			);
+		}
+		const positionData = await getPosition();
+		let currentLocation = {latitude: positionData.coords.latitude, longitude: positionData.coords.longitude};
+		
+		// if (navigator.geolocation) {
+			
+		// 	navigator.geolocation.getCurrentPosition(position => {
+
+		// 	}
+			
+		// 	);
+
+		// }
+		// console.log(currentLocation);
+
+		const entryDataRaw = await getDates(currentLocation);
 
 		const entryDataUpcomingProcessed = entryDataRaw.data.upcomingDates.map(item => {
 			const titleCleaned = item.postId.title.toUpperCase();
@@ -29,7 +49,7 @@ function Dates() {
 			const priceCleaned = '$' + parseFloat(item.postId.price).toFixed(2);
 			const cityAddress = item.postId.cityAddress;
 			const stateAddress = item.postId.stateAddress;
-			const distance = 5; // todo after claire updates backend
+			const distance = item.userDistance; // todo after claire updates backend
 			const startDateObject = new Date(item.postId.timeStart);
 			const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
 				minimumIntegerDigits: 2,
@@ -90,7 +110,7 @@ function Dates() {
 			const priceCleaned = '$' + parseFloat(item.price).toFixed(2);
 			const cityAddress = item.cityAddress;
 			const stateAddress = item.stateAddress;
-			const distance = 5; // todo after claire updates backend
+			const distance = item.userDistance; // todo after claire updates backend
 			const startDateObject = new Date(item.timeStart);
 			const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
 				minimumIntegerDigits: 2,
@@ -151,7 +171,7 @@ function Dates() {
 			const priceCleaned = '$' + parseFloat(item.postId.price).toFixed(2);
 			const cityAddress = item.postId.cityAddress;
 			const stateAddress = item.postId.stateAddress;
-			const distance = 5; // todo after claire updates backend
+			const distance = item.userDistance; // todo after claire updates backend
 			const startDateObject = new Date(item.postId.timeStart);
 			const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
 				minimumIntegerDigits: 2,
