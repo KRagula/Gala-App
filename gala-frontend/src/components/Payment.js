@@ -27,17 +27,19 @@ function Payment() {
 	};
 
 	useEffect(async () => {
-		// const getPosition = () => {
-		// 	return new Promise((resolve, reject) =>
-		// 		navigator.geolocation.getCurrentPosition(resolve, reject)
-		// 	);
-		// };
+		const getPosition = () => {
+			return new Promise((resolve, reject) =>
+				navigator.geolocation.getCurrentPosition(resolve, reject)
+			);
+		};
 		// console.log('this is position', getPosition);
-		// const positionData = await getPosition();
-		// let currentLocation = {
-		// 	latitude: positionData.coords.latitude,
-		// 	longitude: positionData.coords.longitude,
-		// };
+		const positionData = await getPosition();
+		let currentLocation = {
+			latitude: positionData.coords.latitude,
+			longitude: positionData.coords.longitude,
+		};
+		// console.log('this is the longitude', currentLocation.longitude);
+		// console.log('this is the lat', currentLocation.latitude);
 
 		// console.log('hello');
 		const queryParams = new URLSearchParams(window.location.search);
@@ -45,7 +47,8 @@ function Payment() {
 		if (!queryParams.get('id')) return;
 		// console.log('we passed here');
 		// const params = {'id': }
-		const entryDataPayRaw = await getPaymentPost(queryParams.get('id'));
+		currentLocation.id = queryParams.get('id');
+		const entryDataPayRaw = await getPaymentPost(currentLocation);
 		// console.log('this is entrydata raw', entryDataPayRaw);
 		// if (!entryDataPayRaw.data.verified) return;
 
@@ -53,10 +56,10 @@ function Payment() {
 
 		// IMPORTANT entryDataPayRaw.data.payingPrice IS THE PAYING PRICE USE THISSSSS
 		const entryDataPayProcessed = entryDataPayRaw.data.doc.map(item => {
-			console.log('this is the item', item);
+			// console.log('this is the item', item);
 			const titleCleaned = item.title.toUpperCase();
 			const description = item.description;
-			console.log('this is the price from data', item.price);
+			// console.log('this is the price from data', item.price);
 			const priceCleaned = item.price;
 			const priceCleanedString = item.price
 				? new Intl.NumberFormat('en-US', {
@@ -69,7 +72,7 @@ function Payment() {
 			console.log('this is the priceCleaned', priceCleanedString);
 			const cityAddress = item.cityAddress;
 			const stateAddress = item.stateAddress;
-			const distance = 5; // todo after claire updates backend
+			const distance = entryDataPayRaw.data.distance; // todo after claire updates backend
 			const startDateObject = new Date(item.timeStart);
 			const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
 				minimumIntegerDigits: 2,
@@ -269,7 +272,7 @@ function Payment() {
 							}}></Anime>
 					</div>
 				) : (
-					'You do not have access to this page'
+					'page loading'
 				)}
 			</div>
 			{/* <Anime

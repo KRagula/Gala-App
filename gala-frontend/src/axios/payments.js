@@ -30,16 +30,22 @@ export const makePayment = postData => {
 	// });
 };
 
-export const getPaymentPost = async postId => {
+export const getPaymentPost = async params => {
 	// todo: remove hardcode email
 	// let searchParams = new URLSearchParams(params.locationData);
+	// console.log('these are the params', params);
+	// let searchParams = new URLSearchParams(params.locationData);
+	// console.log('these are the searchParams', searchParams);
 	return await axios
-		.get(`${serverConfig.backendURL}/payment/${postId}`, {
-			withCredentials: true,
-			headers: {
-				'x-access-token': localStorage.getItem('token'),
-			},
-		})
+		.get(
+			`${serverConfig.backendURL}/payment/${params.id}?latitude=${params.latitude}&longitude=${params.longitude}`,
+			{
+				withCredentials: true,
+				headers: {
+					'x-access-token': localStorage.getItem('token'),
+				},
+			}
+		)
 		.then(res => res)
 		.catch(err => {
 			// do something later

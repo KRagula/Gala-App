@@ -136,16 +136,20 @@ const offerBid = async (req, res, next) => {
 };
 
 const postInfo = async (req, res, next) => {
-	const urlParams = new URLSearchParams(req._parsedUrl.query);
-	console.log('these are the urlParams', urlParams);
-	const addressCoords = [urlParams.get('longitude'), urlParams.get('latitude')];
+	// console.log('this is the url', req._parsedUrl);
+	// const urlParams = new URLSearchParams(req._parsedUrl.query);
+	// console.log('these are the urlParams', urlParams);
+	// console.log('this is latitude', req.query.latitude);
+	const addressCoords = [req.query.longitude, req.query.latitude];
+
+	// const addressCoords = [urlParams.get('longitude'), urlParams.get('latitude')];
 	// console.log('this is the latitude', urlParams.get('longitude'));
 	// const addressCoords = [39.9526, 75.1652];
 	try {
 		let doc = await postTemplate
 			.find({ _id: mongoose.Types.ObjectId(req.params.postId) })
 			.populate('creatorId');
-		console.log('this is doc', doc);
+		// console.log('this is doc', doc);
 		var R = 3960; // Radius of the earth in miles
 		var dLat = (Math.PI / 180) * (addressCoords[1] - doc[0].location.coordinates[1]); // deg2rad below
 		var dLon = (Math.PI / 180) * (addressCoords[0] - doc[0].location.coordinates[0]);
