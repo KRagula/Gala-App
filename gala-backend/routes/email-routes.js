@@ -21,6 +21,37 @@ const bidConfirm = async (req, res) => {
 			bid_price: 105,
 		},
 	};
+	console.log('this is the message', msg);
+	sgMail.send(msg).catch(error => {
+		throw new ServerError(serverErrorTypes.sendgrid, error);
+	});
+};
+
+const dangerMail = async (req, res) => {
+	console.log('this is the user first name', req.body.userFirstname);
+	console.log('this is the user last name', req.body.userLastname);
+	console.log('this is the location', req.body.location);
+	console.log('this is the time', req.body.time);
+	console.log('this is the host first name', req.body.hostFirstname);
+	console.log('this is the host last name', req.body.hostLastname);
+	const msg = {
+		to: 'clairezwang0612@gmail.com', // Change to your recipient
+		from: 'gala.app.experiences@gmail.com', // Change to your verified sender
+		subject: '[URGENT] DANGER REQUESTED from: insert email here', //Change with name of experience purchased
+		templateId: 'd-893e56227442405181aa7fc12f8e37b1',
+		dynamic_template_data: {
+			user_firstname: req.body.userFirstname,
+			user_lastname: req.body.userLastname,
+			streetAddress: req.body.streetAddress,
+			cityAddress: req.body.cityAddress,
+			stateAddress: req.body.stateAddress,
+			zipcode: req.body.zipcode,
+			startTime: req.body.startTime,
+			host_firstname: req.body.hostFirstname,
+			host_lastname: req.body.hostLastname,
+		},
+	};
+	console.log('this is the message', msg);
 	sgMail.send(msg).catch(error => {
 		throw new ServerError(serverErrorTypes.sendgrid, error);
 	});
@@ -28,4 +59,5 @@ const bidConfirm = async (req, res) => {
 
 export default {
 	bidConfirm: bidConfirm,
+	dangerMail: dangerMail,
 };

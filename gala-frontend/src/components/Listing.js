@@ -12,6 +12,8 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { getPost, deletePost } from '../axios/posts.js';
 import { createChannel } from '../axios/messaging.js';
+import { getDangerMail } from '../axios/emails';
+import Cookies from 'js-cookie';
 
 import ROUTE from '../configurations/route-frontend-config.js';
 
@@ -35,11 +37,6 @@ const Listing = props => {
 		setShowThanksForNotif(true);
 	};
 
-	const handleSetInDanger = () => {
-		setIsInDanger(true);
-		setShowThanksForNotif(true);
-	};
-
 	// For toggling "thanks for feedback" text
 	const [showThanksForFeedback, setShowThanksForFeedback] = useState(false);
 
@@ -53,6 +50,7 @@ const Listing = props => {
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
 		const res = await getPost(queryParams.get('id'));
+		// console.log('this is rest', res);
 		if (!res) return;
 
 		if (res.creatorId.role == 'creator') {
@@ -61,7 +59,7 @@ const Listing = props => {
 			setName(res.creatorId.firstName);
 		}
 
-		console.log(res);
+		// console.log(res);
 
 		setListingData(res);
 		setCreatorData(res.creatorId);
@@ -71,6 +69,42 @@ const Listing = props => {
 		const queryParams = new URLSearchParams(window.location.search);
 		await deletePost(queryParams.get('id'));
 		window.location = ROUTE.EXPLORE;
+	};
+
+	const handleSetInDanger = () => {
+		setIsInDanger(true);
+		setShowThanksForNotif(true);
+		// console.log('these are the cookies', Cookies.get('lastName'));
+		// console.log('this is the listing data', listingData);
+		const startDateObject = new Date(listingData.timeStart);
+		// console.log('this is the startdate object', startDateObject);
+		const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
+			minimumIntegerDigits: 2,
+			useGrouping: false,
+		});
+		// console.log('this is the month', month);
+		const day = startDateObject
+			.getUTCDate()
+			.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+		const year = startDateObject.getUTCFullYear();
+		const startDateCleaned = month + '/' + day + '/' + year;
+		const time = new Date(listingData.timeStart).toLocaleDateString([], {
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+		const mailInfo = {
+			streetAddress: listingData.streetAddress,
+			cityAddress: listingData.cityAddress,
+			stateAddress: listingData.stateAddress,
+			zipcode: listingData.zipAddress,
+			startDate: startDateCleaned,
+			startTime: time,
+			hostFirstname: listingData.creatorId.firstName,
+			hostLastname: listingData.creatorId.lastName,
+			userFirstname: Cookies.get('firstName'),
+			userLastname: Cookies.get('lastName'),
+		};
+		getDangerMail(mailInfo);
 	};
 
 	const handleOneStars = () => {
