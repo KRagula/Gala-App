@@ -21,21 +21,23 @@ function Dates() {
 	const [showDatesEntries, setShowDatesEntries] = useState(false);
 
 	useEffect(async () => {
-		
 		const getPosition = () => {
-			return new Promise((resolve, reject) => 
+			return new Promise((resolve, reject) =>
 				navigator.geolocation.getCurrentPosition(resolve, reject)
 			);
-		}
+		};
 		const positionData = await getPosition();
-		let currentLocation = {latitude: positionData.coords.latitude, longitude: positionData.coords.longitude};
-		
+		let currentLocation = {
+			latitude: positionData.coords.latitude,
+			longitude: positionData.coords.longitude,
+		};
+
 		// if (navigator.geolocation) {
-			
+
 		// 	navigator.geolocation.getCurrentPosition(position => {
 
 		// 	}
-			
+
 		// 	);
 
 		// }
@@ -219,7 +221,7 @@ function Dates() {
 				profileImage: profileImage,
 				textHash: textHash,
 				userId: item.hostInfo._id,
-				postId: item._id,
+				postId: item.postId._id,
 			};
 		});
 

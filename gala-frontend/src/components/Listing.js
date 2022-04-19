@@ -358,7 +358,13 @@ const Listing = props => {
 										<div />
 									)}
 									{listingData.status === 'Confirmed' ? (
-										<div className='ListingEngagedStatus Confirmed'>Confirmed.</div>
+										<div>
+											{Date.now() > new Date(listingData.timeEnd) ? (
+												<div className='ListingEngagedStatus Completed'>Completed.</div>
+											) : (
+												<div className='ListingEngagedStatus Confirmed'>Confirmed.</div>
+											)}
+										</div>
 									) : (
 										<div />
 									)}
@@ -369,11 +375,6 @@ const Listing = props => {
 									)}
 									{listingData.status === 'ongoing' ? (
 										<div className='ListingEngagedStatus Ongoing'>Ongoing.</div>
-									) : (
-										<div />
-									)}
-									{listingData.status === 'completed' ? (
-										<div className='ListingEngagedStatus Completed'>Completed.</div>
 									) : (
 										<div />
 									)}
@@ -422,7 +423,8 @@ const Listing = props => {
 								) : (
 									<div />
 								)}
-								{props.status === 'completed' ? (
+								{listingData.status === 'Confirmed' &&
+								Date.now() > new Date(listingData.timeEnd) ? (
 									<div>
 										{!showThanksForFeedback ? (
 											<div className='ListingEngagedStatusArea Extra'>
@@ -437,7 +439,7 @@ const Listing = props => {
 											</div>
 										) : (
 											<div className='ListingEngagedStatusArea Extra'>
-												Thanks for your feedback! (for debugging: {dateRating} stars)
+												Thanks for your feedback! (you rated: {dateRating} stars)
 											</div>
 										)}
 									</div>
@@ -470,7 +472,10 @@ const Listing = props => {
 								) : (
 									<div />
 								)}
-								{creatorData.role === 'engager' && props.status !== 'completed' ? (
+								{creatorData.role === 'engager' &&
+								!(
+									listingData.status === 'Confirmed' && Date.now() > new Date(listingData.timeEnd)
+								) ? (
 									<div className='ListingMessageOptionArea'>
 										{props.status !== 'ongoing' ? (
 											<div className='ListingMessageOption Red'>Click to offer a bid</div>
