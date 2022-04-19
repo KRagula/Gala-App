@@ -39,18 +39,19 @@ function Payment() {
 		setDisplay(true);
 
 		// IMPORTANT entryDataPayRaw.data.payingPrice IS THE PAYING PRICE USE THISSSSS
-		const entryDataPayProcessed = entryDataPayRaw.data.map(item => {
+		const entryDataPayProcessed = entryDataPayRaw.data.doc.map(item => {
 			console.log('this is the item', item);
 			const titleCleaned = item.title.toUpperCase();
 			const description = item.description;
 			console.log('this is the price from data', item.price);
 			const priceCleaned = item.price;
-			// ? new Intl.NumberFormat('en-US', {
-			// 		style: 'currency',
-			// 		currency: 'USD',
-			//   }).format(item.price)
-			// : null;
-			console.log('this is the priceCleaned', priceCleaned);
+			const priceCleanedString = entryDataPayRaw.data.payingPrice
+				? new Intl.NumberFormat('en-US', {
+						style: 'currency',
+						currency: 'USD',
+				  }).format(entryDataPayRaw.data.payingPrice)
+				: null;
+			console.log('this is the priceCleaned', priceCleanedString);
 			const cityAddress = item.cityAddress;
 			const stateAddress = item.stateAddress;
 			const distance = 5; // todo after claire updates backend
@@ -98,6 +99,7 @@ function Payment() {
 				textHash: textHash,
 				postId: item._id,
 				userId: item.creatorId._id,
+				priceString: priceCleanedString,
 			};
 		});
 
@@ -187,7 +189,7 @@ function Payment() {
 												<div>Date Price:</div>
 												<div className='OfferBidInfoRowPrice Bold'>
 													{entryDataPayCleaned.map(data => {
-														return data.price;
+														return data.priceString;
 													})}
 												</div>
 											</div>
@@ -213,7 +215,7 @@ function Payment() {
 										</form> */}
 										<div
 											className='CreateFormButton Submit'
-											onClick={onSubmit}
+											onClick={clickedCheckbox ? onSubmit : null}
 											style={{
 												cursor: 'pointer',
 											}}>
