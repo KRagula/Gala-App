@@ -53,8 +53,8 @@ const Listing = props => {
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
 		const res = await getPost(queryParams.get('id'));
+		console.log(res);
 		if (!res) return;
-
 		if (res.creatorId.role == 'creator') {
 			setName('you');
 		} else {
@@ -391,7 +391,10 @@ const Listing = props => {
 								) : (
 									<div />
 								)}
-								{creatorData.role == 'winner' && props.status === 'ongoing' ? (
+								{creatorData.role == 'engager' &&
+								listingData.status === 'Confirmed' &&
+								Date.now() >= new Date(listingData.timeStart) &&
+								Date.now() <= new Date(listingData.timeEnd) ? (
 									<div>
 										{!showThanksForNotif ? (
 											<div className='ListingEngagedStatusArea Extra'>

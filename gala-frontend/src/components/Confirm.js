@@ -58,6 +58,7 @@ function Confirm() {
 			alert('Something went wrong!');
 			return;
 		}
+		sendEmail();
 		window.location = `${ROUTE.LISTING}?id=${listingData._id}`;
 	};
 
