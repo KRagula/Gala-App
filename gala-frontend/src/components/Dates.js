@@ -219,7 +219,7 @@ function Dates() {
 				profileImage: profileImage,
 				textHash: textHash,
 				userId: item.hostInfo._id,
-				postId: item._id,
+				postId: item.postId._id,
 			};
 		});
 
