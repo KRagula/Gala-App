@@ -27,11 +27,23 @@ function Payment() {
 	};
 
 	useEffect(async () => {
+		const getPosition = () => {
+			return new Promise((resolve, reject) =>
+				navigator.geolocation.getCurrentPosition(resolve, reject)
+			);
+		};
+		const positionData = await getPosition();
+		let currentLocation = {
+			latitude: positionData.coords.latitude,
+			longitude: positionData.coords.longitude,
+		};
+
 		console.log('hello');
 		const queryParams = new URLSearchParams(window.location.search);
 		console.log('this is the queryparams', queryParams);
 		if (!queryParams.get('id')) return;
 		console.log('we passed here');
+		// const params = {'id': }
 		const entryDataPayRaw = await getPaymentPost(queryParams.get('id'));
 		console.log('this is entrydata raw', entryDataPayRaw);
 		// if (!entryDataPayRaw.data.verified) return;
@@ -45,16 +57,18 @@ function Payment() {
 			const description = item.description;
 			console.log('this is the price from data', item.price);
 			const priceCleaned = item.price;
-			const priceCleanedString = entryDataPayRaw.data.payingPrice
+			const priceCleanedString = item.price
 				? new Intl.NumberFormat('en-US', {
 						style: 'currency',
 						currency: 'USD',
-				  }).format(entryDataPayRaw.data.payingPrice)
+				  }).format(item.price)
 				: null;
+			// const userDistance =
+			// console.log('this is the userDistance', userDistance);
 			console.log('this is the priceCleaned', priceCleanedString);
 			const cityAddress = item.cityAddress;
 			const stateAddress = item.stateAddress;
-			const distance = 5; // todo after claire updates backend
+			const distance = entryDataPayRaw.data.distance; // todo after claire updates backend
 			const startDateObject = new Date(item.timeStart);
 			const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
 				minimumIntegerDigits: 2,

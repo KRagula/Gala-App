@@ -49,6 +49,7 @@ function Explore() {
 			startDate: startDateQuery,
 			endDate: endDateQuery,
 		};
+		console.log('this is positionData', positionData);
 
 		const nearbyPosts = await getNearbyPosts(positionData);
 		if (typeof nearbyPosts === 'undefined') {
@@ -85,6 +86,7 @@ function Explore() {
 				textHash = textHash + '#' + tag;
 			});
 			textHash = textHash.toLowerCase();
+			console.log('this is the textHash', textHash);
 
 			return {
 				title: titleCleaned,

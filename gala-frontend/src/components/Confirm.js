@@ -7,6 +7,7 @@ import defaultImage from '../assets/default.jpeg';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { confirmBid, getBid } from '../axios/bids.js';
 import ROUTE from '../configurations/route-frontend-config.js';
+import { getConfirmEmail } from '../axios/emails';
 
 const { Anime } = ReactAnime;
 
@@ -51,6 +52,9 @@ function Confirm() {
 	}, []);
 
 	const onConfirmClick = async () => {
+		console.log('onConfirmClick got clicked');
+		console.log('this is bid Data', bidData);
+		getConfirmEmail();
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
 		const res = await confirmBid(queryParams.get('id'));
@@ -61,10 +65,10 @@ function Confirm() {
 		window.location = `${ROUTE.LISTING}?id=${listingData._id}`;
 	};
 
-	function sendEmail() {
-		fetch('http://127.0.0.1:8080/bidConfirm'); //query string url
-		// .catch(err => console.error(err));
-	}
+	// function sendEmail() {
+	// 	fetch('http://127.0.0.1:8080/bidConfirm'); //query string url
+	// 	// .catch(err => console.error(err));
+	// }
 
 	return (
 		<React.Fragment>
