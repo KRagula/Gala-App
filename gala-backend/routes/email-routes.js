@@ -7,17 +7,26 @@ sgMail.setApiKey(sendgridConfig.apiKey);
 
 //bid confirmation email template id: d-b70df5ef963e49db813fa3aee0116428
 const bidConfirm = async (req, res) => {
+	const location =
+		req.body.streetAddress +
+		' ' +
+		req.body.cityAddress +
+		', ' +
+		req.body.stateAddress +
+		' ' +
+		req.body.zipcode;
+	// console.log('this is the location', location);
+	// console.log('this is the title', req.body.title);
 	const msg = {
 		to: 'clairezwang0612@gmail.com', // Change to your recipient
 		from: 'gala.app.experiences@gmail.com', // Change to your verified sender
-		subject: 'Bid Confirmation for: Pitbull Concert', //Change with name of experience purchased
+		subject: `Bid Confirmation for: ${req.body.title}`, //Change with name of experience purchased
 		templateId: 'd-c51ef1ca731b4fa28e0d38c6244a711e',
 		dynamic_template_data: {
 			experience_name: req.body.title,
-			experience_description: req.body.discription,
+			experience_description: req.body.description,
 			experience_date: req.body.date,
-			experience_time: req.body.time,
-			experience_location: req.body.location,
+			experience_location: location,
 			bid_price: req.body.price,
 		},
 	};

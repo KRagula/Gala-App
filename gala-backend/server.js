@@ -89,7 +89,7 @@ app.get('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.getProfile
 app.put('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.editProfile);
 
 /** EMAIL ENDPOINTS **/
-app.get('/bidConfirm', emailRoutes.bidConfirm);
+app.post('/bidConfirm', emailRoutes.bidConfirm);
 app.post('/dangerMail', emailRoutes.dangerMail);
 
 /** MESSAGING ENDPOINTS **/

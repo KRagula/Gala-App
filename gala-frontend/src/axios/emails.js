@@ -24,7 +24,7 @@ export const getConfirmEmail = async params => {
 	// let searchParams = new URLSearchParams(params.locationData);
 	console.log('we got here');
 	return await axios
-		.get(`${serverConfig.backendURL}/bidConfirm`, params, {
+		.post(`${serverConfig.backendURL}/bidConfirm`, params, {
 			// withCredentials: true,
 			// headers: {
 			// 	'x-access-token': localStorage.getItem('token'),

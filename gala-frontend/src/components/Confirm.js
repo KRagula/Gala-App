@@ -8,6 +8,7 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { confirmBid, getBid } from '../axios/bids.js';
 import ROUTE from '../configurations/route-frontend-config.js';
 import { getConfirmEmail } from '../axios/emails';
+import { hi } from 'date-fns/locale';
 
 const { Anime } = ReactAnime;
 
@@ -42,7 +43,7 @@ function Confirm() {
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
 		const res = await getBid(queryParams.get('id'));
-		console.log(res);
+		// console.log(res);
 		if (!res || res.role != 'creator' || new Date(res.timeEnd) < Date.now()) return;
 
 		setDisplay(true);
@@ -52,14 +53,23 @@ function Confirm() {
 	}, []);
 
 	const onConfirmClick = async () => {
-		console.log('onConfirmClick got clicked');
-		console.log('this is bid Data', bidData);
-		console.log('this is bid description', bidData.postId.description);
-		console.log('this is bid price', bidData.postId.price);
+		// console.log('onConfirmClick got clicked');
+		// console.log('this is bid Data', bidData);
+		// console.log('this is bid description', bidData.postId.description);
+		// console.log('this is bid price', bidData.bidAmount);
+		const cleanedDate = new Date(bidData.postId.timeStart).toLocaleDateString([], {
+			hour: '2-digit',
+			minute: '2-digit',
+		});
 		const bid = {
-			price: bidData.postId.price,
+			price: bidData.bidAmount,
 			description: bidData.postId.description,
 			title: bidData.postId.title,
+			streetAddress: bidData.postId.streetAddress,
+			cityAddress: bidData.postId.cityAddress,
+			stateAddress: bidData.postId.stateAddress,
+			zipcode: bidData.postId.zipAddress,
+			date: cleanedDate,
 		};
 		getConfirmEmail(bid);
 		const queryParams = new URLSearchParams(window.location.search);
