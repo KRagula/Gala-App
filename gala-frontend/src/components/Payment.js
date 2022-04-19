@@ -27,25 +27,26 @@ function Payment() {
 	};
 
 	useEffect(async () => {
-		const getPosition = () => {
-			return new Promise((resolve, reject) =>
-				navigator.geolocation.getCurrentPosition(resolve, reject)
-			);
-		};
-		const positionData = await getPosition();
-		let currentLocation = {
-			latitude: positionData.coords.latitude,
-			longitude: positionData.coords.longitude,
-		};
+		// const getPosition = () => {
+		// 	return new Promise((resolve, reject) =>
+		// 		navigator.geolocation.getCurrentPosition(resolve, reject)
+		// 	);
+		// };
+		// console.log('this is position', getPosition);
+		// const positionData = await getPosition();
+		// let currentLocation = {
+		// 	latitude: positionData.coords.latitude,
+		// 	longitude: positionData.coords.longitude,
+		// };
 
-		console.log('hello');
+		// console.log('hello');
 		const queryParams = new URLSearchParams(window.location.search);
-		console.log('this is the queryparams', queryParams);
+		// console.log('this is the queryparams', queryParams);
 		if (!queryParams.get('id')) return;
-		console.log('we passed here');
+		// console.log('we passed here');
 		// const params = {'id': }
 		const entryDataPayRaw = await getPaymentPost(queryParams.get('id'));
-		console.log('this is entrydata raw', entryDataPayRaw);
+		// console.log('this is entrydata raw', entryDataPayRaw);
 		// if (!entryDataPayRaw.data.verified) return;
 
 		setDisplay(true);

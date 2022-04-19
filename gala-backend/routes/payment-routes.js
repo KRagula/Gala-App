@@ -113,7 +113,7 @@ const success = async (req, res) => {
 			const msg = {
 				to: 'clairezwang0612@gmail.com', // Change to your recipient
 				from: 'gala.app.experiences@gmail.com', // Change to your verified sender
-				subject: 'Gala Receipt for: Pitbull Concert', //Change with name of experience purchased
+				subject: 'Gala Receipt for: ', //Change with name of experience purchased
 				templateId: 'd-6155c13a32da4f3c89e3d2244e7117da',
 				dynamic_template_data: {
 					description: description,
