@@ -58,8 +58,6 @@ function Safety() {
 						Finally, during your meetup, we will send a notification for you to check up on you. If
 						you signal that you are in any danger, we will promptly contact emergency services.
 						<br />
-						<br />
-						TODO: refine this content, make it look better
 					</div>
 					<Anime
 						initial={timeline1}

@@ -59,8 +59,6 @@ function About() {
 						<br />
 						Gala is the place to do it.
 						<br />
-						<br />
-						TODO: refine this content, make it look better
 					</div>
 					<Anime
 						initial={timeline1}
