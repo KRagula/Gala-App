@@ -136,22 +136,46 @@ const offerBid = async (req, res, next) => {
 };
 
 const postInfo = async (req, res, next) => {
+	const urlParams = new URLSearchParams(req._parsedUrl.query);
+	console.log('these are the urlParams', urlParams);
+	const addressCoords = [urlParams.get('longitude'), urlParams.get('latitude')];
+	// console.log('this is the latitude', urlParams.get('longitude'));
+	// const addressCoords = [39.9526, 75.1652];
 	try {
 		let doc = await postTemplate
 			.find({ _id: mongoose.Types.ObjectId(req.params.postId) })
 			.populate('creatorId');
+		console.log('this is doc', doc);
+		var R = 3960; // Radius of the earth in miles
+		var dLat = (Math.PI / 180) * (addressCoords[1] - doc[0].location.coordinates[1]); // deg2rad below
+		var dLon = (Math.PI / 180) * (addressCoords[0] - doc[0].location.coordinates[0]);
+		var a =
+			Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos((Math.PI / 180) * addressCoords[1]) *
+				Math.cos((Math.PI / 180) * doc[0].location.coordinates[1]) *
+				Math.sin(dLon / 2) *
+				Math.sin(dLon / 2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		var d = R * c; // Distance in miles
+		d = Math.round(d * 10) / 10; //Rounded for aesthetics
+		console.log('this is the distance', d);
+		// doc[0]['userDistance'] = d;
+		// console.log('this is doc updated', doc);
 		if (!doc) {
 			return res.json({});
 		} else {
 			if (doc[0].bidWinnerId) {
 				const doc2 = await bidTemplate.findOne({ _id: doc[0].bidWinnerId });
+				//Calculate Distance from the current location
+				// created[j]['userDistance'] = d;
 				return res.json({
 					doc,
 					verified: req.user.id == doc2.bidderId,
 					payingPrice: doc2.bidAmount,
+					distance: d,
 				});
 			} else {
-				return res.json(doc);
+				return res.json({ doc, distance: d });
 			}
 		}
 	} catch (err) {

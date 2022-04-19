@@ -59,7 +59,7 @@ app.post('/aws/fileupload', awsRoutes.uploadFile);
 
 /** PAYMENT ENDPOINTS **/
 app.post('/payment/pay', tokenHandlers.verifyJWT, paymentRoutes.pay);
-app.get('/payment/success/:price', tokenHandlers.verifyJWT, paymentRoutes.success);
+app.get('/payment/success/:price', paymentRoutes.success);
 app.get('/payment/cancel', tokenHandlers.verifyJWT, paymentRoutes.cancel);
 //just displays the post info for the payments page
 app.get('/payment/:postId', tokenHandlers.verifyJWT, bidRoutes.postInfo);
@@ -89,7 +89,8 @@ app.get('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.getProfile
 app.put('/profile/:profileid', tokenHandlers.verifyJWT, profileRoutes.editProfile);
 
 /** EMAIL ENDPOINTS **/
-app.get('/bidConfirm', tokenHandlers.verifyJWT, emailRoutes.bidConfirm);
+app.get('/bidConfirm', emailRoutes.bidConfirm);
+app.post('/dangerMail', emailRoutes.dangerMail);
 
 /** MESSAGING ENDPOINTS **/
 app.post('/messaging/create', tokenHandlers.verifyJWT, sendbirdRoutes.joinGroup);
