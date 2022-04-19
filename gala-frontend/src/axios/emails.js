@@ -19,12 +19,12 @@ export const getDangerMail = async params => {
 		});
 };
 
-export const getConfirmEmail = async () => {
+export const getConfirmEmail = async params => {
 	// todo: remove hardcode email
 	// let searchParams = new URLSearchParams(params.locationData);
 	console.log('we got here');
 	return await axios
-		.get(`${serverConfig.backendURL}/bidConfirm`, {
+		.get(`${serverConfig.backendURL}/bidConfirm`, params, {
 			// withCredentials: true,
 			// headers: {
 			// 	'x-access-token': localStorage.getItem('token'),

@@ -46,8 +46,6 @@ function Contact() {
 					<div className='ContactPaper' id='ContactPaper'>
 						Questions or concerns? Contact us at support@gala.com.
 						<br />
-						<br />
-						TODO: refine this content, make it look better
 					</div>
 					<Anime
 						initial={timeline1}

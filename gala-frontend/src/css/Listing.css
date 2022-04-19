@@ -81,7 +81,7 @@
 
 .ListingDataTagArea {
 	display: flex;
-	max-width: 90%;
+	/* max-width: 90%; */
 	overflow-x: scroll;
 }
 

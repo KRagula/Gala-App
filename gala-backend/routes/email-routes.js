@@ -13,12 +13,12 @@ const bidConfirm = async (req, res) => {
 		subject: 'Bid Confirmation for: Pitbull Concert', //Change with name of experience purchased
 		templateId: 'd-c51ef1ca731b4fa28e0d38c6244a711e',
 		dynamic_template_data: {
-			experience_name: 'Pitbull Concert',
-			experience_description: 'Come to the Pitbull Concert with me!',
-			experience_date: '4/1/22',
-			experience_time: '9:30pm EST',
-			experience_location: '4200 Pine st. Philadelphia, PA 19104',
-			bid_price: 105,
+			experience_name: req.body.title,
+			experience_description: req.body.discription,
+			experience_date: req.body.date,
+			experience_time: req.body.time,
+			experience_location: req.body.location,
+			bid_price: req.body.price,
 		},
 	};
 	console.log('this is the message', msg);

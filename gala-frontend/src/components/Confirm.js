@@ -54,7 +54,14 @@ function Confirm() {
 	const onConfirmClick = async () => {
 		console.log('onConfirmClick got clicked');
 		console.log('this is bid Data', bidData);
-		getConfirmEmail();
+		console.log('this is bid description', bidData.postId.description);
+		console.log('this is bid price', bidData.postId.price);
+		const bid = {
+			price: bidData.postId.price,
+			description: bidData.postId.description,
+			title: bidData.postId.title,
+		};
+		getConfirmEmail(bid);
 		const queryParams = new URLSearchParams(window.location.search);
 		if (!queryParams.get('id')) return;
 		const res = await confirmBid(queryParams.get('id'));
@@ -62,6 +69,7 @@ function Confirm() {
 			alert('Something went wrong!');
 			return;
 		}
+		// sendEmail();
 		window.location = `${ROUTE.LISTING}?id=${listingData._id}`;
 	};
 

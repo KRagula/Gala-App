@@ -68,7 +68,7 @@ function Payment() {
 			console.log('this is the priceCleaned', priceCleanedString);
 			const cityAddress = item.cityAddress;
 			const stateAddress = item.stateAddress;
-			const distance = entryDataPayRaw.data.distance; // todo after claire updates backend
+			const distance = 5; // todo after claire updates backend
 			const startDateObject = new Date(item.timeStart);
 			const month = (startDateObject.getUTCMonth() + 1).toLocaleString('en-US', {
 				minimumIntegerDigits: 2,
@@ -257,12 +257,21 @@ function Payment() {
 								</div>
 							</div>
 						</div>
+						<Anime
+							initial={timeline}
+							control={control}
+							setMeta={setMeta}
+							animeConfig={{
+								autoplay: true,
+								duration: 4000,
+								easing: 'easeInOutSine',
+							}}></Anime>
 					</div>
 				) : (
 					'You do not have access to this page'
 				)}
 			</div>
-			<Anime
+			{/* <Anime
 				initial={timeline}
 				control={control}
 				setMeta={setMeta}
@@ -270,7 +279,7 @@ function Payment() {
 					autoplay: true,
 					duration: 4000,
 					easing: 'easeInOutSine',
-				}}></Anime>
+				}}></Anime> */}
 		</React.Fragment>
 	);
 }
