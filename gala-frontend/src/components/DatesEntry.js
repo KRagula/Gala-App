@@ -82,11 +82,11 @@ function DatesEntry(props) {
 									style={{ textDecoration: 'none' }}>
 									<div className='BidsEntryBottomRightAreaWidget Confirm'>Click for details</div>
 								</Link>
-								{props.isUpcoming ? (
+								{/* {props.isUpcoming && !props.isOngoing ? (
 									<div className='BidsEntryBottomRightAreaWidget Deny'>Click to withdraw</div>
 								) : (
 									<div />
-								)}
+								)} */}
 							</div>
 						</div>
 					</div>

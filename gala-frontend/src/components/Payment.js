@@ -39,7 +39,7 @@ function Payment() {
 		setDisplay(true);
 
 		// IMPORTANT entryDataPayRaw.data.payingPrice IS THE PAYING PRICE USE THISSSSS
-		const entryDataPayProcessed = entryDataPayRaw.data.map(item => {
+		const entryDataPayProcessed = entryDataPayRaw.data.doc.map(item => {
 			console.log('this is the item', item);
 			const titleCleaned = item.title.toUpperCase();
 			const description = item.description;
@@ -241,12 +241,21 @@ function Payment() {
 								</div>
 							</div>
 						</div>
+						<Anime
+							initial={timeline}
+							control={control}
+							setMeta={setMeta}
+							animeConfig={{
+								autoplay: true,
+								duration: 4000,
+								easing: 'easeInOutSine',
+							}}></Anime>
 					</div>
 				) : (
 					'You do not have access to this page'
 				)}
 			</div>
-			<Anime
+			{/* <Anime
 				initial={timeline}
 				control={control}
 				setMeta={setMeta}
@@ -254,7 +263,7 @@ function Payment() {
 					autoplay: true,
 					duration: 4000,
 					easing: 'easeInOutSine',
-				}}></Anime>
+				}}></Anime> */}
 		</React.Fragment>
 	);
 }
